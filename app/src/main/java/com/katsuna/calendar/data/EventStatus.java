@@ -1,6 +1,6 @@
 package com.katsuna.calendar.data;
 
-public class EventStatus {
+public enum EventStatus {
     ACTIVE(0),
     INACTIVE(1);
 

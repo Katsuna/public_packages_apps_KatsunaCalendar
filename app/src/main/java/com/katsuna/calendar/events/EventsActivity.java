@@ -36,11 +36,11 @@ import static com.katsuna.commons.utils.Constants.KATSUNA_PRIVACY_URL;
  * Display a list of {@link Alarm}s. User can choose to view all active and inactive alarms,
  * and create and edit alarms.
  */
-public class AlarmsActivity extends KatsunaActivity implements AlarmsContract.View,
+public class EventsActivity extends KatsunaActivity implements EventsContract.View,
         IUserProfileProvider {
 
-    private static final String TAG = "AlarmsActivity";
-    private AlarmsContract.Presenter mPresenter;
+    private static final String TAG = "EventsActivity";
+    private EventsContract.Presenter mPresenter;
     /**
      * Listener for clicks on alarms in the ListView.
      */
@@ -67,7 +67,7 @@ public class AlarmsActivity extends KatsunaActivity implements AlarmsContract.Vi
     };
     private TextView mNoAlarmsText;
     private ListView mAlarmsList;
-    private AlarmsAdapter mAlarmsAdapter;
+    private EventsAdapter mAlarmsAdapter;
     private DrawerLayout mDrawerLayout;
 
     @Override
@@ -103,7 +103,7 @@ public class AlarmsActivity extends KatsunaActivity implements AlarmsContract.Vi
             }
         });
 
-        mAlarmsAdapter = new AlarmsAdapter(new ArrayList<Alarm>(0), mItemListener, this);
+        mAlarmsAdapter = new EventsAdapter(new ArrayList<Alarm>(0), mItemListener, this);
         mAlarmsList = findViewById(R.id.alarms_list);
         mAlarmsList.setAdapter(mAlarmsAdapter);
 
@@ -134,11 +134,11 @@ public class AlarmsActivity extends KatsunaActivity implements AlarmsContract.Vi
 
                         switch (menuItem.getItemId()) {
                             case R.id.drawer_settings:
-                                startActivity(new Intent(AlarmsActivity.this,
+                                startActivity(new Intent(EventsActivity.this,
                                         SettingsActivity.class));
                                 break;
                             case R.id.drawer_info:
-                                startActivity(new Intent(AlarmsActivity.this, InfoActivity.class));
+                                startActivity(new Intent(EventsActivity.this, InfoActivity.class));
                                 break;
                             case R.id.drawer_privacy:
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW,
@@ -165,7 +165,7 @@ public class AlarmsActivity extends KatsunaActivity implements AlarmsContract.Vi
     }
 
     @Override
-    public void setPresenter(@NonNull AlarmsContract.Presenter presenter) {
+    public void setPresenter(@NonNull EventsContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

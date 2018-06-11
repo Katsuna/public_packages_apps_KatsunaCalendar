@@ -28,14 +28,14 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-class AlarmsAdapter extends BaseAdapter {
+class EventsAdapter extends BaseAdapter {
 
     private final EventItemListener mItemListener;
     private final IUserProfileProvider mUserProfileProvider;
     private List<Alarm> mAlarms;
     private Alarm mAlarmFocused;
 
-    AlarmsAdapter(List<Alarm> tasks, EventItemListener itemListener,
+    EventsAdapter(List<Alarm> tasks, EventItemListener itemListener,
                   IUserProfileProvider userProfileProvider) {
         setList(tasks);
         mItemListener = itemListener;

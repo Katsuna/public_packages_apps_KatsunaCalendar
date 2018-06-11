@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * This specifies the contract between the view and the presenter.
  */
-interface AlarmsContract {
+interface EventsContract {
 
     interface View extends BaseView<Presenter> {
 

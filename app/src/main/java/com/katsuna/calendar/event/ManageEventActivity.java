@@ -34,40 +34,33 @@ import java.util.List;
 
 public class ManageEventActivity extends KatsunaActivity implements ManageEventContract.View {
 
-    public static final String EXTRA_ALARM_ID = "ALARM_ID";
+    public static final String EXTRA_EVENT_ID = "EVENT_ID";
 
     private ManageEventContract.Presenter mPresenter;
     private FloatingActionButton mPreviousStepFab;
     private FloatingActionButton mNextStepFab;
-    private View mAlarmDaysControl;
-    private RadioGroup mAlarmTypeRadioGroup;
+    private View mEventDaysControl;
+    private RadioGroup mEventTypeRadioGroup;
     private EditText mDescription;
     private EditText mHour;
     private EditText mMinute;
-    private View mAlarmTimeControl;
-    private ToggleButton mMondayToggle;
-    private ToggleButton mTuesdayToggle;
-    private ToggleButton mWednesdayToggle;
-    private ToggleButton mThursdayToggle;
-    private ToggleButton mFridayToggle;
-    private ToggleButton mSaturdayToggle;
-    private ToggleButton mSundayToggle;
+    private View mEventTimeControl;
     private RadioButton mReminderTypeRadioGroup;
-    private RadioButton mAlarmTypeRadioButton;
-    private View mAlarmTypeContainer;
-    private View mAlarmTypeHandler;
-    private View mAlarmTimeHandler;
-    private View mAlarmTimeContainer;
-    private View mAlarmDaysContainer;
-    private View mAlarmDaysHandler;
+    private RadioButton mEventTypeRadioButton;
+    private View mEventTypeContainer;
+    private View mEventTypeHandler;
+    private View mEventTimeHandler;
+    private View mEventTimeContainer;
+    private View mEventDaysContainer;
+    private View mEventDaysHandler;
     private int mPrimaryColor2;
     private int mSecondaryColor2;
-    private TextView mAlarmTimeTitle;
+    private TextView mEventTimeTitle;
     private int mBlack34Color;
     private int mBlack58Color;
     private int mWhiteColor;
-    private TextView mAlarmDaysTitle;
-    private TextView mAlarmTypeTitle;
+    private TextView mEventDaysTitle;
+    private TextView mEventTypeTitle;
     private ImageView mAddHourButton;
     private ImageView mSubtractHourButton;
     private ImageView mAddMinuteButton;
@@ -76,46 +69,46 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_alarm);
+        setContentView(R.layout.activity_manage_event);
 
         init();
 
-        long alarmId = getIntent().getLongExtra(EXTRA_ALARM_ID, 0);
+        long eventId = getIntent().getLongExtra(EXTRA_EVENT_ID, 0);
 
         // Create the presenter
-        new ManageEventPresenter(alarmId,
-                Injection.provideAlarmsDataSource(getApplicationContext()), this,
-                Injection.provideAlarmValidator(),
-                Injection.provideAlarmScheduler(getApplicationContext()));
+        new ManageEventPresenter(eventId,
+                Injection.provideEventsDataSource(getApplicationContext()), this,
+                Injection.provideEventValidator(),
+                Injection.provideEventScheduler(getApplicationContext()));
     }
 
     private void init() {
-        mAlarmTypeContainer = findViewById(R.id.alarm_type_container);
-        mAlarmTypeHandler = findViewById(R.id.alarm_type_handler);
-        mAlarmTypeRadioGroup = findViewById(R.id.alarm_type_radio_group);
-        mAlarmTypeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        mEventTypeContainer = findViewById(R.id.event_type_container);
+        mEventTypeHandler = findViewById(R.id.event_type_handler);
+        mEventTypeRadioGroup = findViewById(R.id.event_type_radio_group);
+        mEventTypeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
-                    case R.id.alarm_type_radio_button:
-                        mPresenter.alarmTypeSelected(AlarmType.ALARM);
+                    case R.id.event_type_radio_button:
+                        mPresenter.eventTypeSelected(EventType.EVENT);
                         break;
                     case R.id.reminder_type_radio_button:
-                        mPresenter.alarmTypeSelected(AlarmType.REMINDER);
+                        mPresenter.eventTypeSelected(EventType.REMINDER);
                         break;
                 }
             }
         });
-        mAlarmTypeRadioButton = findViewById(R.id.alarm_type_radio_button);
+        mEventTypeRadioButton = findViewById(R.id.event_type_radio_button);
         mReminderTypeRadioGroup = findViewById(R.id.reminder_type_radio_button);
-        mDescription = findViewById(R.id.alarm_description);
+        mDescription = findViewById(R.id.event_description);
 
-        mAlarmTimeHandler = findViewById(R.id.alarm_time_handler);
-        mAlarmTimeContainer = findViewById(R.id.alarm_time_container);
-        mAlarmTimeControl = findViewById(R.id.alarm_time_control);
-        mAlarmTypeTitle = findViewById(R.id.alarm_type_text);
-        mAlarmTimeTitle = findViewById(R.id.alarm_time_text);
-        mAlarmDaysTitle = findViewById(R.id.alarm_days_text);
+        mEventTimeHandler = findViewById(R.id.event_time_handler);
+        mEventTimeContainer = findViewById(R.id.event_time_container);
+        mEventTimeControl = findViewById(R.id.event_time_control);
+        mEventTypeTitle = findViewById(R.id.event_type_text);
+        mEventTimeTitle = findViewById(R.id.event_time_text);
+        mEventDaysTitle = findViewById(R.id.event_days_text);
 
         mHour = findViewById(R.id.hour);
         mHour.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -170,9 +163,9 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
             }
         });
 
-        mAlarmDaysHandler = findViewById(R.id.alarm_days_handler);
-        mAlarmDaysContainer = findViewById(R.id.alarm_days_container);
-        mAlarmDaysControl = findViewById(R.id.alarm_days_radio_group);
+        mEventDaysHandler = findViewById(R.id.event_days_handler);
+        mEventDaysContainer = findViewById(R.id.event_days_container);
+        mEventDaysControl = findViewById(R.id.event_days_radio_group);
 
         CompoundButton.OnCheckedChangeListener daysOnCheckedChangeListener =
                 new CompoundButton.OnCheckedChangeListener() {
@@ -283,36 +276,36 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     private void adjustTypeStep() {
-        mAlarmTypeHandler.setBackgroundColor(mPrimaryColor2);
+        mEventTypeHandler.setBackgroundColor(mPrimaryColor2);
         int colorToApply;
         if (mPresenter.getCurrentStep() == ManageEventStep.TYPE) {
             colorToApply = mPrimaryColor2;
         } else {
             colorToApply = mBlack58Color;
         }
-        mAlarmTypeTitle.setTextColor(colorToApply);
+        mEventTypeTitle.setTextColor(colorToApply);
         mDescription.setBackgroundTintList(ColorStateList.valueOf(colorToApply));
-        ColorAdjusterV2.setTextViewDrawableColor(mAlarmTypeTitle, colorToApply);
-        ColorAdjusterV2.setTextViewDrawableColor(mAlarmTypeRadioButton, colorToApply);
+        ColorAdjusterV2.setTextViewDrawableColor(mEventTypeTitle, colorToApply);
+        ColorAdjusterV2.setTextViewDrawableColor(mEventTypeRadioButton, colorToApply);
         ColorAdjusterV2.setTextViewDrawableColor(mReminderTypeRadioGroup, colorToApply);
     }
 
     private void adjustTimeStep() {
         switch (getTimeStepStatus()) {
             case NOT_SET:
-                mAlarmTimeHandler.setBackgroundColor(mSecondaryColor2);
-                mAlarmTimeTitle.setTextColor(mBlack34Color);
-                ColorAdjusterV2.setTextViewDrawableColor(mAlarmTimeTitle, mBlack34Color);
+                mEventTimeHandler.setBackgroundColor(mSecondaryColor2);
+                mEventTimeTitle.setTextColor(mBlack34Color);
+                ColorAdjusterV2.setTextViewDrawableColor(mEventTimeTitle, mBlack34Color);
                 break;
             case ACTIVE:
-                mAlarmTimeHandler.setBackgroundColor(mPrimaryColor2);
-                mAlarmTimeTitle.setTextColor(mPrimaryColor2);
-                ColorAdjusterV2.setTextViewDrawableColor(mAlarmTimeTitle, mPrimaryColor2);
+                mEventTimeHandler.setBackgroundColor(mPrimaryColor2);
+                mEventTimeTitle.setTextColor(mPrimaryColor2);
+                ColorAdjusterV2.setTextViewDrawableColor(mEventTimeTitle, mPrimaryColor2);
                 break;
             case SET:
-                mAlarmTimeHandler.setBackgroundColor(mPrimaryColor2);
-                mAlarmTimeTitle.setTextColor(mBlack58Color);
-                ColorAdjusterV2.setTextViewDrawableColor(mAlarmTimeTitle, mBlack58Color);
+                mEventTimeHandler.setBackgroundColor(mPrimaryColor2);
+                mEventTimeTitle.setTextColor(mBlack58Color);
+                ColorAdjusterV2.setTextViewDrawableColor(mEventTimeTitle, mBlack58Color);
                 break;
         }
     }
@@ -321,21 +314,21 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         int toggleColor = 0;
         switch (getDaysStepStatus()) {
             case NOT_SET:
-                mAlarmDaysHandler.setBackgroundColor(mSecondaryColor2);
-                mAlarmDaysTitle.setTextColor(mBlack34Color);
-                ColorAdjusterV2.setTextViewDrawableColor(mAlarmDaysTitle, mBlack34Color);
+                mEventDaysHandler.setBackgroundColor(mSecondaryColor2);
+                mEventDaysTitle.setTextColor(mBlack34Color);
+                ColorAdjusterV2.setTextViewDrawableColor(mEventDaysTitle, mBlack34Color);
                 toggleColor = mBlack34Color;
                 break;
             case ACTIVE:
-                mAlarmDaysHandler.setBackgroundColor(mPrimaryColor2);
-                mAlarmDaysTitle.setTextColor(mPrimaryColor2);
-                ColorAdjusterV2.setTextViewDrawableColor(mAlarmDaysTitle, mPrimaryColor2);
+                mEventDaysHandler.setBackgroundColor(mPrimaryColor2);
+                mEventDaysTitle.setTextColor(mPrimaryColor2);
+                ColorAdjusterV2.setTextViewDrawableColor(mEventDaysTitle, mPrimaryColor2);
                 toggleColor = mPrimaryColor2;
                 break;
             case SET:
-                mAlarmDaysHandler.setBackgroundColor(mBlack58Color);
-                mAlarmDaysTitle.setTextColor(mBlack58Color);
-                ColorAdjusterV2.setTextViewDrawableColor(mAlarmDaysTitle, mBlack58Color);
+                mEventDaysHandler.setBackgroundColor(mBlack58Color);
+                mEventDaysTitle.setTextColor(mBlack58Color);
+                ColorAdjusterV2.setTextViewDrawableColor(mEventDaysTitle, mBlack58Color);
                 toggleColor = mBlack58Color;
                 break;
         }
@@ -361,8 +354,8 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     private StepStatus getTimeStepStatus() {
-        ManageEventStep manageAlarmStep = mPresenter.getCurrentStep();
-        switch (manageAlarmStep) {
+        ManageEventStep manageEventStep = mPresenter.getCurrentStep();
+        switch (manageEventStep) {
             case TYPE:
                 return StepStatus.NOT_SET;
             case TIME:
@@ -370,13 +363,13 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
             case DAYS:
                 return StepStatus.SET;
             default:
-                throw new RuntimeException("manageAlarmStep not found");
+                throw new RuntimeException("manageEventStep not found");
         }
     }
 
     private StepStatus getDaysStepStatus() {
-        ManageEventStep manageAlarmStep = mPresenter.getCurrentStep();
-        switch (manageAlarmStep) {
+        ManageEventStep manageEventStep = mPresenter.getCurrentStep();
+        switch (manageEventStep) {
             case TYPE:
                 return StepStatus.NOT_SET;
             case TIME:
@@ -384,7 +377,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
             case DAYS:
                 return StepStatus.ACTIVE;
             default:
-                throw new RuntimeException("manageAlarmStep not found");
+                throw new RuntimeException("manageEventStep not found");
         }
     }
 
@@ -394,12 +387,12 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     @Override
-    public void showEmptyAlarmError() {
+    public void showEmptyEventError() {
 
     }
 
     @Override
-    public void showAlarmsList() {
+    public void showEventsList() {
         finish();
     }
 
@@ -420,23 +413,16 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     @Override
-    public void loadAlarm(Alarm alarm) {
-        if (alarm.getAlarmType() == AlarmType.ALARM) {
-            mAlarmTypeRadioButton.setChecked(true);
+    public void loadEvent(Event event) {
+        if (event.getEventType() == EventType.EVENT) {
+            mEventTypeRadioButton.setChecked(true);
         } else {
             mReminderTypeRadioGroup.setChecked(true);
         }
-        mDescription.setText(alarm.getDescription());
-        LocalTime alarmTime = LocalTime.of(alarm.getHour(), alarm.getMinute());
-        mHour.setText(alarmTime.format(DateTimeFormatter.ofPattern("HH")));
-        mMinute.setText(alarmTime.format(DateTimeFormatter.ofPattern("mm")));
-        mMondayToggle.setChecked(alarm.isMondayEnabled());
-        mTuesdayToggle.setChecked(alarm.isTuesdayEnabled());
-        mWednesdayToggle.setChecked(alarm.isWednesdayEnabled());
-        mThursdayToggle.setChecked(alarm.isThursdayEnabled());
-        mFridayToggle.setChecked(alarm.isFridayEnabled());
-        mSaturdayToggle.setChecked(alarm.isSaturdayEnabled());
-        mSundayToggle.setChecked(alarm.isSundayEnabled());
+        mDescription.setText(event.getDescription());
+        LocalTime eventTime = LocalTime.of(event.getHour(), event.getMinute());
+        mHour.setText(eventTime.format(DateTimeFormatter.ofPattern("HH")));
+        mMinute.setText(eventTime.format(DateTimeFormatter.ofPattern("mm"))));
     }
 
     @Override
@@ -468,12 +454,12 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     @Override
-    public void showAlarmTypeControl(boolean flag) {
+    public void showEventTypeControl(boolean flag) {
         if (flag) {
-            mAlarmTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
+            mEventTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
                     R.color.common_white));
 
-            mAlarmTypeRadioButton.setVisibility(View.VISIBLE);
+            mEventTypeRadioButton.setVisibility(View.VISIBLE);
             mReminderTypeRadioGroup.setVisibility(View.VISIBLE);
             if (mReminderTypeRadioGroup.isChecked()) {
                 mDescription.setVisibility(View.VISIBLE);
@@ -483,14 +469,14 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                     R.dimen.common_selection_elevation);
 
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
-                    mAlarmTypeHandler.getLayoutParams();
+                    mEventTypeHandler.getLayoutParams();
             layoutParams.bottomMargin = elevation;
-            mAlarmTypeHandler.setElevation(elevation);
+            mEventTypeHandler.setElevation(elevation);
         } else {
-            mAlarmTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
+            mEventTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
                     R.color.common_grey50));
 
-            mAlarmTypeRadioButton.setVisibility(mAlarmTypeRadioButton.isChecked() ? View.VISIBLE :
+            mEventTypeRadioButton.setVisibility(mEventTypeRadioButton.isChecked() ? View.VISIBLE :
                     View.GONE);
 
             if (mReminderTypeRadioGroup.isChecked()) {
@@ -502,12 +488,12 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
             }
 
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
-                    mAlarmTypeHandler.getLayoutParams();
+                    mEventTypeHandler.getLayoutParams();
             layoutParams.bottomMargin = 0;
-            mAlarmTypeHandler.setElevation(0);
+            mEventTypeHandler.setElevation(0);
         }
 
-        mAlarmTypeRadioButton.setEnabled(flag);
+        mEventTypeRadioButton.setEnabled(flag);
         mReminderTypeRadioGroup.setEnabled(flag);
         mDescription.setEnabled(flag);
 
@@ -515,53 +501,53 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     @Override
-    public void showAlarmTimeControl(boolean flag) {
+    public void showEventTimeControl(boolean flag) {
         if (flag) {
-            mAlarmTimeContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
+            mEventTimeContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
 
             int elevation = getResources().getDimensionPixelSize(
                     R.dimen.common_selection_elevation);
 
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
-                    mAlarmTypeHandler.getLayoutParams();
+                    mEventTypeHandler.getLayoutParams();
             layoutParams.bottomMargin = elevation;
-            mAlarmTimeHandler.setElevation(elevation);
+            mEventTimeHandler.setElevation(elevation);
         } else {
-            mAlarmTimeContainer.setBackgroundColor(ContextCompat.getColor(this,
+            mEventTimeContainer.setBackgroundColor(ContextCompat.getColor(this,
                     R.color.common_grey50));
 
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
-                    mAlarmTypeHandler.getLayoutParams();
+                    mEventTypeHandler.getLayoutParams();
             layoutParams.bottomMargin = 0;
-            mAlarmTimeHandler.setElevation(0);
+            mEventTimeHandler.setElevation(0);
 
         }
 
         adjustSteps();
 
-        mAlarmTimeControl.setVisibility(flag ? View.VISIBLE : View.GONE);
+        mEventTimeControl.setVisibility(flag ? View.VISIBLE : View.GONE);
     }
 
     @Override
-    public void showAlarmDaysControl(boolean flag) {
+    public void showEventDaysControl(boolean flag) {
         if (flag) {
-            mAlarmDaysContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
+            mEventDaysContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
 
             int elevation = getResources().getDimensionPixelSize(
                     R.dimen.common_selection_elevation);
 
-            mAlarmDaysHandler.setElevation(elevation);
+            mEventDaysHandler.setElevation(elevation);
 
         } else {
-            mAlarmDaysContainer.setBackgroundColor(ContextCompat.getColor(this,
+            mEventDaysContainer.setBackgroundColor(ContextCompat.getColor(this,
                     R.color.common_grey50));
 
-            mAlarmDaysHandler.setElevation(0);
+            mEventDaysHandler.setElevation(0);
         }
 
         adjustSteps();
 
-        mAlarmDaysControl.setVisibility(flag ? View.VISIBLE : View.GONE);
+        mEventDaysControl.setVisibility(flag ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -577,19 +563,19 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 break;
             case TIME:
                 previousStepFabParams.anchorGravity = Gravity.TOP | Gravity.END;
-                nextStepFabParams.setAnchorId(R.id.alarm_time_container);
+                nextStepFabParams.setAnchorId(R.id.event_time_container);
                 nextStepFabParams.anchorGravity = Gravity.BOTTOM | Gravity.END;
                 break;
             case DAYS:
                 previousStepFabParams.anchorGravity = Gravity.BOTTOM | Gravity.END;
-                nextStepFabParams.setAnchorId(R.id.alarm_days_container);
+                nextStepFabParams.setAnchorId(R.id.event_days_container);
                 nextStepFabParams.anchorGravity = Gravity.BOTTOM | Gravity.END;
                 break;
         }
     }
 
     @Override
-    public void setPresenter(@NonNull ManageAlarmContract.Presenter presenter) {
+    public void setPresenter(@NonNull ManageEventContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
@@ -597,19 +583,16 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         ManageEventStep step = mPresenter.getCurrentStep();
         switch (step) {
             case TYPE:
-                mPresenter.validateAlarmTypeInfo(getAlarmType(), mDescription.getText().toString());
+                mPresenter.validateEventTypeInfo(getEventType(), mDescription.getText().toString());
                 break;
             case TIME:
-                mPresenter.validateAlarmTime(mHour.getText().toString(),
+                mPresenter.validateEventTime(mHour.getText().toString(),
                         mMinute.getText().toString());
                 break;
             case DAYS:
-                mPresenter.saveAlarm(getAlarmType(), mDescription.getText().toString(),
+                mPresenter.saveEvent(getEventType(), mDescription.getText().toString(),
                         mHour.getText().toString(), mMinute.getText().toString(),
-                        mMondayToggle.isChecked(), mTuesdayToggle.isChecked(),
-                        mWednesdayToggle.isChecked(), mThursdayToggle.isChecked(),
-                        mFridayToggle.isChecked(), mSaturdayToggle.isChecked(),
-                        mSundayToggle.isChecked());
+                       );
                 break;
         }
     }
@@ -618,18 +601,18 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         mPresenter.previousStep();
     }
 
-    private AlarmType getAlarmType() {
-        AlarmType alarmType = null;
-        switch (mAlarmTypeRadioGroup.getCheckedRadioButtonId()) {
-            case R.id.alarm_type_radio_button:
-                alarmType = AlarmType.ALARM;
+    private EventType getEventType() {
+        EventType eventType = null;
+        switch (mEventTypeRadioGroup.getCheckedRadioButtonId()) {
+            case R.id.event_type_radio_button:
+                eventType = EventType.EVENT;
                 break;
             case R.id.reminder_type_radio_button:
-                alarmType = AlarmType.REMINDER;
+                eventType = EventType.REMINDER;
                 break;
 
         }
-        return alarmType;
+        return eventType;
     }
 
     private enum StepStatus {

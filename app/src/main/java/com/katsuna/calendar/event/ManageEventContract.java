@@ -3,18 +3,20 @@ package com.katsuna.calendar.event;
 import android.support.annotation.NonNull;
 
 import com.katsuna.calendar.BasePresenter;
+import com.katsuna.calendar.BaseView;
 import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventType;
+import com.katsuna.calendar.validators.ValidationResult;
 
 
 import java.util.List;
 
 class ManageEventContract {
 
-    interface View extends BaseView<ManageEventContract.Presenter> {
-        void showEmptyAlarmError();
+    interface View extends BaseView<Presenter> {
+        void showEmptyEventError();
 
-        void showAlarmsList();
+        void showEventList();
 
         void setTime(String hour, String minute);
 
@@ -22,7 +24,7 @@ class ManageEventContract {
 
         void setMinute(String minute);
 
-        void loadAlarm(Event event);
+        void loadEvent(Event event);
 
         void showValidationResults(List<ValidationResult> results);
 
@@ -32,12 +34,6 @@ class ManageEventContract {
 
         void showDescriptionControl(boolean flag);
 
-        void showAlarmTypeControl(boolean flag);
-
-        void showAlarmTimeControl(boolean flag);
-
-        void showAlarmDaysControl(boolean flag);
-
         void adjustFabPositions(ManageEventStep step);
     }
 
@@ -45,19 +41,19 @@ class ManageEventContract {
 
         void saveEvent(@NonNull EventType eventType, String description, String hour, String minute, String day );
 
-        void populateAlarm();
+        void populateEvent();
 
         boolean isDataMissing();
 
         void previousStep();
 
-        void validateAlarmTypeInfo(EventType eventType, String description);
+        void validateEventTypeInfo(EventType eventType, String description);
 
-        void validateAlarmTime(String hour, String minute);
+        void validateEventTime(String hour, String minute);
 
         ManageEventStep getCurrentStep();
 
-        void alarmTypeSelected(EventType alarmType);
+        void eventTypeSelected(EventType eventType);
 
         void addHours(String hour, int hours);
 
