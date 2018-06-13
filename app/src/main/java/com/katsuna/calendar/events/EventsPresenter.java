@@ -3,7 +3,7 @@ package com.katsuna.calendar.events;
 import android.support.annotation.NonNull;
 
 
-import com.katsuna.calendar.data.services.IEventsScheduler;
+import com.katsuna.calendar.services.IEventsScheduler;
 import com.katsuna.calendar.data.source.EventsDataSource;
 
 import java.util.List;

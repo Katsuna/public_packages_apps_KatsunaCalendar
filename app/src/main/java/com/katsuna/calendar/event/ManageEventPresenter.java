@@ -6,7 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.data.EventType;
-import com.katsuna.calendar.data.services.IEventsScheduler;
+import com.katsuna.calendar.services.IEventsScheduler;
 import com.katsuna.calendar.data.source.EventsDataSource;
 
 

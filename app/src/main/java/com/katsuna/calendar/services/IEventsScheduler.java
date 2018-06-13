@@ -1,4 +1,4 @@
-package com.katsuna.calendar.data.services;
+package com.katsuna.calendar.services;
 
 
 import com.katsuna.calendar.data.Event;

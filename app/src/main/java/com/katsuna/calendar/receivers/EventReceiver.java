@@ -6,8 +6,10 @@ import android.content.Intent;
 
 
 import com.katsuna.calendar.data.Event;
-import com.katsuna.calendar.data.services.EventsScheduler;
-import com.katsuna.calendar.data.services.IEventsScheduler;
+import com.katsuna.calendar.data.EventState;
+import com.katsuna.calendar.data.EventStateManager;
+import com.katsuna.calendar.services.EventsScheduler;
+import com.katsuna.calendar.services.IEventsScheduler;
 import com.katsuna.calendar.data.source.EventsDataSource;
 import com.katsuna.calendar.utils.Injection;
 import com.katsuna.calendar.utils.LogUtils;
@@ -43,14 +45,14 @@ public class EventReceiver extends BroadcastReceiver {
                 if (eventState == null) {
                     if (eventStateManager.eventActive()) {
                         LogUtils.i(TAG, "onReceive another event is active.");
-                        eventsScheduler.snooze(event, SNOOZE_DELAY_OVERLAPPING);
+//                        eventsScheduler.snooze(event, SNOOZE_DELAY_OVERLAPPING);
                     } else {
                         LogUtils.i(TAG, "onReceive event activated.");
                         EventStateManager.getInstance().setEventState(event, EventState.ACTIVATED);
-                        Intent i = new Intent(context, EventActivationActivity.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.putExtra(EventsScheduler.EVENT_ID, eventId);
-                        context.startActivity(i);
+//                        Intent i = new Intent(context, EventActivationActivity.class);
+//                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        i.putExtra(EventsScheduler.EVENT_ID, eventId);
+//                        context.startActivity(i);
                      }
                 }
             }

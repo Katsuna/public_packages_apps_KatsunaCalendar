@@ -56,15 +56,22 @@ public final class Event {
     @ColumnInfo(name = "endTime")
     private final String mEndTime;
 
+
+    @NonNull
+    @ColumnInfo(name = "status")
+    private EventStatus mEventStatus = EventStatus.ACTIVE;
+
     @Ignore
     public Event(@NonNull String mDescription,EventType mEventType, @NonNull int mMonth, @NonNull int mDayOfMonth) {
-        this(0, mDescription,mEventType, mMonth,mDayOfMonth, Calendar.getInstance().get(Calendar.YEAR), "0","1","24:00");
+        this(0, mDescription,mEventType, mMonth,mDayOfMonth, Calendar.getInstance().get(Calendar.YEAR),
+                "0","1","24:00",EventStatus.ACTIVE);
 
     }
 
-    public Event(long mEventId, @NonNull String mDescription, @NonNull EventType mEventType, @NonNull int mMonth, @NonNull int mDayOfMonth, @NonNull int mYear, String mHour, String mMinute, String mEndTime) {
+    public Event(long mEventId, @NonNull String mDescription, @NonNull EventType mEventType,
+                 @NonNull int mMonth, @NonNull int mDayOfMonth, @NonNull int mYear,
+                 String mHour, String mMinute, String mEndTime, @NonNull EventStatus eventStatus) {
         this.mEventId = mEventId;
-//        this.mName = mName;
         this.mDescription = mDescription;
         this.mEventType = mEventType;
         this.mMonth = mMonth;
@@ -73,6 +80,7 @@ public final class Event {
         this.mHour = mHour;
         this.mMinute = mMinute;
         this.mEndTime = mEndTime;
+        this.mEventStatus = eventStatus;
     }
 
     public long getEventId() {
@@ -122,6 +130,22 @@ public final class Event {
         return mEndTime;
     }
 
+
+    @NonNull
+    public EventType getEventType() {
+        return mEventType;
+    }
+
+    @NonNull
+    public int getmYear() {
+        return mYear;
+    }
+
+    @NonNull
+    public EventStatus getEventStatus() {
+        return mEventStatus;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -132,8 +156,10 @@ public final class Event {
                 Objects.equal(mDescription, event.mDescription) &&
                 Objects.equal(mDayOfMonth, event.mDayOfMonth) &&
                 Objects.equal(mHour, event.mHour) &&
+                Objects.equal(mMinute, event.mMinute) &&
                 Objects.equal(mEndTime, event.mEndTime) &&
-                Objects.equal(mMonth, event.mMonth);
+                Objects.equal(mMonth, event.mMonth) &&
+                Objects.equal(mEventStatus, event.mEventStatus);
     }
 
     @Override
