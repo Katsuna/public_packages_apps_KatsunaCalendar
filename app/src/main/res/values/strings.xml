@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Calendar</string>
+    <string name="no_events">There are no active events yet</string>
+    <string name="add_new">Add new</string>
+    <string name="edit">Edit</string>
+    <string name="turn_off">Turn Off</string>
+    <string name="turn_on">Turn On</string>
+    <string name="delete">Delete</string>
+    <string name="alarm">Alarm</string>
+    <string name="reminder">Reminder</string>
+    <string name="description">Description</string>
+    <string name="alarm_type">Type</string>
+    <string name="alarm_time">Time</string>
+    <string name="alarm_day">Day</string>
+    <string name="time_separator" translatable="false">:</string>
+    <string name="validation_event_type">Please select a type.</string>
+    <string name="validation_hour">Please select a valid hour.</string>
+    <string name="validation_minute">Please select a valid minute.</string>
+    <string name="and">and</string>
+    <string name="unsupported_operation">Unsupported operation.</string>
+    <string name="reminder_with_no_description">A reminder should have a description.</string>
 </resources>

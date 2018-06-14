@@ -20,6 +20,10 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
+import com.katsuna.calendar.data.Event;
+import com.katsuna.calendar.data.EventType;
+import com.katsuna.calendar.utils.Injection;
+import com.katsuna.calendar.validators.ValidationResult;
 import com.katsuna.commons.entities.ColorProfileKeyV2;
 import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
@@ -47,7 +51,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     private View mEventTimeControl;
     private RadioButton mReminderTypeRadioGroup;
     private RadioButton mEventTypeRadioButton;
-    private View mEventTypeContainer;
+    private View mAlarmTypeContainer;
     private View mEventTypeHandler;
     private View mEventTimeHandler;
     private View mEventTimeContainer;
@@ -83,7 +87,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     private void init() {
-        mEventTypeContainer = findViewById(R.id.event_type_container);
+        mAlarmTypeContainer = findViewById(R.id.event_type_container);
         mEventTypeHandler = findViewById(R.id.event_type_handler);
         mEventTypeRadioGroup = findViewById(R.id.event_type_radio_group);
         mEventTypeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -179,20 +183,8 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                     }
                 };
 
-        mMondayToggle = findViewById(R.id.monday_tb);
-        mMondayToggle.setOnCheckedChangeListener(daysOnCheckedChangeListener);
-        mTuesdayToggle = findViewById(R.id.tuesday_tb);
-        mTuesdayToggle.setOnCheckedChangeListener(daysOnCheckedChangeListener);
-        mWednesdayToggle = findViewById(R.id.wednesday_tb);
-        mWednesdayToggle.setOnCheckedChangeListener(daysOnCheckedChangeListener);
-        mThursdayToggle = findViewById(R.id.thursday_tb);
-        mThursdayToggle.setOnCheckedChangeListener(daysOnCheckedChangeListener);
-        mFridayToggle = findViewById(R.id.friday_tb);
-        mFridayToggle.setOnCheckedChangeListener(daysOnCheckedChangeListener);
-        mSaturdayToggle = findViewById(R.id.saturday_tb);
-        mSaturdayToggle.setOnCheckedChangeListener(daysOnCheckedChangeListener);
-        mSundayToggle = findViewById(R.id.sunday_tb);
-        mSundayToggle.setOnCheckedChangeListener(daysOnCheckedChangeListener);
+
+
 
         mPreviousStepFab = findViewById(R.id.prev_step_fab);
         mPreviousStepFab.setOnClickListener(new View.OnClickListener() {
@@ -333,13 +325,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 break;
         }
 
-        ColorAdjusterV2.setTextViewDrawableColor(mMondayToggle, toggleColor);
-        ColorAdjusterV2.setTextViewDrawableColor(mTuesdayToggle, toggleColor);
-        ColorAdjusterV2.setTextViewDrawableColor(mWednesdayToggle, toggleColor);
-        ColorAdjusterV2.setTextViewDrawableColor(mThursdayToggle, toggleColor);
-        ColorAdjusterV2.setTextViewDrawableColor(mFridayToggle, toggleColor);
-        ColorAdjusterV2.setTextViewDrawableColor(mSaturdayToggle, toggleColor);
-        ColorAdjusterV2.setTextViewDrawableColor(mSundayToggle, toggleColor);
+
     }
 
     private void adjustFloatingButtons() {
@@ -414,8 +400,8 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     @Override
     public void loadEvent(Event event) {
-        if (event.getEventType() == EventType.EVENT) {
-            mEventTypeRadioButton.setChecked(true);
+        if (event.getEventType() == EventType.ALARM) {
+            mAlarmTypeRadioButton.setChecked(true);
         } else {
             mReminderTypeRadioGroup.setChecked(true);
         }
@@ -456,7 +442,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     @Override
     public void showEventTypeControl(boolean flag) {
         if (flag) {
-            mEventTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
+            mAlarmTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
                     R.color.common_white));
 
             mEventTypeRadioButton.setVisibility(View.VISIBLE);
@@ -473,7 +459,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
             layoutParams.bottomMargin = elevation;
             mEventTypeHandler.setElevation(elevation);
         } else {
-            mEventTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
+            mAlarmTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
                     R.color.common_grey50));
 
             mEventTypeRadioButton.setVisibility(mEventTypeRadioButton.isChecked() ? View.VISIBLE :
@@ -605,7 +591,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         EventType eventType = null;
         switch (mEventTypeRadioGroup.getCheckedRadioButtonId()) {
             case R.id.event_type_radio_button:
-                eventType = EventType.EVENT;
+                eventType = EventType.ALARM;
                 break;
             case R.id.reminder_type_radio_button:
                 eventType = EventType.REMINDER;
