@@ -12,15 +12,15 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.katsuna.clock.LogUtils;
-import com.katsuna.clock.R;
-import com.katsuna.clock.alarm.ManageAlarmActivity;
-import com.katsuna.clock.data.Alarm;
-import com.katsuna.clock.data.AlarmStatus;
-import com.katsuna.clock.info.InfoActivity;
-import com.katsuna.clock.services.AlarmService;
-import com.katsuna.clock.settings.SettingsActivity;
-import com.katsuna.clock.util.Injection;
+
+import com.katsuna.calendar.R;
+import com.katsuna.calendar.data.Event;
+import com.katsuna.calendar.data.EventStatus;
+import com.katsuna.calendar.event.ManageEventActivity;
+import com.katsuna.calendar.info.InfoActivity;
+import com.katsuna.calendar.settings.SettingsActivity;
+import com.katsuna.calendar.utils.Injection;
+import com.katsuna.calendar.utils.LogUtils;
 import com.katsuna.commons.controls.KatsunaNavigationView;
 import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
@@ -33,7 +33,7 @@ import static com.katsuna.commons.utils.Constants.KATSUNA_PRIVACY_URL;
 
 
 /**
- * Display a list of {@link Alarm}s. User can choose to view all active and inactive alarms,
+ * Display a list of {@link Event}s. User can choose to view all active and inactive alarms,
  * and create and edit alarms.
  */
 public class EventsActivity extends KatsunaActivity implements EventsContract.View,
@@ -46,66 +46,64 @@ public class EventsActivity extends KatsunaActivity implements EventsContract.Vi
      */
     private final EventItemListener mItemListener = new EventItemListener() {
         @Override
-        public void onAlarmFocus(@NonNull Alarm alarm, boolean focus) {
-            mPresenter.focusOnAlarm(alarm, focus);
+        public void onEventFocus(@NonNull Event alarm, boolean focus) {
+            mPresenter.focusOnEvent(alarm, focus);
         }
 
         @Override
-        public void onAlarmEdit(@NonNull Alarm alarm) {
-            mPresenter.openAlarmDetails(alarm);
+        public void onEventEdit(@NonNull Event alarm) {
+            mPresenter.openEventDetails(alarm);
         }
 
         @Override
-        public void onAlarmStatusUpdate(@NonNull Alarm alarm, @NonNull AlarmStatus alarmStatus) {
-            mPresenter.updateAlarmStatus(alarm, alarmStatus);
+        public void onEventStatusUpdate(@NonNull Event alarm, @NonNull EventStatus alarmStatus) {
+            mPresenter.updateEventStatus(alarm, alarmStatus);
         }
 
         @Override
-        public void onAlarmDelete(@NonNull Alarm alarm) {
-            mPresenter.deleteAlarm(alarm);
+        public void onEventDelete(@NonNull Event alarm) {
+            mPresenter.deleteEvent(alarm);
         }
     };
-    private TextView mNoAlarmsText;
-    private ListView mAlarmsList;
-    private EventsAdapter mAlarmsAdapter;
+    private TextView mNoEventsText;
+    private ListView mEventsList;
+    private EventsAdapter mEventsAdapter;
     private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        startService(new Intent(this, AlarmService.class));
-
-        setContentView(R.layout.activity_alarms);
+        setContentView(R.layout.activity_events);
 
         init();
 
         // Create the presenter
-        new EventsPresenter(Injection.provideAlarmsDataSource(getApplicationContext()), this,
-                Injection.provideAlarmScheduler(getApplicationContext()));
+        new EventsPresenter(Injection.provideEventsDataSource(getApplicationContext()), this,
+                Injection.provideEventScheduler(getApplicationContext()));
     }
 
     private void init() {
-        mNoAlarmsText = findViewById(R.id.no_alarms);
-        mPopupButton2 = findViewById(R.id.create_alarm_button);
+//        mNoEventsText = findViewById(R.id.no_events);
+        mPopupButton2 = findViewById(R.id.create_event_button);
         mPopupButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.addNewAlarm();
+                mPresenter.addNewEvent();
             }
         });
 
-        mFab2 = findViewById(R.id.create_alarm_fab);
+        mFab2 = findViewById(R.id.create_event_fab);
         mFab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.addNewAlarm();
+                mPresenter.addNewEvent();
             }
         });
 
-        mAlarmsAdapter = new EventsAdapter(new ArrayList<Alarm>(0), mItemListener, this);
-        mAlarmsList = findViewById(R.id.alarms_list);
-        mAlarmsList.setAdapter(mAlarmsAdapter);
+        mEventsAdapter = new EventsAdapter(new ArrayList<Event>(0), mItemListener, this);
+//        mEventsList = findViewById(R.id.events_list);
+        mEventsList.setAdapter(mEventsAdapter);
 
         initToolbar();
         initDrawer();
@@ -170,44 +168,44 @@ public class EventsActivity extends KatsunaActivity implements EventsContract.Vi
     }
 
     @Override
-    public void showAlarms(List<Alarm> alarms) {
-        mAlarmsAdapter.replaceData(alarms);
+    public void showEvents(List<Event> alarms) {
+        mEventsAdapter.replaceData(alarms);
 
-        mAlarmsList.setVisibility(View.VISIBLE);
-        mNoAlarmsText.setVisibility(View.GONE);
+        mEventsList.setVisibility(View.VISIBLE);
+        mNoEventsText.setVisibility(View.GONE);
         mPopupButton2.setVisibility(View.GONE);
         LogUtils.d(TAG, "alarms fetched: " + alarms.size());
     }
 
     @Override
-    public void showAddAlarm() {
-        Intent i = new Intent(this, ManageAlarmActivity.class);
+    public void showAddEvent() {
+        Intent i = new Intent(this, ManageEventActivity.class);
         startActivity(i);
     }
 
     @Override
-    public void showAlarmDetailsUi(long alarmId) {
-        Intent intent = new Intent(this, ManageAlarmActivity.class);
-        intent.putExtra(ManageAlarmActivity.EXTRA_ALARM_ID, alarmId);
+    public void showEventDetailsUi(long alarmId) {
+        Intent intent = new Intent(this, ManageEventActivity.class);
+        intent.putExtra(ManageEventActivity.EXTRA_EVENT_ID, alarmId);
         startActivity(intent);
     }
 
     @Override
-    public void showNoAlarms() {
-        mNoAlarmsText.setVisibility(View.VISIBLE);
+    public void showNoEvents() {
+        mNoEventsText.setVisibility(View.VISIBLE);
         mFab2.setVisibility(View.VISIBLE);
         mPopupButton2.setVisibility(View.VISIBLE);
-        mAlarmsList.setVisibility(View.GONE);
+        mEventsList.setVisibility(View.GONE);
     }
 
     @Override
-    public void focusOnAlarm(Alarm alarm, boolean focus) {
-        mAlarmsAdapter.focusOnAlarm(alarm, focus);
+    public void focusOnEvent(Event alarm, boolean focus) {
+        mEventsAdapter.focusOnEvent(alarm, focus);
     }
 
     @Override
-    public void reloadAlarm(Alarm alarm) {
-        mAlarmsAdapter.reloadAlarm(alarm);
+    public void reloadEvent(Event alarm) {
+        mEventsAdapter.reloadEvent(alarm);
     }
 
     @Override

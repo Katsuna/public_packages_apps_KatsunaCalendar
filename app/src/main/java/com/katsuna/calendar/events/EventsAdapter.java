@@ -12,10 +12,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.katsuna.clock.R;
-import com.katsuna.clock.data.Alarm;
-import com.katsuna.clock.data.AlarmStatus;
-import com.katsuna.clock.formatters.AlarmFormatter;
+import com.katsuna.calendar.R;
+import com.katsuna.calendar.data.Event;
+import com.katsuna.calendar.data.EventStatus;
+import com.katsuna.calendar.formatters.EventFormatter;
 import com.katsuna.commons.entities.OpticalParams;
 import com.katsuna.commons.entities.SizeProfileKeyV2;
 import com.katsuna.commons.entities.UserProfile;
@@ -32,47 +32,47 @@ class EventsAdapter extends BaseAdapter {
 
     private final EventItemListener mItemListener;
     private final IUserProfileProvider mUserProfileProvider;
-    private List<Alarm> mAlarms;
-    private Alarm mAlarmFocused;
+    private List<Event> mEvents;
+    private Event mEventFocused;
 
-    EventsAdapter(List<Alarm> tasks, EventItemListener itemListener,
+    EventsAdapter(List<Event> tasks, EventItemListener itemListener,
                   IUserProfileProvider userProfileProvider) {
         setList(tasks);
         mItemListener = itemListener;
         mUserProfileProvider = userProfileProvider;
     }
 
-    public void focusOnAlarm(Alarm alarm, boolean focus) {
-        mAlarmFocused = focus ? alarm : null;
+    public void focusOnEvent(Event event, boolean focus) {
+        mEventFocused = focus ? event : null;
         notifyDataSetChanged();
     }
 
-    public void reloadAlarm(Alarm alarm) {
-        int itemIndex = mAlarms.indexOf(alarm);
+    public void reloadEvent(Event event) {
+        int itemIndex = mEvents.indexOf(event);
         if (itemIndex != -1) {
-            mAlarms.set(itemIndex, alarm);
+            mEvents.set(itemIndex, event);
         }
 
         notifyDataSetChanged();
     }
 
-    public void replaceData(List<Alarm> alarms) {
-        setList(alarms);
+    public void replaceData(List<Event> events) {
+        setList(events);
         notifyDataSetChanged();
     }
 
-    private void setList(List<Alarm> alarms) {
-        mAlarms = checkNotNull(alarms);
+    private void setList(List<Event> events) {
+        mEvents = checkNotNull(events);
     }
 
     @Override
     public int getCount() {
-        return mAlarms.size();
+        return mEvents.size();
     }
 
     @Override
-    public Alarm getItem(int i) {
-        return mAlarms.get(i);
+    public Event getItem(int i) {
+        return mEvents.get(i);
     }
 
     @Override
@@ -85,45 +85,44 @@ class EventsAdapter extends BaseAdapter {
         View rowView = view;
         if (rowView == null) {
             LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-            rowView = inflater.inflate(R.layout.alarm, viewGroup, false);
+            rowView = inflater.inflate(R.layout.event, viewGroup, false);
         }
 
-        final Alarm alarm = getItem(i);
+        final Event event = getItem(i);
 
         final Context context = viewGroup.getContext();
-        AlarmFormatter alarmFormatter = new AlarmFormatter(context, alarm);
+        EventFormatter eventFormatter = new EventFormatter(context, event);
 
-        ImageView alarmTypeIcon = rowView.findViewById(R.id.alarm_type_image);
-        Drawable icon = context.getDrawable(alarmFormatter.getAlarmTypeIconResId());
-        alarmTypeIcon.setImageDrawable(icon);
+        ImageView eventTypeIcon = rowView.findViewById(R.id.event_type_image);
+        Drawable icon = context.getDrawable(eventFormatter.getEventTypeIconResId());
+        eventTypeIcon.setImageDrawable(icon);
 
-        TextView title = rowView.findViewById(R.id.alarm_title);
-        title.setText(alarmFormatter.getTitle());
+        TextView title = rowView.findViewById(R.id.event_title);
+        title.setText(eventFormatter.getTitle());
 
-        TextView description = rowView.findViewById(R.id.alarm_description);
-        description.setText(alarmFormatter.getDescription());
+        TextView description = rowView.findViewById(R.id.event_description);
+        description.setText(eventFormatter.getDescription());
 
-        TextView days = rowView.findViewById(R.id.alarm_days);
-        days.setText(alarmFormatter.getDays());
+
 
         UserProfile userProfile = mUserProfileProvider.getProfile();
 
-        CardView alarmCard = rowView.findViewById(R.id.alarm_container_card);
-        alarmCard.setCardBackgroundColor(ContextCompat.getColor(context,
-                alarmFormatter.getCardHandleColor(userProfile)));
+        CardView eventCard = rowView.findViewById(R.id.event_container_card);
+        eventCard.setCardBackgroundColor(ContextCompat.getColor(context,
+                eventFormatter.getCardHandleColor(userProfile)));
 
-        View alarmCardInner = rowView.findViewById(R.id.alarm_container_card_inner);
-        alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
-                alarmFormatter.getCardInnerColor(userProfile)));
-        alarmCardInner.setOnClickListener(new View.OnClickListener() {
+        View eventCardInner = rowView.findViewById(R.id.event_container_card_inner);
+        eventCardInner.setBackgroundColor(ContextCompat.getColor(context,
+                eventFormatter.getCardInnerColor(userProfile)));
+        eventCardInner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemListener.onAlarmFocus(alarm, !alarm.equals(mAlarmFocused));
+                mItemListener.onEventFocus(event, !event.equals(mEventFocused));
             }
         });
 
-        View actionsContainer = rowView.findViewById(R.id.alarm_buttons_container);
-        if (alarm.equals(mAlarmFocused)) {
+        View actionsContainer = rowView.findViewById(R.id.event_buttons_container);
+        if (event.equals(mEventFocused)) {
             actionsContainer.setVisibility(View.VISIBLE);
         } else {
             actionsContainer.setVisibility(View.GONE);
@@ -133,12 +132,12 @@ class EventsAdapter extends BaseAdapter {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemListener.onAlarmEdit(alarm);
+                mItemListener.onEventEdit(event);
             }
         });
 
         final Button turnOffButton = rowView.findViewById(R.id.button_turn_off);
-        if (alarm.getAlarmStatus() == AlarmStatus.ACTIVE) {
+        if (event.getEventStatus() == EventStatus.ACTIVE) {
             turnOffButton.setText(R.string.turn_off);
         } else {
             turnOffButton.setText(R.string.turn_on);
@@ -146,10 +145,10 @@ class EventsAdapter extends BaseAdapter {
         turnOffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (alarm.getAlarmStatus() == AlarmStatus.ACTIVE) {
-                    mItemListener.onAlarmStatusUpdate(alarm, AlarmStatus.INACTIVE);
+                if (event.getEventStatus() == EventStatus.ACTIVE) {
+                    mItemListener.onEventStatusUpdate(event, EventStatus.INACTIVE);
                 } else {
-                    mItemListener.onAlarmStatusUpdate(alarm, AlarmStatus.ACTIVE);
+                    mItemListener.onEventStatusUpdate(event, EventStatus.ACTIVE);
                 }
             }
         });
@@ -158,7 +157,7 @@ class EventsAdapter extends BaseAdapter {
         deleteText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemListener.onAlarmDelete(alarm);
+                mItemListener.onEventDelete(event);
             }
         });
 

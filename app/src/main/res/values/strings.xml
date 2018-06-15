@@ -9,9 +9,9 @@
     <string name="alarm">Alarm</string>
     <string name="reminder">Reminder</string>
     <string name="description">Description</string>
-    <string name="alarm_type">Type</string>
-    <string name="alarm_time">Time</string>
-    <string name="alarm_day">Day</string>
+    <string name="event_type">Type</string>
+    <string name="event_time">Time</string>
+    <string name="event_day">Day</string>
     <string name="time_separator" translatable="false">:</string>
     <string name="validation_event_type">Please select a type.</string>
     <string name="validation_hour">Please select a valid hour.</string>
@@ -19,4 +19,5 @@
     <string name="and">and</string>
     <string name="unsupported_operation">Unsupported operation.</string>
     <string name="reminder_with_no_description">A reminder should have a description.</string>
+    <string name="event">Event</string>
 </resources>

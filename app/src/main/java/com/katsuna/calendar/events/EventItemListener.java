@@ -2,16 +2,17 @@ package com.katsuna.calendar.events;
 
 import android.support.annotation.NonNull;
 
-import com.katsuna.clock.data.Alarm;
-import com.katsuna.clock.data.AlarmStatus;
+import com.katsuna.calendar.data.Event;
+import com.katsuna.calendar.data.EventStatus;
+
 
 interface EventItemListener {
 
-    void onAlarmFocus(@NonNull Alarm alarm, boolean focus);
+    void onEventFocus(@NonNull Event alarm, boolean focus);
 
-    void onAlarmEdit(@NonNull Alarm alarm);
+    void onEventEdit(@NonNull Event alarm);
 
-    void onAlarmStatusUpdate(@NonNull Alarm alarm, @NonNull AlarmStatus alarmStatus);
+    void onEventStatusUpdate(@NonNull Event alarm, @NonNull EventStatus alarmStatus);
 
-    void onAlarmDelete(@NonNull Alarm alarm);
+    void onEventDelete(@NonNull Event alarm);
 }

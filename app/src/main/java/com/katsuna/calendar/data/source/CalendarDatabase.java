@@ -3,11 +3,15 @@ package com.katsuna.calendar.data.source;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 import com.katsuna.calendar.data.Event;
+import com.katsuna.calendar.data.source.converters.EventStatusConverter;
+import com.katsuna.calendar.data.source.converters.EventTypeConverter;
 
 @Database(entities = {Event.class}, version = 4)
+@TypeConverters({EventTypeConverter.class, EventStatusConverter.class})
 public abstract class CalendarDatabase extends RoomDatabase {
     private static final Object sLock = new Object();
     private static CalendarDatabase INSTANCE;

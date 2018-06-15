@@ -1,4 +1,4 @@
-package com.katsuna.clock.util;
+package com.katsuna.calendar.utils;
 
 import android.support.test.espresso.IdlingResource;
 

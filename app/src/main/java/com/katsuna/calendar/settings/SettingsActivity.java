@@ -3,8 +3,10 @@ package com.katsuna.calendar.settings;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
+import com.katsuna.calendar.R;
 import com.katsuna.commons.entities.ColorProfile;
 import com.katsuna.commons.entities.SizeProfile;
+import com.katsuna.commons.ui.SettingsActivityBase;
 import com.katsuna.commons.utils.SizeAdjuster;
 
 public class SettingsActivity extends SettingsActivityBase {

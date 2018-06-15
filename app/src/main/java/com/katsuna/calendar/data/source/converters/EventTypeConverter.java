@@ -1,24 +1,25 @@
-package com.katsuna.clock.data.source.converters;
+package com.katsuna.calendar.data.source.converters;
 
 import android.arch.persistence.room.TypeConverter;
 
-import com.katsuna.clock.data.AlarmType;
+import com.katsuna.calendar.data.EventType;
 
-public class AlarmTypeConverter {
+
+public class EventTypeConverter {
 
     @TypeConverter
-    public static AlarmType toType(int type) {
-        if (type == AlarmType.ALARM.getCode()) {
-            return AlarmType.ALARM;
-        } else if (type == AlarmType.REMINDER.getCode()) {
-            return AlarmType.REMINDER;
+    public static EventType toType(int type) {
+        if (type == EventType.ALARM.getCode()) {
+            return EventType.ALARM;
+        } else if (type == EventType.REMINDER.getCode()) {
+            return EventType.REMINDER;
         } else {
             throw new IllegalArgumentException("Could not recognize type");
         }
     }
 
     @TypeConverter
-    public static int toInteger(AlarmType type) {
+    public static int toInteger(EventType type) {
         return type.getCode();
     }
 }

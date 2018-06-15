@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.katsuna.clock.LogUtils;
-import com.katsuna.clock.Utils;
-import com.katsuna.clock.services.AlarmService;
+import com.katsuna.calendar.Utils;
+import com.katsuna.calendar.services.IEventsScheduler;
+import com.katsuna.calendar.utils.Injection;
+import com.katsuna.calendar.utils.LogUtils;
+
 
 public class EventInitReceiver extends BroadcastReceiver {
 
@@ -22,15 +24,31 @@ public class EventInitReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
-        LogUtils.i(TAG, "EventInitReceiver action: " + action);
+        LogUtils.i("%s EventInitReceiver action: %s", TAG, action);
 
-        if (ACTION_BOOT_COMPLETED.equals(action)
-                || Intent.ACTION_TIME_CHANGED.equals(action)) {
-            LogUtils.i(TAG, "BOOT COMPLETED action received:" + ACTION_BOOT_COMPLETED);
-            // Stopwatch and timer data need to be updated on time change so the reboot
-            // functionality works as expected.
-            Intent myIntent = new Intent(context, AlarmService.class);
-            context.startService(myIntent);
+        if (isActionSupported(action)) {
+
+            IEventsScheduler alarmsScheduler = Injection.provideEventScheduler(context);
+            alarmsScheduler.schedule(new IEventsScheduler.CallBack() {
+                @Override
+                public void schedulingFinished() {
+                    LogUtils.i("%s alarms scheduling completed", TAG);
+                }
+
+                @Override
+                public void schedulingFailed(Exception ex) {
+                    LogUtils.e("%s exception while scheduling alarms:  %s", TAG, ex.toString());
+                }
+            });
+
         }
+    }
+
+    private boolean isActionSupported(String action) {
+        return ACTION_BOOT_COMPLETED.equals(action)
+                || Intent.ACTION_LOCALE_CHANGED.equals(action)
+                || Intent.ACTION_MY_PACKAGE_REPLACED.equals(action)
+                || Intent.ACTION_TIME_CHANGED.equals(action)
+                || Intent.ACTION_TIMEZONE_CHANGED.equals(action);
     }
 }

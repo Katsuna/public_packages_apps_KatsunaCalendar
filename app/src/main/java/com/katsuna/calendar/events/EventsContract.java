@@ -2,10 +2,11 @@ package com.katsuna.calendar.events;
 
 import android.support.annotation.NonNull;
 
-import com.katsuna.clock.BasePresenter;
-import com.katsuna.clock.BaseView;
-import com.katsuna.clock.data.Alarm;
-import com.katsuna.clock.data.AlarmStatus;
+import com.katsuna.calendar.BasePresenter;
+import com.katsuna.calendar.BaseView;
+import com.katsuna.calendar.data.Event;
+import com.katsuna.calendar.data.EventStatus;
+
 
 import java.util.List;
 
@@ -16,31 +17,31 @@ interface EventsContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showAlarms(List<Alarm> alarms);
+        void showEvents(List<Event> alarms);
 
-        void showAddAlarm();
+        void showAddEvent();
 
-        void showAlarmDetailsUi(long alarmId);
+        void showEventDetailsUi(long alarmId);
 
-        void showNoAlarms();
+        void showNoEvents();
 
-        void focusOnAlarm(Alarm alarm, boolean focus);
+        void focusOnEvent(Event alarm, boolean focus);
 
-        void reloadAlarm(Alarm alarm);
+        void reloadEvent(Event alarm);
     }
 
     interface Presenter extends BasePresenter {
 
-        void loadAlarms();
+        void loadEvents();
 
-        void addNewAlarm();
+        void addNewEvent();
 
-        void openAlarmDetails(@NonNull Alarm alarm);
+        void openEventDetails(@NonNull Event alarm);
 
-        void deleteAlarm(@NonNull Alarm alarm);
+        void deleteEvent(@NonNull Event alarm);
 
-        void updateAlarmStatus(@NonNull Alarm alarm, @NonNull AlarmStatus alarmStatus);
+        void updateEventStatus(@NonNull Event alarm, @NonNull EventStatus alarmStatus);
 
-        void focusOnAlarm(@NonNull Alarm alarm, boolean focus);
+        void focusOnEvent(@NonNull Event alarm, boolean focus);
     }
 }

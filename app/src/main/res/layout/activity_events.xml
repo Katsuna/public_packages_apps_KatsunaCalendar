@@ -21,62 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:id="@+id/date_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
 
-                    <TextClock
-                        android:id="@+id/time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="sans-serif-light"
-                        android:format12Hour="kk:mm"
-                        android:format24Hour="kk:mm"
-                        android:letterSpacing="0"
-                        android:textColor="@color/common_black"
-                        android:textSize="112sp" />
-
-                    <TextClock
-                        android:id="@+id/date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:format12Hour="EEEE, d MMMM"
-                        android:format24Hour="EEEE, d MMMM"
-                        android:textColor="@color/common_black"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:id="@+id/no_events"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="80dp"
-                        android:gravity="center"
-                        android:text="@string/no_events"
-                        android:textSize="20sp"
-                        android:visibility="gone" />
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/events_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/date_container"
-                    android:layout_marginTop="16dp"
-                    android:clipToPadding="false"
-                    android:divider="@color/common_transparent"
-                    android:dividerHeight="0dp"
-                    android:paddingBottom="80dp" />
 
             </RelativeLayout>
 

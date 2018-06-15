@@ -39,7 +39,7 @@ class ManageEventContract {
 
     interface Presenter extends BasePresenter {
 
-        void saveEvent(@NonNull EventType eventType, String description, String hour, String minute, String day );
+        void saveEvent(@NonNull EventType eventType,String month, String day, String year, String hour, String minute, String description );
 
         void populateEvent();
 

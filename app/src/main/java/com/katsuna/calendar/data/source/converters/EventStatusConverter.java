@@ -1,24 +1,25 @@
-package com.katsuna.clock.data.source.converters;
+package com.katsuna.calendar.data.source.converters;
 
 import android.arch.persistence.room.TypeConverter;
 
-import com.katsuna.clock.data.AlarmStatus;
+import com.katsuna.calendar.data.EventStatus;
 
-public class AlarmStatusConverter {
+
+public class EventStatusConverter {
 
     @TypeConverter
-    public static AlarmStatus toStatus(int status) {
-        if (status == AlarmStatus.ACTIVE.getCode()) {
-            return AlarmStatus.ACTIVE;
-        } else if (status == AlarmStatus.INACTIVE.getCode()) {
-            return AlarmStatus.INACTIVE;
+    public static EventStatus toStatus(int status) {
+        if (status == EventStatus.ACTIVE.getCode()) {
+            return EventStatus.ACTIVE;
+        } else if (status == EventStatus.INACTIVE.getCode()) {
+            return EventStatus.INACTIVE;
         } else {
             throw new IllegalArgumentException("Could not recognize status");
         }
     }
 
     @TypeConverter
-    public static int toInteger(AlarmStatus status) {
+    public static int toInteger(EventStatus status) {
         return status.getCode();
     }
 }

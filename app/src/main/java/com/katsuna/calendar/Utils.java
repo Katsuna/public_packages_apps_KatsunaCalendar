@@ -1,4 +1,4 @@
-package com.katsuna.clock;
+package com.katsuna.calendar;
 
 import android.content.ContentResolver;
 import android.content.Context;

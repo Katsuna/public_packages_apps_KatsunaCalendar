@@ -19,10 +19,6 @@ public final class Event {
     @ColumnInfo(name = "eventId")
     private long mEventId;
 
-//    @NonNull
-//    @ColumnInfo(name = "name")
-//    private String mName;
-//
     @NonNull
     @ColumnInfo(name = "description")
     private final String mDescription;
@@ -34,43 +30,45 @@ public final class Event {
 
     @NonNull
     @ColumnInfo(name = "month")
-    private final int mMonth;
+    private final Integer mMonth;
 
     @NonNull
     @ColumnInfo(name = "dayOfMonth")
-    private final int mDayOfMonth;
+    private final Integer mDayOfMonth;
 
     @NonNull
     @ColumnInfo(name = "year")
-    private final int mYear;
+    private final Integer mYear;
 
     @Nullable
-    @ColumnInfo(name = "startTime")
-    private final String mHour;
+    @ColumnInfo(name = "hour")
+    private final Integer mHour;
 
     @Nullable
-    @ColumnInfo(name = "startTime")
-    private final String mMinute;
-
-    @Nullable
-    @ColumnInfo(name = "endTime")
-    private final String mEndTime;
-
+    @ColumnInfo(name = "minute")
+    private final Integer mMinute;
 
     @NonNull
     @ColumnInfo(name = "status")
     private EventStatus mEventStatus = EventStatus.ACTIVE;
 
     @Ignore
-    public Event(@NonNull String mDescription,EventType mEventType, @NonNull int mMonth, @NonNull int mDayOfMonth) {
-        this(0, mDescription,mEventType, mMonth,mDayOfMonth, Calendar.getInstance().get(Calendar.YEAR),
-                "0","1","24:00",EventStatus.ACTIVE);
+    public Event(@NonNull EventType mEventType, @NonNull Integer mMonth, @NonNull Integer mDayOfMonth,@NonNull String mDescription) {
+        this(0,mEventType, mMonth,mDayOfMonth, Calendar.getInstance().get(Calendar.YEAR),
+                0,1,mDescription, EventStatus.ACTIVE);
 
     }
 
-    public Event(long mEventId, @NonNull String mDescription, @NonNull EventType mEventType,
-                 @NonNull int mMonth, @NonNull int mDayOfMonth, @NonNull int mYear,
-                 String mHour, String mMinute, String mEndTime, @NonNull EventStatus eventStatus) {
+    @Ignore
+    public Event(@NonNull EventType eventType,  @NonNull Integer month,  @NonNull Integer dayOfMonth,@NonNull Integer year, @NonNull Integer hour,
+                 @NonNull Integer minute, @Nullable String description,
+                 @NonNull EventStatus eventStatus) {
+        this(0, eventType,month,dayOfMonth, year, hour, minute, description, eventStatus);
+    }
+
+    public Event(long mEventId, @NonNull EventType mEventType,
+                 @NonNull Integer mMonth, @NonNull Integer mDayOfMonth, @NonNull Integer mYear,
+                 @NonNull Integer mHour,@NonNull  Integer mMinute,@NonNull String mDescription, @NonNull EventStatus eventStatus) {
         this.mEventId = mEventId;
         this.mDescription = mDescription;
         this.mEventType = mEventType;
@@ -79,7 +77,6 @@ public final class Event {
         this.mYear = mYear;
         this.mHour = mHour;
         this.mMinute = mMinute;
-        this.mEndTime = mEndTime;
         this.mEventStatus = eventStatus;
     }
 
@@ -91,45 +88,31 @@ public final class Event {
         this.mEventId = mEventId;
     }
 
-//    @NonNull
-//    public String getmName() {
-//        return mName;
-//    }
-//
-//    public void setmName(@NonNull String mName) {
-//        this.mName = mName;
-//    }
 
     @Nullable
-    public String getmDescription() {
+    public String getDescription() {
         return mDescription;
     }
 
     @NonNull
-    public int getmMonth() {
+    public Integer getMonth() {
         return mMonth;
     }
 
     @NonNull
-    public int getmDayOfMonth() {
+    public Integer getDayOfMonth() {
         return mDayOfMonth;
     }
 
     @Nullable
-    public String getmHour() {
+    public Integer getHour() {
         return mHour;
     }
 
     @Nullable
-    public String getmMinute() {
+    public Integer getMinute() {
         return mMinute;
     }
-
-    @Nullable
-    public String getmEndTime() {
-        return mEndTime;
-    }
-
 
     @NonNull
     public EventType getEventType() {
@@ -137,7 +120,7 @@ public final class Event {
     }
 
     @NonNull
-    public int getmYear() {
+    public Integer getYear() {
         return mYear;
     }
 
@@ -157,8 +140,8 @@ public final class Event {
                 Objects.equal(mDayOfMonth, event.mDayOfMonth) &&
                 Objects.equal(mHour, event.mHour) &&
                 Objects.equal(mMinute, event.mMinute) &&
-                Objects.equal(mEndTime, event.mEndTime) &&
                 Objects.equal(mMonth, event.mMonth) &&
+                Objects.equal(mYear, event.mYear) &&
                 Objects.equal(mEventStatus, event.mEventStatus);
     }
 
@@ -172,4 +155,10 @@ public final class Event {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
+
+    public void setEventStatus(@NonNull EventStatus mEventStatus) {
+        this.mEventStatus = mEventStatus;
+    }
+
+
 }

@@ -6,6 +6,8 @@ import android.support.test.runner.AndroidJUnit4;
 
 
 import com.katsuna.calendar.data.Event;
+import com.katsuna.calendar.data.EventStatus;
+import com.katsuna.calendar.data.EventType;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class EventDaoTest {
 
-    private static final Event EVENT = new Event( "name",3,5);
+    private static final Event EVENT = new Event( EventType.REMINDER, 10,11,2018, 12,20,"description2", EventStatus.ACTIVE);
 
     private CalendarDatabase mDatabase;
 
@@ -54,7 +56,7 @@ public class EventDaoTest {
         EVENT.setEventId(eventId);
 
         // When an event with the same id is inserted
-        Event newEvent = new Event(eventId, "test", "description2", 10,11,2018, "13:00","14:00");
+        Event newEvent = new Event(eventId, EventType.REMINDER, 10,11,2018, 12,20,"description2", EventStatus.ACTIVE);
         mDatabase.eventsDao().insertEvent(newEvent);
 
         // When getting the event by id from the database
@@ -72,7 +74,7 @@ public class EventDaoTest {
 
 
         // When the event is updated
-        Event updatedEvent = new Event(eventId, "test", "description2", 10,11,2018, "13:00","14:00");
+        Event updatedEvent = new Event(eventId, EventType.REMINDER, 10,11,2018, 12,20,"description2", EventStatus.ACTIVE);
         mDatabase.eventsDao().updateEvent(updatedEvent);
 
         // When getting the event by id from the database
