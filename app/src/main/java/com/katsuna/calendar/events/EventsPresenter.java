@@ -3,8 +3,11 @@ package com.katsuna.calendar.events;
 import android.support.annotation.NonNull;
 
 
+import com.katsuna.calendar.data.Event;
+import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.services.IEventsScheduler;
 import com.katsuna.calendar.data.source.EventsDataSource;
+import com.katsuna.calendar.utils.EspressoIdlingResource;
 
 import java.util.List;
 

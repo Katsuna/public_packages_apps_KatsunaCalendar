@@ -20,6 +20,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
+import com.katsuna.calendar.R;
 import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.utils.Injection;
@@ -48,6 +49,9 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     private EditText mDescription;
     private EditText mHour;
     private EditText mMinute;
+    private EditText mMonth;
+    private EditText mDay;
+    private EditText mYear;
     private View mEventTimeControl;
     private RadioButton mReminderTypeRadioGroup;
     private RadioButton mEventTypeRadioButton;
@@ -95,7 +99,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.event_type_radio_button:
-                        mPresenter.eventTypeSelected(EventType.EVENT);
+                        mPresenter.eventTypeSelected(EventType.ALARM);
                         break;
                     case R.id.reminder_type_radio_button:
                         mPresenter.eventTypeSelected(EventType.REMINDER);
@@ -169,7 +173,6 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
         mEventDaysHandler = findViewById(R.id.event_days_handler);
         mEventDaysContainer = findViewById(R.id.event_days_container);
-        mEventDaysControl = findViewById(R.id.event_days_radio_group);
 
         CompoundButton.OnCheckedChangeListener daysOnCheckedChangeListener =
                 new CompoundButton.OnCheckedChangeListener() {
@@ -378,9 +381,10 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     @Override
-    public void showEventsList() {
-        finish();
+    public void showEventList() {
+
     }
+
 
     @Override
     public void setTime(String hour, String minute) {
@@ -401,14 +405,14 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     @Override
     public void loadEvent(Event event) {
         if (event.getEventType() == EventType.ALARM) {
-            mAlarmTypeRadioButton.setChecked(true);
+            mEventTypeRadioButton.setChecked(true);
         } else {
             mReminderTypeRadioGroup.setChecked(true);
         }
         mDescription.setText(event.getDescription());
         LocalTime eventTime = LocalTime.of(event.getHour(), event.getMinute());
         mHour.setText(eventTime.format(DateTimeFormatter.ofPattern("HH")));
-        mMinute.setText(eventTime.format(DateTimeFormatter.ofPattern("mm"))));
+        mMinute.setText(eventTime.format(DateTimeFormatter.ofPattern("mm")));
     }
 
     @Override
@@ -439,102 +443,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         mDescription.setVisibility(flag ? View.VISIBLE : View.GONE);
     }
 
-    @Override
-    public void showEventTypeControl(boolean flag) {
-        if (flag) {
-            mAlarmTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
-                    R.color.common_white));
 
-            mEventTypeRadioButton.setVisibility(View.VISIBLE);
-            mReminderTypeRadioGroup.setVisibility(View.VISIBLE);
-            if (mReminderTypeRadioGroup.isChecked()) {
-                mDescription.setVisibility(View.VISIBLE);
-            }
-
-            int elevation = getResources().getDimensionPixelSize(
-                    R.dimen.common_selection_elevation);
-
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
-                    mEventTypeHandler.getLayoutParams();
-            layoutParams.bottomMargin = elevation;
-            mEventTypeHandler.setElevation(elevation);
-        } else {
-            mAlarmTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
-                    R.color.common_grey50));
-
-            mEventTypeRadioButton.setVisibility(mEventTypeRadioButton.isChecked() ? View.VISIBLE :
-                    View.GONE);
-
-            if (mReminderTypeRadioGroup.isChecked()) {
-                mReminderTypeRadioGroup.setVisibility(View.VISIBLE);
-                mDescription.setVisibility(View.VISIBLE);
-            } else {
-                mReminderTypeRadioGroup.setVisibility(View.GONE);
-                mDescription.setVisibility(View.GONE);
-            }
-
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
-                    mEventTypeHandler.getLayoutParams();
-            layoutParams.bottomMargin = 0;
-            mEventTypeHandler.setElevation(0);
-        }
-
-        mEventTypeRadioButton.setEnabled(flag);
-        mReminderTypeRadioGroup.setEnabled(flag);
-        mDescription.setEnabled(flag);
-
-        adjustSteps();
-    }
-
-    @Override
-    public void showEventTimeControl(boolean flag) {
-        if (flag) {
-            mEventTimeContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
-
-            int elevation = getResources().getDimensionPixelSize(
-                    R.dimen.common_selection_elevation);
-
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
-                    mEventTypeHandler.getLayoutParams();
-            layoutParams.bottomMargin = elevation;
-            mEventTimeHandler.setElevation(elevation);
-        } else {
-            mEventTimeContainer.setBackgroundColor(ContextCompat.getColor(this,
-                    R.color.common_grey50));
-
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
-                    mEventTypeHandler.getLayoutParams();
-            layoutParams.bottomMargin = 0;
-            mEventTimeHandler.setElevation(0);
-
-        }
-
-        adjustSteps();
-
-        mEventTimeControl.setVisibility(flag ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void showEventDaysControl(boolean flag) {
-        if (flag) {
-            mEventDaysContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
-
-            int elevation = getResources().getDimensionPixelSize(
-                    R.dimen.common_selection_elevation);
-
-            mEventDaysHandler.setElevation(elevation);
-
-        } else {
-            mEventDaysContainer.setBackgroundColor(ContextCompat.getColor(this,
-                    R.color.common_grey50));
-
-            mEventDaysHandler.setElevation(0);
-        }
-
-        adjustSteps();
-
-        mEventDaysControl.setVisibility(flag ? View.VISIBLE : View.GONE);
-    }
 
     @Override
     public void adjustFabPositions(ManageEventStep step) {
@@ -576,8 +485,8 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                         mMinute.getText().toString());
                 break;
             case DAYS:
-                mPresenter.saveEvent(getEventType(), mDescription.getText().toString(),
-                        mHour.getText().toString(), mMinute.getText().toString(),
+                mPresenter.saveEvent(getEventType(),mMonth.getText().toString(),mDay.getText().toString(),mYear.getText().toString(),
+                        mHour.getText().toString(), mMinute.getText().toString(), mDescription.getText().toString()
                        );
                 break;
         }
