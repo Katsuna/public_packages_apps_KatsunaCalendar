@@ -84,7 +84,7 @@ public class EventsActivity extends KatsunaActivity implements EventsContract.Vi
     }
 
     private void init() {
-//        mNoEventsText = findViewById(R.id.no_events);
+        mNoEventsText = findViewById(R.id.no_events);
         mPopupButton2 = findViewById(R.id.create_event_button);
         mPopupButton2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +102,7 @@ public class EventsActivity extends KatsunaActivity implements EventsContract.Vi
         });
 
         mEventsAdapter = new EventsAdapter(new ArrayList<Event>(0), mItemListener, this);
-//        mEventsList = findViewById(R.id.events_list);
+        mEventsList = findViewById(R.id.events_list);
         mEventsList.setAdapter(mEventsAdapter);
 
         initToolbar();
