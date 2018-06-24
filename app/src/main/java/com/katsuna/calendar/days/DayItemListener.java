@@ -14,5 +14,4 @@ interface DayItemListener {
 
     void onDayTypeUpdate(@NonNull Day alarm, @NonNull DayType dayType);
 
-    void onDayDelete(@NonNull Day day);
 }

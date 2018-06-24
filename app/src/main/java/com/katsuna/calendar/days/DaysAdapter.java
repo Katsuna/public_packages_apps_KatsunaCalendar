@@ -4,7 +4,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.katsuna.calendar.data.Day;
+
+import java.util.ArrayList;
+
 class DaysAdapter extends BaseAdapter {
+
+    public DaysAdapter(ArrayList<Day> days, DayItemListener mItemListener, MainCalendarActivity mainCalendarActivity) {
+    }
 
     @Override
     public int getCount() {

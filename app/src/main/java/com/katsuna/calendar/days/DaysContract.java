@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import com.katsuna.calendar.BasePresenter;
 import com.katsuna.calendar.BaseView;
 import com.katsuna.calendar.data.Day;
+import com.katsuna.calendar.data.DayType;
 import com.katsuna.calendar.data.Event;
-import com.katsuna.calendar.data.EventStatus;
 
 import java.util.List;
 
@@ -34,9 +34,9 @@ public interface DaysContract {
 
         void openDayDetails(@NonNull Day day);
 
-        void updateDayStatus(@NonNull Event event, @NonNull EventStatus eventStatus);
+        void updateDayStatus(@NonNull Day day, @NonNull DayType dayType);
 
-        void focusOnEvent(@NonNull Event event, boolean focus);
+        void focusOnEvent(@NonNull Day day, boolean focus);
     }
 
 }

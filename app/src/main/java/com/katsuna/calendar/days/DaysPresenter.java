@@ -3,24 +3,31 @@ package com.katsuna.calendar.days;
 import android.support.annotation.NonNull;
 
 import com.katsuna.calendar.data.Day;
-import com.katsuna.calendar.data.Event;
-import com.katsuna.calendar.data.EventStatus;
+import com.katsuna.calendar.data.DayType;
 import com.katsuna.calendar.data.source.EventsDataSource;
 import com.katsuna.calendar.services.IEventsScheduler;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class DaysPresenter implements DaysContract.Presenter {
+    @NonNull
+    private final EventsDataSource mEventsDataSource;
+
+    @NonNull
+    private final DaysContract.View mDaysView;
+
+    @NonNull
+    private final IEventsScheduler mEventsScheduler;
 
 
     DaysPresenter(@NonNull EventsDataSource eventsDataSource,
-                    @NonNull EventsContract.View eventsView,
+                    @NonNull DaysContract.View eventsView,
                     @NonNull IEventsScheduler eventsScheduler) {
         mEventsDataSource = checkNotNull(eventsDataSource, "dataSource cannot be null");
         mDaysView = checkNotNull(eventsView, "eventsView cannot be null!");
         mEventsScheduler = checkNotNull(eventsScheduler, "eventsScheduler cannot be null!");
 
-        mEventsView.setPresenter(this);
+        mDaysView.setPresenter(this);
     }
     @Override
     public void loadDays() {
@@ -38,12 +45,12 @@ public class DaysPresenter implements DaysContract.Presenter {
     }
 
     @Override
-    public void updateDayStatus(@NonNull Event event, @NonNull EventStatus eventStatus) {
+    public void updateDayStatus(@NonNull Day day, @NonNull DayType dayType) {
 
     }
 
     @Override
-    public void focusOnEvent(@NonNull Event event, boolean focus) {
+    public void focusOnEvent(@NonNull Day day, boolean focus) {
 
     }
 
