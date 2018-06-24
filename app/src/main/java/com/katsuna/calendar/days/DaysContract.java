@@ -1,23 +1,19 @@
-package com.katsuna.calendar.events;
+package com.katsuna.calendar.days;
 
 import android.support.annotation.NonNull;
 
 import com.katsuna.calendar.BasePresenter;
 import com.katsuna.calendar.BaseView;
+import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventStatus;
 
-
 import java.util.List;
 
-/**
- * This specifies the contract between the view and the presenter.
- */
-interface EventsContract {
+public interface DaysContract {
+    interface View extends BaseView<DaysContract.Presenter> {
 
-    interface View extends BaseView<Presenter> {
-
-        void showEvents(List<Event> events);
+        void showDays(List<Day> days);
 
         void showAddEvent();
 
@@ -32,16 +28,15 @@ interface EventsContract {
 
     interface Presenter extends BasePresenter {
 
-        void loadEvents();
+        void loadDays();
 
         void addNewEvent();
 
-        void openEventDetails(@NonNull Event alarm);
+        void openDayDetails(@NonNull Day day);
 
-        void deleteEvent(@NonNull Event alarm);
+        void updateDayStatus(@NonNull Event event, @NonNull EventStatus eventStatus);
 
-        void updateEventStatus(@NonNull Event alarm, @NonNull EventStatus alarmStatus);
-
-        void focusOnEvent(@NonNull Event alarm, boolean focus);
+        void focusOnEvent(@NonNull Event event, boolean focus);
     }
+
 }

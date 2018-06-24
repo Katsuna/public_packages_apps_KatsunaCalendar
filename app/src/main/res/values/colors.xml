@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorCurrentDay">@color/common_amberA400</color>
+    <color name="colorEventDay">@color/common_blueA700</color>
+
+
 </resources>
