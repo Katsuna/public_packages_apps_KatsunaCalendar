@@ -101,7 +101,7 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     }
 
     private void initDrawer() {
-        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(R.id.main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, mToolbar, R.string.common_navigation_drawer_open,
                 R.string.common_navigation_drawer_close);
@@ -113,7 +113,7 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     }
 
     private void setupDrawerLayout() {
-        KatsunaNavigationView mKatsunaNavigationView = findViewById(R.id.katsuna_navigation_view);
+        KatsunaNavigationView mKatsunaNavigationView = findViewById(R.id.katsuna_main_navigation_view);
         mKatsunaNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
