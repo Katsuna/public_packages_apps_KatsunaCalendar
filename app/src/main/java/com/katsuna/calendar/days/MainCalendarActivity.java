@@ -25,8 +25,11 @@ import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
 import com.katsuna.commons.utils.IUserProfileProvider;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import static com.katsuna.commons.utils.Constants.KATSUNA_PRIVACY_URL;
 
@@ -98,6 +101,20 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
 
         initToolbar();
         initDrawer();
+        initCalendar();
+    }
+
+    private void initCalendar(){
+        Calendar calendar = Calendar.getInstance();
+        TextView monthView = findViewById(R.id.month_name);
+        monthView.setText(new SimpleDateFormat("MMMM").format(calendar.getTime()));
+
+        //
+        System.out.println("Current Year is : " + calendar.get(Calendar.YEAR));
+        // month start from 0 to 11
+        System.out.println("Current Month is : " + (calendar.get(Calendar.MONTH) + 1));
+        System.out.println("Current Date is : " + calendar.get(Calendar.DATE));
+
     }
 
     private void initDrawer() {
