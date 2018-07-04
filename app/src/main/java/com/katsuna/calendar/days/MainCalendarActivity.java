@@ -109,12 +109,26 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
         TextView monthView = findViewById(R.id.month_name);
         monthView.setText(new SimpleDateFormat("MMMM").format(calendar.getTime()));
 
+        TextView yearView = findViewById(R.id.year);
+        yearView.setText(calendar.get(Calendar.YEAR));
+        initMonth();
         //
         System.out.println("Current Year is : " + calendar.get(Calendar.YEAR));
         // month start from 0 to 11
         System.out.println("Current Month is : " + (calendar.get(Calendar.MONTH) + 1));
         System.out.println("Current Date is : " + calendar.get(Calendar.DATE));
 
+    }
+
+    private void initMonth(){
+        Calendar calendar = Calendar.getInstance();
+
+        int myMonth=calendar.get(Calendar.MONTH);
+
+        while (myMonth==calendar.get(Calendar.MONTH)) {
+            System.out.print(calendar.getTime());
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
     }
 
     private void initDrawer() {
