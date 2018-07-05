@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,6 +41,13 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     private ListView mDaysList;
     private DaysAdapter mDaysAdapter;
     private DrawerLayout mDrawerLayout;
+
+    ArrayList<String> listItems=new ArrayList<String>();
+
+    //DEFINING A STRING ADAPTER WHICH WILL HANDLE THE DATA OF THE LISTVIEW
+    ArrayAdapter<String> adapter;
+
+
 
     private static final String TAG = "DaysActivity";
     private DaysContract.Presenter mPresenter;
