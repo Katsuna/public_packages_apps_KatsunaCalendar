@@ -103,7 +103,7 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
             }
         });
 
-        mDaysAdapter = new DaysAdapter(new ArrayList<Day>(0), mItemListener, this);
+//        mDaysAdapter = new DaysAdapter(new ArrayList<Day>(0), mItemListener, this);
         mDaysList = findViewById(R.id.days_list);
         mDaysList.setAdapter(mDaysAdapter);
 
@@ -119,7 +119,8 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
 
         TextView yearView = findViewById(R.id.year);
         yearView.setText(calendar.get(Calendar.YEAR));
-        initMonth();
+
+        initMonth(calendar.get(Calendar.MONTH),calendar.get(Calendar.YEAR));
         //
         System.out.println("Current Year is : " + calendar.get(Calendar.YEAR));
         // month start from 0 to 11
@@ -128,15 +129,17 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
 
     }
 
-    private void initMonth(){
+    private void initMonth(int month, int year){
         Calendar calendar = Calendar.getInstance();
 
-        int myMonth=calendar.get(Calendar.MONTH);
 
-        while (myMonth==calendar.get(Calendar.MONTH)) {
+
+        while (month==calendar.get(Calendar.MONTH)) {
             System.out.print(calendar.getTime());
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
+
+        mDaysAdapter = new DaysAdapter(new ArrayList<Day>(0), mItemListener, this,month, year);
     }
 
     private void initDrawer() {

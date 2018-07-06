@@ -2,7 +2,8 @@ package com.katsuna.calendar.data;
 
 public enum DayType {
     CURRENT(0),
-    WITH_EVENT(1);
+    SIMPLE(1),
+    WITH_EVENT(2);
 
     private final int code;
 

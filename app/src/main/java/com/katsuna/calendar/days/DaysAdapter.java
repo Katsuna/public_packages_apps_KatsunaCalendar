@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.katsuna.calendar.R;
 import com.katsuna.calendar.data.Day;
+import com.katsuna.calendar.formatters.DayFormatter;
 import com.katsuna.commons.entities.OpticalParams;
 import com.katsuna.commons.entities.SizeProfileKeyV2;
 import com.katsuna.commons.entities.UserProfile;
@@ -35,14 +36,14 @@ class DaysAdapter extends BaseAdapter {
     private Day mDayFocused;
 
 
-    public DaysAdapter(ArrayList<Day> days, DayItemListener itemListener, MainCalendarActivity mainCalendarActivity, IUserProfileProvider userProfileProvider) {
+    public DaysAdapter(ArrayList<Day> days, DayItemListener itemListener, IUserProfileProvider userProfileProvider, int month, int year) {
         setList(days);
         mItemListener = itemListener;
         mUserProfileProvider = userProfileProvider;
     }
 
-    private void setList(List<Day> alarms) {
-        mDays = checkNotNull(alarms);
+    private void setList(List<Day> days) {
+        mDays = checkNotNull(days);
     }
 
     @Override
@@ -72,93 +73,48 @@ class DaysAdapter extends BaseAdapter {
         final Day day = getItem(i);
 
         final Context context = viewGroup.getContext();
-//        DayFormatter alarmFormatter = new DayFormatter(context, day);
-//
-//        ImageView alarmTypeIcon = rowView.findViewById(R.id.alarm_type_image);
-//        Drawable icon = context.getDrawable(alarmFormatter.getDayTypeIconResId());
-//        alarmTypeIcon.setImageDrawable(icon);
-//
-//        TextView title = rowView.findViewById(R.id.alarm_title);
-//        title.setText(alarmFormatter.getTitle());
-//
-//        TextView description = rowView.findViewById(R.id.alarm_description);
-//        description.setText(alarmFormatter.getDescription());
-//
-//        TextView days = rowView.findViewById(R.id.alarm_days);
-//        days.setText(alarmFormatter.getDays());
-//
-//        UserProfile userProfile = mUserProfileProvider.getProfile();
-//
-//        CardView alarmCard = rowView.findViewById(R.id.alarm_container_card);
-//        alarmCard.setCardBackgroundColor(ContextCompat.getColor(context,
-//                alarmFormatter.getCardHandleColor(userProfile)));
-//
-//        View alarmCardInner = rowView.findViewById(R.id.alarm_container_card_inner);
-//        alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
-//                alarmFormatter.getCardInnerColor(userProfile)));
-//        alarmCardInner.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mItemListener.onDayFocus(alarm, !alarm.equals(mDayFocused));
-//            }
-//        });
-//
-//        View actionsContainer = rowView.findViewById(R.id.alarm_buttons_container);
-//        if (alarm.equals(mDayFocused)) {
-//            actionsContainer.setVisibility(View.VISIBLE);
-//        } else {
-//            actionsContainer.setVisibility(View.GONE);
-//        }
-//
-//        ViewGroup buttonsWrapper = rowView.findViewById(R.id.action_buttons_wrapper);
-//        if (userProfile.isRightHanded) {
-//            View buttonsView = inflater.inflate(R.layout.action_buttons_rh, buttonsWrapper,
-//                    false);
-//            buttonsWrapper.removeAllViews();
-//            buttonsWrapper.addView(buttonsView);
-//        } else {
-//            View buttonsView = inflater.inflate(R.layout.action_buttons_lh, buttonsWrapper,
-//                    false);
-//            buttonsWrapper.removeAllViews();
-//            buttonsWrapper.addView(buttonsView);
-//        }
-//
-//        Button editButton = rowView.findViewById(R.id.button_edit);
-//        editButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mItemListener.onDayEdit(alarm);
-//            }
-//        });
-//
-//        final Button turnOffButton = rowView.findViewById(R.id.button_turn_off);
-//        if (alarm.getDayStatus() == DayStatus.ACTIVE) {
-//            turnOffButton.setText(R.string.turn_off);
-//        } else {
-//            turnOffButton.setText(R.string.turn_on);
-//        }
-//        turnOffButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (alarm.getDayStatus() == DayStatus.ACTIVE) {
-//                    mItemListener.onDayStatusUpdate(alarm, DayStatus.INACTIVE);
-//                } else {
-//                    mItemListener.onDayStatusUpdate(alarm, DayStatus.ACTIVE);
-//                }
-//            }
-//        });
-//
-//        TextView deleteText = rowView.findViewById(R.id.txt_delete);
-//        deleteText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mItemListener.onDayDelete(alarm);
-//            }
-//        });
+        DayFormatter alarmFormatter = new DayFormatter(context, day);
 
-//        // adjust buttons
-//        OpticalParams opticalParams = SizeCalcV2.getOpticalParams(SizeProfileKeyV2.BUTTON,
-//                userProfile.opticalSizeProfile);
+
+
+        TextView title = rowView.findViewById(R.id.day_name);
+        title.setText(alarmFormatter.getName());
+
+        TextView description = rowView.findViewById(R.id.alarm_description);
+        description.setText(alarmFormatter.getDescription());
+
+
+
+        UserProfile userProfile = mUserProfileProvider.getProfile();
+
+        CardView alarmCard = rowView.findViewById(R.id.day_container_card);
+        alarmCard.setCardBackgroundColor(ContextCompat.getColor(context,
+                alarmFormatter.getCardHandleColor(userProfile)));
+
+        View alarmCardInner = rowView.findViewById(R.id.day_container_card);
+        alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
+                alarmFormatter.getCardHandleColor(userProfile)));
+        alarmCardInner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItemListener.onDayFocus(day, !day.equals(mDayFocused));
+            }
+        });
+
+
+        ViewGroup buttonsWrapper = rowView.findViewById(R.id.action_buttons_wrapper);
+        if (userProfile.isRightHanded) {
+
+        } else {
+
+        }
+
+
+
+
+        // adjust buttons
+        OpticalParams opticalParams = SizeCalcV2.getOpticalParams(SizeProfileKeyV2.BUTTON,
+                userProfile.opticalSizeProfile);
 //        SizeAdjuster.adjustText(context, editButton, opticalParams);
 //        SizeAdjuster.adjustText(context, turnOffButton, opticalParams);
 //
@@ -168,9 +124,8 @@ class DaysAdapter extends BaseAdapter {
 //        SizeAdjuster.adjustText(context, deleteText, opticalParams);
 //
 //        ColorAdjusterV2.adjustButtons(context, userProfile, editButton, turnOffButton, deleteText);
-//
-//
-//        return rowView;
-        return null;
+
+
+        return rowView;
     }
 }
