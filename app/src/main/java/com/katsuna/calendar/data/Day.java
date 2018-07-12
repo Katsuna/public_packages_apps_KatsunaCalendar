@@ -7,11 +7,20 @@ public class Day {
 
     private String day;
     private String month;
+    private String monthShort;
     private String year;
     private List<Event> events;
     private DayType dayType;
 
     public Day(){
+    }
+
+    public String getMonthShort() {
+        return monthShort;
+    }
+
+    public void setMonthShort(String monthShort) {
+        this.monthShort = monthShort;
     }
 
     public String getDay() {

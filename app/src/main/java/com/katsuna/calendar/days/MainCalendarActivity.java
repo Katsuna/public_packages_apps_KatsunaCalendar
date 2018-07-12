@@ -105,7 +105,6 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
 
 //        mDaysAdapter = new DaysAdapter(new ArrayList<Day>(0), mItemListener, this);
         mDaysList = findViewById(R.id.days_list);
-        mDaysList.setAdapter(mDaysAdapter);
 
         initToolbar();
         initDrawer();
@@ -118,7 +117,7 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
         monthView.setText(new SimpleDateFormat("MMMM").format(calendar.getTime()));
 
         TextView yearView = findViewById(R.id.year);
-        yearView.setText(calendar.get(Calendar.YEAR));
+      //  yearView.setText(calendar.get(Calendar.YEAR));
 
         initMonth(calendar.get(Calendar.MONTH),calendar.get(Calendar.YEAR));
         //
@@ -131,15 +130,30 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
 
     private void initMonth(int month, int year){
         Calendar calendar = Calendar.getInstance();
-
+        String monthName = new SimpleDateFormat("MMM").format(calendar.getTime());
 
 
         while (month==calendar.get(Calendar.MONTH)) {
             System.out.print(calendar.getTime());
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
+        ArrayList<Day> days = new ArrayList<>();
 
-        mDaysAdapter = new DaysAdapter(new ArrayList<Day>(0), mItemListener, this,month, year);
+        int lastDate = calendar.getActualMaximum(Calendar.DATE);
+
+        for(int i =1; i<=lastDate; i++){
+            Day day = new Day();
+            day.setDay(String.valueOf(i));
+            day.setMonth(String.valueOf(month));
+            day.setYear(String.valueOf(year));
+            day.setDayType(DayType.SIMPLE);
+            day.setMonthShort(monthName);
+            days.add(day);
+        }
+
+        mDaysAdapter = new DaysAdapter(days, mItemListener, this,month, year);
+        mDaysList.setAdapter(mDaysAdapter);
+
     }
 
     private void initDrawer() {

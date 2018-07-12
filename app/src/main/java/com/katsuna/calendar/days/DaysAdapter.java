@@ -48,17 +48,17 @@ class DaysAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return mDays.size();
     }
 
     @Override
     public Day getItem(int position) {
-        return null;
+        return mDays.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+      return Long.parseLong(mDays.get(position).getDay());
     }
 
     @Override
@@ -80,20 +80,21 @@ class DaysAdapter extends BaseAdapter {
         TextView title = rowView.findViewById(R.id.day_name);
         title.setText(alarmFormatter.getName());
 
-        TextView description = rowView.findViewById(R.id.alarm_description);
-        description.setText(alarmFormatter.getDescription());
+        TextView description = rowView.findViewById(R.id.day_number);
+        description.setText(day.getDay());
 
-
+        TextView month = rowView.findViewById(R.id.month_short);
+        month.setText(day.getMonthShort());
 
         UserProfile userProfile = mUserProfileProvider.getProfile();
 
         CardView alarmCard = rowView.findViewById(R.id.day_container_card);
-        alarmCard.setCardBackgroundColor(ContextCompat.getColor(context,
-                alarmFormatter.getCardHandleColor(userProfile)));
+//        alarmCard.setCardBackgroundColor(ContextCompat.getColor(context,
+//                alarmFormatter.getCardHandleColor(userProfile)));
 
         View alarmCardInner = rowView.findViewById(R.id.day_container_card);
-        alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
-                alarmFormatter.getCardHandleColor(userProfile)));
+//        alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
+//                alarmFormatter.getCardHandleColor(userProfile)));
         alarmCardInner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,18 +104,18 @@ class DaysAdapter extends BaseAdapter {
 
 
         ViewGroup buttonsWrapper = rowView.findViewById(R.id.action_buttons_wrapper);
-        if (userProfile.isRightHanded) {
-
-        } else {
-
-        }
+//        if (userProfile.isRightHanded) {
+//
+//        } else {
+//
+//        }
 
 
 
 
         // adjust buttons
-        OpticalParams opticalParams = SizeCalcV2.getOpticalParams(SizeProfileKeyV2.BUTTON,
-                userProfile.opticalSizeProfile);
+//        OpticalParams opticalParams = SizeCalcV2.getOpticalParams(SizeProfileKeyV2.BUTTON,
+//                userProfile.opticalSizeProfile);
 //        SizeAdjuster.adjustText(context, editButton, opticalParams);
 //        SizeAdjuster.adjustText(context, turnOffButton, opticalParams);
 //
