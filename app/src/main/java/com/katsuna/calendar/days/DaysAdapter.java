@@ -78,7 +78,7 @@ class DaysAdapter extends BaseAdapter {
 
 
         TextView title = rowView.findViewById(R.id.day_name);
-        title.setText(alarmFormatter.getName());
+        title.setText(day.getDayName());
 
         TextView description = rowView.findViewById(R.id.day_number);
         description.setText(day.getDay());

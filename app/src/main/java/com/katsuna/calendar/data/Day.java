@@ -6,6 +6,7 @@ import java.util.List;
 public class Day {
 
     private String day;
+    private String dayName;
     private String month;
     private String monthShort;
     private String year;
@@ -13,6 +14,15 @@ public class Day {
     private DayType dayType;
 
     public Day(){
+    }
+
+
+    public String getDayName() {
+        return dayName;
+    }
+
+    public void setDayName(String dayName) {
+        this.dayName = dayName;
     }
 
     public String getMonthShort() {

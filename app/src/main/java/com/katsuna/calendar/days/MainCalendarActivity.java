@@ -26,9 +26,11 @@ import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
 import com.katsuna.commons.utils.IUserProfileProvider;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,6 +43,8 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     private ListView mDaysList;
     private DaysAdapter mDaysAdapter;
     private DrawerLayout mDrawerLayout;
+
+    private int currentMonth, currentYear;
 
     ArrayList<String> listItems=new ArrayList<String>();
 
@@ -111,15 +115,69 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
         initCalendar();
     }
 
+    public void previousMonth(View view)
+    {
+        if(currentMonth == 0){
+            currentMonth = 11;
+            currentYear = currentYear -1;
+        }
+        else
+            currentMonth = currentMonth -1;
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(currentYear, currentMonth ,1);
+        TextView monthView = findViewById(R.id.month_name);
+        monthView.setText(new SimpleDateFormat("MMMM").format(calendar.getTime()));
+
+        TextView yearView = findViewById(R.id.year);
+        yearView.setText(Integer.toString(calendar.get(Calendar.YEAR)));
+
+        try {
+            initMonth((currentMonth),currentYear);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void nextMonth(View view)
+    {
+        if(currentMonth == 11){
+            currentMonth = 0;
+            currentYear = currentYear +1;
+        }
+        else
+            currentMonth = currentMonth +1;
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(currentYear, currentMonth ,1);
+        TextView monthView = findViewById(R.id.month_name);
+        monthView.setText(new SimpleDateFormat("MMMM").format(calendar.getTime()));
+
+        TextView yearView = findViewById(R.id.year);
+        yearView.setText(Integer.toString(calendar.get(Calendar.YEAR)));
+
+        try {
+            initMonth((currentMonth),currentYear);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void initCalendar(){
         Calendar calendar = Calendar.getInstance();
         TextView monthView = findViewById(R.id.month_name);
         monthView.setText(new SimpleDateFormat("MMMM").format(calendar.getTime()));
 
         TextView yearView = findViewById(R.id.year);
-      //  yearView.setText(calendar.get(Calendar.YEAR));
+        yearView.setText(Integer.toString(calendar.get(Calendar.YEAR)));
 
-        initMonth(calendar.get(Calendar.MONTH),calendar.get(Calendar.YEAR));
+        try {
+            initMonth((calendar.get(Calendar.MONTH) ),calendar.get(Calendar.YEAR));
+            currentMonth = calendar.get(Calendar.MONTH) ;
+            currentYear = calendar.get(Calendar.YEAR);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         //
         System.out.println("Current Year is : " + calendar.get(Calendar.YEAR));
         // month start from 0 to 11
@@ -128,8 +186,10 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
 
     }
 
-    private void initMonth(int month, int year){
+    private void initMonth(int month, int year) throws ParseException {
         Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month ,1);
+
         String monthName = new SimpleDateFormat("MMM").format(calendar.getTime());
 
 
@@ -148,6 +208,12 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
             day.setYear(String.valueOf(year));
             day.setDayType(DayType.SIMPLE);
             day.setMonthShort(monthName);
+            String dateString = String.format("%d-%d-%d", year, month +1, i);
+            Date date = new SimpleDateFormat("yyyy-M-d").parse(dateString);
+
+            String dayOfWeek = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);
+            day.setDayName(dayOfWeek);
+
             days.add(day);
         }
 
