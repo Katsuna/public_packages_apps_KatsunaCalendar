@@ -36,7 +36,7 @@ public class DaysPresenter implements DaysContract.Presenter {
 
     @Override
     public void addNewEvent() {
-
+            mDaysView.showAddEvent();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class DaysPresenter implements DaysContract.Presenter {
     }
 
     @Override
-    public void focusOnEvent(@NonNull Day day, boolean focus) {
+    public void focusOnDay(@NonNull Day day, boolean focus) {
 
     }
 

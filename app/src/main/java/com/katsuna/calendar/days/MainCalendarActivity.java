@@ -284,12 +284,12 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     }
 
     @Override
-    public void focusOnEvent(Event event, boolean focus) {
+    public void focusOnDay(Day day, boolean focus) {
 
     }
 
     @Override
-    public void reloadEvent(Event event) {
+    public void reloadDay(Day day) {
 
     }
 

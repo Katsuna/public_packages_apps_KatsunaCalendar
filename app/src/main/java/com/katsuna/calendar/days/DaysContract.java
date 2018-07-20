@@ -21,9 +21,9 @@ public interface DaysContract {
 
         void showNoEvents();
 
-        void focusOnEvent(Event event, boolean focus);
+        void focusOnDay(Day day, boolean focus);
 
-        void reloadEvent(Event event);
+        void reloadDay(Day day);
     }
 
     interface Presenter extends BasePresenter {
@@ -36,7 +36,7 @@ public interface DaysContract {
 
         void updateDayStatus(@NonNull Day day, @NonNull DayType dayType);
 
-        void focusOnEvent(@NonNull Day day, boolean focus);
+        void focusOnDay(@NonNull Day day, boolean focus);
     }
 
 }
