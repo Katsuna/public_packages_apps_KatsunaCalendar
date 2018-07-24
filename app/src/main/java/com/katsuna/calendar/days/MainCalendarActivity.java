@@ -296,6 +296,7 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     @Override
     public void focusOnDay(Day day, boolean focus) {
         mDaysAdapter.focusOnDay(day, focus);
+        mFab2.setVisibility(View.GONE);
     }
 
     @Override
