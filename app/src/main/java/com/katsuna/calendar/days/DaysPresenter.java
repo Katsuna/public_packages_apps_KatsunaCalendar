@@ -1,6 +1,7 @@
 package com.katsuna.calendar.days;
 
 import android.support.annotation.NonNull;
+import android.widget.LinearLayout;
 
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.DayType;
@@ -18,6 +19,7 @@ public class DaysPresenter implements DaysContract.Presenter {
 
     @NonNull
     private final IEventsScheduler mEventsScheduler;
+
 
 
     DaysPresenter(@NonNull EventsDataSource eventsDataSource,
@@ -51,7 +53,7 @@ public class DaysPresenter implements DaysContract.Presenter {
 
     @Override
     public void focusOnDay(@NonNull Day day, boolean focus) {
-
+        mDaysView.focusOnDay(day,focus);
     }
 
     @Override

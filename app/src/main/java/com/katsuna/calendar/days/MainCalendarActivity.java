@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -43,6 +44,8 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     private ListView mDaysList;
     private DaysAdapter mDaysAdapter;
     private DrawerLayout mDrawerLayout;
+    private View mDayFocused;
+
 
     private int currentMonth, currentYear;
 
@@ -61,7 +64,7 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     private final DayItemListener mItemListener = new DayItemListener() {
         @Override
         public void onDayFocus(@NonNull Day day, boolean focus) {
-            mPresenter.focusOnEvent(day, focus);
+            mPresenter.focusOnDay(day, focus);
         }
 
         @Override
@@ -113,6 +116,7 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
         initToolbar();
         initDrawer();
         initCalendar();
+
     }
 
     public void previousMonth(View view)
@@ -264,6 +268,12 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
+    @Override
     public void showDays(List<Day> days) {
 
     }
@@ -285,7 +295,7 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
 
     @Override
     public void focusOnDay(Day day, boolean focus) {
-
+        mDaysAdapter.focusOnDay(day, focus);
     }
 
     @Override
@@ -295,7 +305,7 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
 
     @Override
     public void setPresenter(DaysContract.Presenter presenter) {
-
+        mPresenter = presenter;
     }
 
     @Override

@@ -2,6 +2,8 @@
     <string name="app_name">Calendar</string>
     <string name="no_events">There are no active events yet</string>
     <string name="add_new">Add new</string>
+    <string name="add_event">Add Event</string>
+
     <string name="edit">Edit</string>
     <string name="turn_off">Turn Off</string>
     <string name="turn_on">Turn On</string>

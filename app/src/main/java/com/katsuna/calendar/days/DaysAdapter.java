@@ -46,6 +46,11 @@ class DaysAdapter extends BaseAdapter {
         mDays = checkNotNull(days);
     }
 
+    public void focusOnDay(Day day, boolean focus){
+        mDayFocused = focus ? day : null;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return mDays.size();
@@ -88,20 +93,26 @@ class DaysAdapter extends BaseAdapter {
 
         UserProfile userProfile = mUserProfileProvider.getProfile();
 
-        CardView alarmCard = rowView.findViewById(R.id.day_container_card);
-//        alarmCard.setCardBackgroundColor(ContextCompat.getColor(context,
-//                alarmFormatter.getCardHandleColor(userProfile)));
-
-        View alarmCardInner = rowView.findViewById(R.id.day_container_card);
-//        alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
-//                alarmFormatter.getCardHandleColor(userProfile)));
-        alarmCardInner.setOnClickListener(new View.OnClickListener() {
+        CardView dayCard = rowView.findViewById(R.id.day_container_card);
+////        alarmCard.setCardBackgroundColor(ContextCompat.getColor(context,
+////                alarmFormatter.getCardHandleColor(userProfile)));
+//
+//        View alarmCardInner = rowView.findViewById(R.id.date_container);
+////        alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
+////                alarmFormatter.getCardHandleColor(userProfile)));
+        dayCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mItemListener.onDayFocus(day, !day.equals(mDayFocused));
             }
         });
 
+        View actionsContainer = rowView.findViewById(R.id.event_buttons_container);
+        if (day.equals(mDayFocused)) {
+            actionsContainer.setVisibility(View.VISIBLE);
+        } else {
+            actionsContainer.setVisibility(View.GONE);
+        }
 
         ViewGroup buttonsWrapper = rowView.findViewById(R.id.action_buttons_wrapper);
 //        if (userProfile.isRightHanded) {
