@@ -38,7 +38,13 @@ public class DaysPresenter implements DaysContract.Presenter {
 
     @Override
     public void addNewEvent() {
-            mDaysView.showAddEvent();
+        mDaysView.showAddEvent(null);
+
+    }
+
+    @Override
+    public void addOnDayNewEvent(@NonNull Day day) {
+        mDaysView.showAddEvent(day);
     }
 
     @Override

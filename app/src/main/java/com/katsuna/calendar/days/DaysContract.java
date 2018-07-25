@@ -15,7 +15,7 @@ public interface DaysContract {
 
         void showDays(List<Day> days);
 
-        void showAddEvent();
+        void showAddEvent(Day day);
 
         void showEventDetailsUi(long eventId);
 
@@ -31,6 +31,8 @@ public interface DaysContract {
         void loadDays();
 
         void addNewEvent();
+
+        void addOnDayNewEvent(@NonNull Day day);
 
         void openDayDetails(@NonNull Day day);
 

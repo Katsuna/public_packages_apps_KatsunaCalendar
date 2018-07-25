@@ -19,6 +19,8 @@ import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.DayType;
 import com.katsuna.calendar.data.Event;
 
+import com.katsuna.calendar.data.EventType;
+import com.katsuna.calendar.event.ManageEventActivity;
 import com.katsuna.calendar.info.InfoActivity;
 import com.katsuna.calendar.settings.SettingsActivity;
 import com.katsuna.calendar.utils.Injection;
@@ -27,6 +29,7 @@ import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
 import com.katsuna.commons.utils.IUserProfileProvider;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,11 +38,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.katsuna.calendar.event.ManageEventActivity.EXTRA_EVENT_TYPE;
 import static com.katsuna.commons.utils.Constants.KATSUNA_PRIVACY_URL;
 
 public class MainCalendarActivity extends KatsunaActivity implements DaysContract.View,
         IUserProfileProvider {
 
+
+    private static final int REQUEST_CODE_NEW_EVENT = 1;
+    private static final int REQUEST_CODE_EDIT_EVENT = 2;
 //    private TextView mNoEventsText;
     private ListView mDaysList;
     private DaysAdapter mDaysAdapter;
@@ -63,14 +70,22 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
      */
     private final DayItemListener mItemListener = new DayItemListener() {
         @Override
+        public void onDayAddEvent(@NonNull Day day) {
+            mPresenter.addOnDayNewEvent(day);
+        }
+
+        @Override
         public void onDayFocus(@NonNull Day day, boolean focus) {
             mPresenter.focusOnDay(day, focus);
         }
 
         @Override
-        public void onDayEdit(@NonNull Day day) {
+        public void onDayEventEdit(@NonNull Day day) {
             mPresenter.openDayDetails(day);
+
         }
+
+
 
         @Override
         public void onDayTypeUpdate(@NonNull Day day, @NonNull DayType dayType) {
@@ -279,9 +294,13 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     }
 
     @Override
-    public void showAddEvent() {
-
+    public void showAddEvent(Day day) {
+        Intent i = new Intent(this, ManageEventActivity.class);
+        i.putExtra(EXTRA_EVENT_TYPE, EventType.ALARM);
+        i.putExtra("Day",  day);
+        startActivityForResult(i, REQUEST_CODE_NEW_EVENT);
     }
+
 
     @Override
     public void showEventDetailsUi(long eventId) {

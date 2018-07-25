@@ -40,6 +40,7 @@ import java.util.List;
 public class ManageEventActivity extends KatsunaActivity implements ManageEventContract.View {
 
     public static final String EXTRA_EVENT_ID = "EVENT_ID";
+    public static final String EXTRA_EVENT_TYPE = "EVENT_TYPE";
 
     private ManageEventContract.Presenter mPresenter;
     private FloatingActionButton mPreviousStepFab;

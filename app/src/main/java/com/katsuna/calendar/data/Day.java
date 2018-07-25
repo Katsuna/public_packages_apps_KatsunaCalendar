@@ -1,9 +1,10 @@
 package com.katsuna.calendar.data;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
-public class Day {
+public class Day implements Serializable{
 
     private String day;
     private String dayName;

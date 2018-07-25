@@ -109,6 +109,14 @@ class DaysAdapter extends BaseAdapter {
 
         View actionsContainer = rowView.findViewById(R.id.event_buttons_container);
         if (day.equals(mDayFocused)) {
+            Button addNewBtn = rowView.findViewById(R.id.add_new_button);
+            addNewBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("addd new");
+                    mItemListener.onDayAddEvent(day);
+                }
+            });
             actionsContainer.setVisibility(View.VISIBLE);
         } else {
             actionsContainer.setVisibility(View.GONE);
