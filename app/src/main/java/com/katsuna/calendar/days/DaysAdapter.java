@@ -113,7 +113,6 @@ class DaysAdapter extends BaseAdapter {
             addNewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("addd new");
                     mItemListener.onDayAddEvent(day);
                 }
             });

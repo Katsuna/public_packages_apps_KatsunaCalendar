@@ -21,6 +21,7 @@ import android.widget.ToggleButton;
 
 
 import com.katsuna.calendar.R;
+import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.utils.Injection;
@@ -56,7 +57,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     private View mEventTimeControl;
     private RadioButton mReminderTypeRadioGroup;
     private RadioButton mEventTypeRadioButton;
-    private View mAlarmTypeContainer;
+    private View mEventTypeContainer;
     private View mEventTypeHandler;
     private View mEventTimeHandler;
     private View mEventTimeContainer;
@@ -74,12 +75,13 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     private ImageView mSubtractHourButton;
     private ImageView mAddMinuteButton;
     private ImageView mSubtractMinuteButton;
+    private Day mEventDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_event);
-
+        mEventDay = (Day) getIntent().getSerializableExtra("Day");
         init();
 
         long eventId = getIntent().getLongExtra(EXTRA_EVENT_ID, 0);
@@ -92,7 +94,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     private void init() {
-        mAlarmTypeContainer = findViewById(R.id.event_type_container);
+        mEventTypeContainer = findViewById(R.id.event_type_container);
         mEventTypeHandler = findViewById(R.id.event_type_handler);
         mEventTypeRadioGroup = findViewById(R.id.event_type_radio_group);
         mEventTypeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
