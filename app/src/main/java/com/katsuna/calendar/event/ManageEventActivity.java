@@ -76,6 +76,8 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     private ImageView mAddMinuteButton;
     private ImageView mSubtractMinuteButton;
     private Day mEventDay;
+    private TextView mEventDayTitle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +96,13 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     private void init() {
+        mEventDayTitle = findViewById(R.id.current_event_day);
+        mEventDayTitle.setText(mEventDay.getDayName()+", "+ mEventDay.getMonth());
+
         mEventTypeContainer = findViewById(R.id.event_type_container);
         mEventTypeHandler = findViewById(R.id.event_type_handler);
         mEventTypeRadioGroup = findViewById(R.id.event_type_radio_group);
+
         mEventTypeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
