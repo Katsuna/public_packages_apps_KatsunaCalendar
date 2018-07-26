@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.katsuna.calendar.R;
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.DayType;
@@ -109,6 +110,7 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     }
 
     private void init() {
+        AndroidThreeTen.init(this);
         mPopupButton2 = findViewById(R.id.create_event_button);
         mPopupButton2.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -57,6 +57,7 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
 
     @Override
     public void start() {
+
         if (!isNewEvent() && mIsDataMissing) {
             populateEvent();
         } else {
