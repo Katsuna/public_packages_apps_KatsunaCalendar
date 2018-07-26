@@ -97,8 +97,13 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     private void init() {
         mEventDayTitle = findViewById(R.id.current_event_day);
-        mEventDayTitle.setText(mEventDay.getDayName()+", "+ mEventDay.getMonth());
-
+        if(mEventDay != null) {
+            mEventDayTitle.setText(mEventDay.getDayName() + ", " + mEventDay.getMonth());
+        }
+        else
+        {
+            mEventDayTitle.setVisibility(View.GONE);
+        }
         mEventTypeContainer = findViewById(R.id.event_type_container);
         mEventTypeHandler = findViewById(R.id.event_type_handler);
         mEventTypeRadioGroup = findViewById(R.id.event_type_radio_group);
