@@ -31,6 +31,7 @@ import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
 import com.katsuna.commons.utils.ColorAdjusterV2;
 import com.katsuna.commons.utils.ColorCalcV2;
+import com.katsuna.commons.utils.KeyboardUtils;
 
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -63,6 +64,10 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     private View mEventTimeContainer;
     private View mEventDaysContainer;
     private View mEventDaysHandler;
+    private View mEventOptionsHandler;
+    private View mEventOptionsContainer;
+    private View mEventOptionsControl;
+    
     private int mPrimaryColor2;
     private int mSecondaryColor2;
     private TextView mEventTimeTitle;
@@ -484,12 +489,73 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     @Override
+    public void showEventDayControl(boolean flag) {
+
+    }
+
+    @Override
+    public void showEventTimeControl(boolean flag) {
+        if (flag) {
+            mEventTimeContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
+
+            int elevation = getResources().getDimensionPixelSize(
+                    R.dimen.common_selection_elevation);
+
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
+                    mEventTypeHandler.getLayoutParams();
+            layoutParams.bottomMargin = elevation;
+            mEventTimeHandler.setElevation(elevation);
+        } else {
+            mEventTimeContainer.setBackgroundColor(ContextCompat.getColor(this,
+                    R.color.common_grey50));
+
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
+                    mEventTypeHandler.getLayoutParams();
+            layoutParams.bottomMargin = 0;
+            mEventTimeHandler.setElevation(0);
+
+        }
+
+        adjustSteps();
+
+        mEventTimeControl.setVisibility(flag ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showEventOptionsControl(boolean flag) {
+        if (flag) {
+            mEventOptionsContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
+
+            int elevation = getResources().getDimensionPixelSize(
+                    R.dimen.common_selection_elevation);
+
+            mEventOptionsHandler.setElevation(elevation);
+
+        } else {
+            mEventOptionsContainer.setBackgroundColor(ContextCompat.getColor(this,
+                    R.color.common_grey50));
+
+            mEventOptionsHandler.setElevation(0);
+        }
+
+        adjustSteps();
+
+        mEventOptionsControl.setVisibility(flag ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void hideKeyboard() {
+        KeyboardUtils.hideKeyboard(this);
+    }
+
+    @Override
     public void setPresenter(@NonNull ManageEventContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
     private void onNextStep() {
         ManageEventStep step = mPresenter.getCurrentStep();
+        System.out.println("IM ON next step"+step);
         switch (step) {
             case TYPE:
                 mPresenter.validateEventTypeInfo(getEventType(), mDescription.getText().toString());
@@ -508,6 +574,8 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     private void onPreviousStep() {
         mPresenter.previousStep();
+        System.out.println("IM ON previous step");
+
     }
 
     private EventType getEventType() {

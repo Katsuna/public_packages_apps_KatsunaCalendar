@@ -53,6 +53,7 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     private DaysAdapter mDaysAdapter;
     private DrawerLayout mDrawerLayout;
     private View mDayFocused;
+    private boolean focusFlag = false;
 
 
     private int currentMonth, currentYear;
@@ -96,6 +97,7 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
 
 
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -317,7 +319,14 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     @Override
     public void focusOnDay(Day day, boolean focus) {
         mDaysAdapter.focusOnDay(day, focus);
-        mFab2.setVisibility(View.GONE);
+        if( focusFlag == false) {
+            mFab2.setVisibility(View.GONE);
+            focusFlag = true;
+        }
+        else {
+            mFab2.setVisibility(View.VISIBLE);
+            focusFlag = false;
+        }
     }
 
     @Override
