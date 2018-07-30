@@ -44,4 +44,17 @@
     <string name="jan">JAN</string>
     <string name="snooze">Snooze</string>
     <string name="temp_date">Tuesday, 19 Januart</string>
+
+
+
+    <string name="add_new_event">Add event</string>
+    <string name="add_new_event_title">Add New Alarm</string>
+    <string name="edit_event_title">Edit Alarm</string>
+    <string name="add_new_reminder">Add reminder</string>
+    <string name="add_new_reminder_title">Add New Reminder</string>
+    <string name="edit_reminder_title">Edit Reminder</string>
+    <string name="set_event_time">Set Alarm Time</string>
+    <string name="alarm_time_set">Alarm Time</string>
+    <string name="set_reminder_time">Set Reminder Time</string>
+    <string name="reminder_time_set">Reminder Time</string>
 </resources>

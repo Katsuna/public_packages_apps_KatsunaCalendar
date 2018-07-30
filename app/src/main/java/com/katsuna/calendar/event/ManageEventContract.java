@@ -34,6 +34,12 @@ class ManageEventContract {
 
         void showDescriptionControl(boolean flag);
 
+        void showDescriptionStep(boolean flag);
+
+        void setTitle(int resId);
+
+        void setEventTimeTitle(int resId);
+
         void adjustFabPositions(ManageEventStep step);
 
         void showEventDayControl(boolean flag);

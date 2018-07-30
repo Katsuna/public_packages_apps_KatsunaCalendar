@@ -92,9 +92,10 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         init();
 
         long eventId = getIntent().getLongExtra(EXTRA_EVENT_ID, 0);
+        EventType eventType = (EventType) getIntent().getSerializableExtra(EXTRA_EVENT_TYPE);
 
         // Create the presenter
-        new ManageEventPresenter(eventId,
+        new ManageEventPresenter(eventId, eventType,
                 Injection.provideEventsDataSource(getApplicationContext()), this,
                 Injection.provideEventValidator(),
                 Injection.provideEventScheduler(getApplicationContext()));
@@ -204,10 +205,6 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                         }
                     }
                 };
-
-
-
-
         mPreviousStepFab = findViewById(R.id.prev_step_fab);
         mPreviousStepFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -462,6 +459,15 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         mDescription.setVisibility(flag ? View.VISIBLE : View.GONE);
     }
 
+    @Override
+    public void showDescriptionStep(boolean flag) {
+        mEventTypeContainer.setVisibility(flag ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void setEventTimeTitle(int resId) {
+        mEventTimeTitle.setText(resId);
+    }
 
 
     @Override
