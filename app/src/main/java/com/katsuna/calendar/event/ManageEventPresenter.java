@@ -71,7 +71,9 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
     }
     private void adjustType() {
         if (mEventType == EventType.ALARM) {
-            mManageEventView.showDescriptionStep(false);
+            mManageEventView.showDescriptionStep(true);
+
+
             mManageEventView.setTitle(isNewEvent() ? R.string.add_new_event_title :
                     R.string.edit_event_title);
             mManageEventView.setEventTimeTitle(R.string.set_event_time);

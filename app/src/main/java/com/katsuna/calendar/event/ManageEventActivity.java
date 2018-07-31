@@ -137,7 +137,11 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         mEventTypeTitle = findViewById(R.id.event_type_text);
         mEventTimeTitle = findViewById(R.id.event_time_text);
         mEventDaysTitle = findViewById(R.id.event_days_text);
-
+//        mEventOptionsHandler = findViewById(R.id.event_options_handler);
+//        mEventOptionsContainer = findViewById(R.id.event_options_container);
+//        mEventOptionsControl = findViewById(R.id.event_options_group);
+        
+        
         mHour = findViewById(R.id.hour);
         mHour.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -194,17 +198,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         mEventDaysHandler = findViewById(R.id.event_days_handler);
         mEventDaysContainer = findViewById(R.id.event_days_container);
 
-        CompoundButton.OnCheckedChangeListener daysOnCheckedChangeListener =
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked) {
-                            buttonView.setTextColor(mPrimaryColor2);
-                        } else {
-                            buttonView.setTextColor(mBlack58Color);
-                        }
-                    }
-                };
+
         mPreviousStepFab = findViewById(R.id.prev_step_fab);
         mPreviousStepFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -456,7 +450,34 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     @Override
     public void showDescriptionControl(boolean flag) {
-        mDescription.setVisibility(flag ? View.VISIBLE : View.GONE);
+        if (flag) {
+            mEventTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
+                    R.color.common_white));
+
+            mDescription.setVisibility(View.VISIBLE);
+
+            int elevation = getResources().getDimensionPixelSize(
+                    R.dimen.common_selection_elevation);
+
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
+                    mEventTypeHandler.getLayoutParams();
+            layoutParams.bottomMargin = elevation;
+            mEventTypeHandler.setElevation(elevation);
+        } else {
+            mEventTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
+                    R.color.common_grey50));
+
+            mDescription.setVisibility(View.VISIBLE);
+
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
+                    mEventTypeHandler.getLayoutParams();
+            layoutParams.bottomMargin = 0;
+            mEventTypeHandler.setElevation(0);
+        }
+
+        mDescription.setEnabled(flag);
+
+        adjustSteps();
     }
 
     @Override
@@ -529,24 +550,24 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     @Override
     public void showEventOptionsControl(boolean flag) {
-        if (flag) {
-            mEventOptionsContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
-
-            int elevation = getResources().getDimensionPixelSize(
-                    R.dimen.common_selection_elevation);
-
-            mEventOptionsHandler.setElevation(elevation);
-
-        } else {
-            mEventOptionsContainer.setBackgroundColor(ContextCompat.getColor(this,
-                    R.color.common_grey50));
-
-            mEventOptionsHandler.setElevation(0);
-        }
-
-        adjustSteps();
-
-        mEventOptionsControl.setVisibility(flag ? View.VISIBLE : View.GONE);
+//        if (flag) {
+//            mEventOptionsContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
+//
+//            int elevation = getResources().getDimensionPixelSize(
+//                    R.dimen.common_selection_elevation);
+//
+//            mEventOptionsHandler.setElevation(elevation);
+//
+//        } else {
+//            mEventOptionsContainer.setBackgroundColor(ContextCompat.getColor(this,
+//                    R.color.common_grey50));
+//
+//            mEventOptionsHandler.setElevation(0);
+//        }
+//
+//        adjustSteps();
+//
+//        mEventOptionsControl.setVisibility(flag ? View.VISIBLE : View.GONE);
     }
 
     @Override
