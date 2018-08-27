@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -140,8 +142,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 //        mEventOptionsHandler = findViewById(R.id.event_options_handler);
 //        mEventOptionsContainer = findViewById(R.id.event_options_container);
 //        mEventOptionsControl = findViewById(R.id.event_options_group);
-        
-        
+
         mHour = findViewById(R.id.hour);
         mHour.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -150,6 +151,37 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                     mHour.setTextColor(mPrimaryColor2);
                 } else {
                     mHour.setTextColor(mBlack58Color);
+                }
+            }
+        });
+        mHour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String output = null;
+                try {
+                    int input = Integer.parseInt(s.toString());
+                    if (input > 23) {
+                        output = "23";
+                    } else if (input < 0) {
+                        output = "00";
+                    }
+                } catch (NumberFormatException ex) {
+                    output = "00";
+                }
+
+                // limits overriden or NumberFormatException case
+                if (output != null) {
+                    mHour.setText(output);
                 }
             }
         });
@@ -165,6 +197,38 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 }
             }
         });
+        mMinute.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String output = null;
+                try {
+                    int input = Integer.parseInt(s.toString());
+                    if (input > 59) {
+                        output = "59";
+                    } else if (input < 0) {
+                        output = "00";
+                    }
+                } catch (NumberFormatException ex) {
+                    output = "00";
+                }
+
+                // limits overriden or NumberFormatException case
+                if (output != null) {
+                    mMinute.setText(output);
+                }
+            }
+        });
+
 
         mAddHourButton = findViewById(R.id.add_hour_button);
         mAddHourButton.setOnClickListener(new View.OnClickListener() {
@@ -592,7 +656,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                         mMinute.getText().toString());
                 break;
             case DAYS:
-                mPresenter.saveEvent(getEventType(),mMonth.getText().toString(),mDay.getText().toString(),mYear.getText().toString(),
+                mPresenter.saveEvent(getEventType(),mEventDay.getMonth().toString(),mEventDay.getDayName().toString(),mEventDay.getYear().toString(),
                         mHour.getText().toString(), mMinute.getText().toString(), mDescription.getText().toString()
                        );
                 break;
