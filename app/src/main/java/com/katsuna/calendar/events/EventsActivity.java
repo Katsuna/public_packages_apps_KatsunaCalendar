@@ -168,13 +168,13 @@ public class EventsActivity extends KatsunaActivity implements EventsContract.Vi
     }
 
     @Override
-    public void showEvents(List<Event> alarms) {
-        mEventsAdapter.replaceData(alarms);
+    public void showEvents(List<Event> events) {
+        mEventsAdapter.replaceData(events);
 
         mEventsList.setVisibility(View.VISIBLE);
         mNoEventsText.setVisibility(View.GONE);
         mPopupButton2.setVisibility(View.GONE);
-        LogUtils.d(TAG, "alarms fetched: " + alarms.size());
+        LogUtils.d(TAG, "events fetched: " + events.size());
     }
 
     @Override

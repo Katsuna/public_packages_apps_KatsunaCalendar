@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -31,6 +33,7 @@ import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
 import com.katsuna.commons.utils.ColorAdjusterV2;
 import com.katsuna.commons.utils.ColorCalcV2;
+import com.katsuna.commons.utils.KeyboardUtils;
 
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -63,6 +66,10 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     private View mEventTimeContainer;
     private View mEventDaysContainer;
     private View mEventDaysHandler;
+    private View mEventOptionsHandler;
+    private View mEventOptionsContainer;
+    private View mEventOptionsControl;
+    
     private int mPrimaryColor2;
     private int mSecondaryColor2;
     private TextView mEventTimeTitle;
@@ -87,9 +94,10 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         init();
 
         long eventId = getIntent().getLongExtra(EXTRA_EVENT_ID, 0);
+        EventType eventType = (EventType) getIntent().getSerializableExtra(EXTRA_EVENT_TYPE);
 
         // Create the presenter
-        new ManageEventPresenter(eventId,
+        new ManageEventPresenter(eventId, eventType,
                 Injection.provideEventsDataSource(getApplicationContext()), this,
                 Injection.provideEventValidator(),
                 Injection.provideEventScheduler(getApplicationContext()));
@@ -131,6 +139,9 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         mEventTypeTitle = findViewById(R.id.event_type_text);
         mEventTimeTitle = findViewById(R.id.event_time_text);
         mEventDaysTitle = findViewById(R.id.event_days_text);
+//        mEventOptionsHandler = findViewById(R.id.event_options_handler);
+//        mEventOptionsContainer = findViewById(R.id.event_options_container);
+//        mEventOptionsControl = findViewById(R.id.event_options_group);
 
         mHour = findViewById(R.id.hour);
         mHour.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -140,6 +151,37 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                     mHour.setTextColor(mPrimaryColor2);
                 } else {
                     mHour.setTextColor(mBlack58Color);
+                }
+            }
+        });
+        mHour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String output = null;
+                try {
+                    int input = Integer.parseInt(s.toString());
+                    if (input > 23) {
+                        output = "23";
+                    } else if (input < 0) {
+                        output = "00";
+                    }
+                } catch (NumberFormatException ex) {
+                    output = "00";
+                }
+
+                // limits overriden or NumberFormatException case
+                if (output != null) {
+                    mHour.setText(output);
                 }
             }
         });
@@ -155,6 +197,38 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 }
             }
         });
+        mMinute.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String output = null;
+                try {
+                    int input = Integer.parseInt(s.toString());
+                    if (input > 59) {
+                        output = "59";
+                    } else if (input < 0) {
+                        output = "00";
+                    }
+                } catch (NumberFormatException ex) {
+                    output = "00";
+                }
+
+                // limits overriden or NumberFormatException case
+                if (output != null) {
+                    mMinute.setText(output);
+                }
+            }
+        });
+
 
         mAddHourButton = findViewById(R.id.add_hour_button);
         mAddHourButton.setOnClickListener(new View.OnClickListener() {
@@ -187,20 +261,6 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
         mEventDaysHandler = findViewById(R.id.event_days_handler);
         mEventDaysContainer = findViewById(R.id.event_days_container);
-
-        CompoundButton.OnCheckedChangeListener daysOnCheckedChangeListener =
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked) {
-                            buttonView.setTextColor(mPrimaryColor2);
-                        } else {
-                            buttonView.setTextColor(mBlack58Color);
-                        }
-                    }
-                };
-
-
 
 
         mPreviousStepFab = findViewById(R.id.prev_step_fab);
@@ -454,9 +514,45 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     @Override
     public void showDescriptionControl(boolean flag) {
-        mDescription.setVisibility(flag ? View.VISIBLE : View.GONE);
+        if (flag) {
+            mEventTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
+                    R.color.common_white));
+
+            mDescription.setVisibility(View.VISIBLE);
+
+            int elevation = getResources().getDimensionPixelSize(
+                    R.dimen.common_selection_elevation);
+
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
+                    mEventTypeHandler.getLayoutParams();
+            layoutParams.bottomMargin = elevation;
+            mEventTypeHandler.setElevation(elevation);
+        } else {
+            mEventTypeContainer.setBackgroundColor(ContextCompat.getColor(this,
+                    R.color.common_grey50));
+
+            mDescription.setVisibility(View.VISIBLE);
+
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
+                    mEventTypeHandler.getLayoutParams();
+            layoutParams.bottomMargin = 0;
+            mEventTypeHandler.setElevation(0);
+        }
+
+        mDescription.setEnabled(flag);
+
+        adjustSteps();
     }
 
+    @Override
+    public void showDescriptionStep(boolean flag) {
+        mEventTypeContainer.setVisibility(flag ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void setEventTimeTitle(int resId) {
+        mEventTimeTitle.setText(resId);
+    }
 
 
     @Override
@@ -484,12 +580,73 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     @Override
+    public void showEventDayControl(boolean flag) {
+
+    }
+
+    @Override
+    public void showEventTimeControl(boolean flag) {
+        if (flag) {
+            mEventTimeContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
+
+            int elevation = getResources().getDimensionPixelSize(
+                    R.dimen.common_selection_elevation);
+
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
+                    mEventTypeHandler.getLayoutParams();
+            layoutParams.bottomMargin = elevation;
+            mEventTimeHandler.setElevation(elevation);
+        } else {
+            mEventTimeContainer.setBackgroundColor(ContextCompat.getColor(this,
+                    R.color.common_grey50));
+
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
+                    mEventTypeHandler.getLayoutParams();
+            layoutParams.bottomMargin = 0;
+            mEventTimeHandler.setElevation(0);
+
+        }
+
+        adjustSteps();
+
+        mEventTimeControl.setVisibility(flag ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showEventOptionsControl(boolean flag) {
+//        if (flag) {
+//            mEventOptionsContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
+//
+//            int elevation = getResources().getDimensionPixelSize(
+//                    R.dimen.common_selection_elevation);
+//
+//            mEventOptionsHandler.setElevation(elevation);
+//
+//        } else {
+//            mEventOptionsContainer.setBackgroundColor(ContextCompat.getColor(this,
+//                    R.color.common_grey50));
+//
+//            mEventOptionsHandler.setElevation(0);
+//        }
+//
+//        adjustSteps();
+//
+//        mEventOptionsControl.setVisibility(flag ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void hideKeyboard() {
+        KeyboardUtils.hideKeyboard(this);
+    }
+
+    @Override
     public void setPresenter(@NonNull ManageEventContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
     private void onNextStep() {
         ManageEventStep step = mPresenter.getCurrentStep();
+        System.out.println("IM ON next step"+step);
         switch (step) {
             case TYPE:
                 mPresenter.validateEventTypeInfo(getEventType(), mDescription.getText().toString());
@@ -499,7 +656,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                         mMinute.getText().toString());
                 break;
             case DAYS:
-                mPresenter.saveEvent(getEventType(),mMonth.getText().toString(),mDay.getText().toString(),mYear.getText().toString(),
+                mPresenter.saveEvent(getEventType(),mEventDay.getMonth().toString(),mEventDay.getDayName().toString(),mEventDay.getYear().toString(),
                         mHour.getText().toString(), mMinute.getText().toString(), mDescription.getText().toString()
                        );
                 break;
@@ -508,6 +665,8 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     private void onPreviousStep() {
         mPresenter.previousStep();
+        System.out.println("IM ON previous step");
+
     }
 
     private EventType getEventType() {

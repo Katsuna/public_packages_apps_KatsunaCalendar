@@ -34,7 +34,21 @@ class ManageEventContract {
 
         void showDescriptionControl(boolean flag);
 
+        void showDescriptionStep(boolean flag);
+
+        void setTitle(int resId);
+
+        void setEventTimeTitle(int resId);
+
         void adjustFabPositions(ManageEventStep step);
+
+        void showEventDayControl(boolean flag);
+
+        void showEventTimeControl(boolean flag);
+
+        void showEventOptionsControl(boolean flag);
+
+        void hideKeyboard();
     }
 
     interface Presenter extends BasePresenter {
@@ -58,6 +72,8 @@ class ManageEventContract {
         void addHours(String hour, int hours);
 
         void addMinutes(String minute, int minutes);
+
+        void showStep(ManageEventStep step);
     }
 
 }
