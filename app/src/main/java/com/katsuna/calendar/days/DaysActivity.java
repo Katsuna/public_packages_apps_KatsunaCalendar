@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,7 +17,6 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.katsuna.calendar.R;
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.DayType;
-import com.katsuna.calendar.data.Event;
 
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
@@ -30,7 +28,6 @@ import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
 import com.katsuna.commons.utils.IUserProfileProvider;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,7 +39,7 @@ import java.util.Locale;
 import static com.katsuna.calendar.event.ManageEventActivity.EXTRA_EVENT_TYPE;
 import static com.katsuna.commons.utils.Constants.KATSUNA_PRIVACY_URL;
 
-public class MainCalendarActivity extends KatsunaActivity implements DaysContract.View,
+public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         IUserProfileProvider {
 
 
@@ -266,11 +263,11 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
 
                         switch (menuItem.getItemId()) {
                             case R.id.drawer_settings:
-                                startActivity(new Intent(MainCalendarActivity.this,
+                                startActivity(new Intent(DaysActivity.this,
                                         SettingsActivity.class));
                                 break;
                             case R.id.drawer_info:
-                                startActivity(new Intent(MainCalendarActivity.this, InfoActivity.class));
+                                startActivity(new Intent(DaysActivity.this, InfoActivity.class));
                                 break;
                             case R.id.drawer_privacy:
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW,
