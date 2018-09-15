@@ -18,8 +18,10 @@ import com.katsuna.calendar.R;
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.DayType;
 
+import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
+import com.katsuna.calendar.events.EventsAdapter;
 import com.katsuna.calendar.info.InfoActivity;
 import com.katsuna.calendar.settings.SettingsActivity;
 import com.katsuna.calendar.utils.Injection;
@@ -35,6 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 
 import static com.katsuna.calendar.event.ManageEventActivity.EXTRA_EVENT_TYPE;
 import static com.katsuna.commons.utils.Constants.KATSUNA_PRIVACY_URL;
@@ -60,6 +63,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     //DEFINING A STRING ADAPTER WHICH WILL HANDLE THE DATA OF THE LISTVIEW
     ArrayAdapter<String> adapter;
 
+    EventsAdapter mEventsAdapter;
 
 
     private static final String TAG = "DaysActivity";
@@ -126,7 +130,8 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
             }
         });
 
-//        mDaysAdapter = new DaysAdapter(new ArrayList<Day>(0), mItemListener, this);
+//        mEventsAdapter = new EventsAdapter(new ArrayList<Event>(0), mItemListener, this);
+
         mDaysList = findViewById(R.id.days_list);
 
         initToolbar();

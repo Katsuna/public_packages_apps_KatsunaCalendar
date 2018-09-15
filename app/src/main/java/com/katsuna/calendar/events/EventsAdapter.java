@@ -28,14 +28,14 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-class EventsAdapter extends BaseAdapter {
+public class EventsAdapter extends BaseAdapter {
 
     private final EventItemListener mItemListener;
     private final IUserProfileProvider mUserProfileProvider;
     private List<Event> mEvents;
     private Event mEventFocused;
 
-    EventsAdapter(List<Event> tasks, EventItemListener itemListener,
+    public EventsAdapter(List<Event> tasks, EventItemListener itemListener,
                   IUserProfileProvider userProfileProvider) {
         setList(tasks);
         mItemListener = itemListener;

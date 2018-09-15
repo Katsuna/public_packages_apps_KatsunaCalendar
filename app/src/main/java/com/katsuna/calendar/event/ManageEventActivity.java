@@ -1,5 +1,6 @@
 package com.katsuna.calendar.event;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -455,6 +456,11 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     @Override
+    public void showCalendarOnReturn() {
+        finish();
+    }
+
+    @Override
     public void showEventList() {
 
     }
@@ -656,8 +662,8 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                         mMinute.getText().toString());
                 break;
             case DAYS:
-                mPresenter.saveEvent(getEventType(),mEventDay.getMonth().toString(),mEventDay.getDayName().toString(),mEventDay.getYear().toString(),
-                        mHour.getText().toString(), mMinute.getText().toString(), mDescription.getText().toString()
+                mPresenter.saveEvent(getEventType(), mDescription.getText().toString(), mHour.getText().toString(), mMinute.getText().toString(),
+                        mEventDay.getDay().toString(),mEventDay.getMonth().toString(),mEventDay.getYear().toString()
                        );
                 break;
         }
