@@ -19,8 +19,10 @@ import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.DayType;
 
 import com.katsuna.calendar.data.Event;
+import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
+import com.katsuna.calendar.events.EventItemListener;
 import com.katsuna.calendar.events.EventsAdapter;
 import com.katsuna.calendar.info.InfoActivity;
 import com.katsuna.calendar.settings.SettingsActivity;
@@ -88,15 +90,34 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
         }
 
-
-
         @Override
         public void onDayTypeUpdate(@NonNull Day day, @NonNull DayType dayType) {
             mPresenter.updateDayStatus(day, dayType);
         }
+    };
+
+    private final EventItemListener mEventItemListener = new EventItemListener() {
 
 
+        @Override
+        public void onEventFocus(@NonNull Event alarm, boolean focus) {
 
+        }
+
+        @Override
+        public void onEventEdit(@NonNull Event alarm) {
+
+        }
+
+        @Override
+        public void onEventStatusUpdate(@NonNull Event alarm, @NonNull EventStatus alarmStatus) {
+
+        }
+
+        @Override
+        public void onEventDelete(@NonNull Event alarm) {
+
+        }
     };
 
     @Override
@@ -130,7 +151,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
             }
         });
 
-//        mEventsAdapter = new EventsAdapter(new ArrayList<Event>(0), mItemListener, this);
+        mEventsAdapter = new EventsAdapter(new ArrayList<Event>(0), mEventItemListener, this);
 
         mDaysList = findViewById(R.id.days_list);
 
