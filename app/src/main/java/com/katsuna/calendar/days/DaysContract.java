@@ -15,6 +15,8 @@ public interface DaysContract {
 
         void showDays(List<Day> days);
 
+        void showEvents(List<Event> events);
+
         void showAddEvent(Day day);
 
         void showEventDetailsUi(long eventId);

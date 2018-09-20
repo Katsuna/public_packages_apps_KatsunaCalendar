@@ -5,8 +5,12 @@ import android.widget.LinearLayout;
 
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.DayType;
+import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.source.EventsDataSource;
 import com.katsuna.calendar.services.IEventsScheduler;
+import com.katsuna.calendar.utils.EspressoIdlingResource;
+
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -33,6 +37,26 @@ public class DaysPresenter implements DaysContract.Presenter {
     }
     @Override
     public void loadDays() {
+
+        EspressoIdlingResource.increment(); // App is busy until further notice
+
+        mEventsDataSource.getEvents(new EventsDataSource.LoadEventsCallback() {
+            @Override
+            public void onEventsLoaded(List<Event> events) {
+                // This callback may be called twice, once for the cache and once for loading
+                // the data from the server API, so we check before decrementing, otherwise
+                // it throws "Counter has been corrupted!" exception.
+                if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+                    EspressoIdlingResource.decrement(); // Set app as idle.
+                }
+
+                mDaysView.showEvents(events);
+            }
+
+            @Override
+            public void onDataNotAvailable(){
+            }
+        });
 
     }
 

@@ -418,6 +418,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     private StepStatus getTimeStepStatus() {
         ManageEventStep manageEventStep = mPresenter.getCurrentStep();
+        System.out.println("Im here with event step :"+ manageEventStep);
         switch (manageEventStep) {
             case TYPE:
                 return StepStatus.NOT_SET;
@@ -652,6 +653,9 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 mPresenter.validateEventTypeInfo(getEventType(), mDescription.getText().toString());
                 break;
             case TIME:
+                System.out.println("hour sopused to be:"+mHour.getText().toString());
+                System.out.println("hour sopused to be:"+mMinute.getText().toString());
+
                 mPresenter.validateEventTime(mHour.getText().toString(),
                         mMinute.getText().toString());
                 break;
