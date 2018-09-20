@@ -6,7 +6,7 @@ import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventStatus;
 
 
-interface EventItemListener {
+public interface EventItemListener {
 
     void onEventFocus(@NonNull Event alarm, boolean focus);
 

@@ -94,7 +94,7 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
 
 
     @Override
-    public void saveEvent(@NonNull EventType eventType, String description, String hour, String minute, String month, String day, String year ) {
+    public void saveEvent(@NonNull EventType eventType, String description, String hour, String minute, String day, String month,  String year ) {
         List<ValidationResult> results = mEventValidator.validateAll(eventType, description, hour,
                 minute);
         if (results.size() == 0) {
@@ -110,6 +110,7 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
             mEventsDataSource.saveEvent(event);
             mEventsScheduler.reschedule(event);
 //            mManageEventView.showEventsList();
+            mManageEventView.showCalendarOnReturn();
         } else {
             mManageEventView.showValidationResults(results);
         }

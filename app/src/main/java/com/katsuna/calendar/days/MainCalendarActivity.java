@@ -22,7 +22,6 @@ import com.katsuna.calendar.data.Event;
 
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
-import com.katsuna.calendar.events.EventsPresenter;
 import com.katsuna.calendar.info.InfoActivity;
 import com.katsuna.calendar.settings.SettingsActivity;
 import com.katsuna.calendar.utils.Injection;
@@ -43,7 +42,7 @@ import java.util.Locale;
 import static com.katsuna.calendar.event.ManageEventActivity.EXTRA_EVENT_TYPE;
 import static com.katsuna.commons.utils.Constants.KATSUNA_PRIVACY_URL;
 
-public class MainCalendarActivity extends KatsunaActivity implements DaysContract.View,
+public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         IUserProfileProvider {
 
 
@@ -188,14 +187,12 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
     }
 
     private void initCalendar(){
-
         Calendar calendar = Calendar.getInstance();
         TextView monthView = findViewById(R.id.month_name);
         monthView.setText(new SimpleDateFormat("MMMM").format(calendar.getTime()));
 
         TextView yearView = findViewById(R.id.year);
         yearView.setText(Integer.toString(calendar.get(Calendar.YEAR)));
-//        List<Event> events = load.
 
         try {
             initMonth((calendar.get(Calendar.MONTH) ),calendar.get(Calendar.YEAR));
@@ -297,12 +294,6 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
 
     @Override
     public void showDays(List<Day> days) {
-
-    }
-
-    @Override
-    public void showEvents(List<Event> events) {
-        mDaysAdapter.replaceData(events);
 
     }
 

@@ -16,6 +16,8 @@ class ManageEventContract {
     interface View extends BaseView<Presenter> {
         void showEmptyEventError();
 
+        void showCalendarOnReturn();
+
         void showEventList();
 
         void setTime(String hour, String minute);
@@ -53,7 +55,7 @@ class ManageEventContract {
 
     interface Presenter extends BasePresenter {
 
-        void saveEvent(@NonNull EventType eventType,String month, String day, String year, String hour, String minute, String description );
+        void saveEvent(@NonNull EventType eventType, String description, String hour, String minute,String day, String month, String year );
 
         void populateEvent();
 
