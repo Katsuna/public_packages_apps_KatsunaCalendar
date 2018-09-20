@@ -24,6 +24,7 @@ import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
 import com.katsuna.calendar.events.EventItemListener;
 import com.katsuna.calendar.events.EventsAdapter;
+import com.katsuna.calendar.events.EventsPresenter;
 import com.katsuna.calendar.info.InfoActivity;
 import com.katsuna.calendar.settings.SettingsActivity;
 import com.katsuna.calendar.utils.Injection;
@@ -130,6 +131,8 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
         // Create the presenter
         new DaysPresenter(Injection.provideEventsDataSource(getApplicationContext()), this,
+                Injection.provideEventScheduler(getApplicationContext()));
+        new EventsPresenter((Injection.provideEventsDataSource(getApplicationContext()), this,
                 Injection.provideEventScheduler(getApplicationContext()));
     }
 

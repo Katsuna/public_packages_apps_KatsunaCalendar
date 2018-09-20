@@ -28,7 +28,7 @@ public class EventsPresenter implements EventsContract.Presenter {
     @NonNull
     private final IEventsScheduler mEventsScheduler;
 
-    EventsPresenter(@NonNull EventsDataSource eventsDataSource,
+    public EventsPresenter(@NonNull EventsDataSource eventsDataSource,
                     @NonNull EventsContract.View eventsView,
                     @NonNull IEventsScheduler eventsScheduler) {
         mEventsDataSource = checkNotNull(eventsDataSource, "dataSource cannot be null");
