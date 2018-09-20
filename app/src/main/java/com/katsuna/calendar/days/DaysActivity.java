@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,14 +18,10 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.katsuna.calendar.R;
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.DayType;
-
 import com.katsuna.calendar.data.Event;
-import com.katsuna.calendar.data.EventStatus;
+
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
-import com.katsuna.calendar.events.EventItemListener;
-import com.katsuna.calendar.events.EventsAdapter;
-import com.katsuna.calendar.events.EventsPresenter;
 import com.katsuna.calendar.info.InfoActivity;
 import com.katsuna.calendar.settings.SettingsActivity;
 import com.katsuna.calendar.utils.Injection;
@@ -33,6 +30,7 @@ import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
 import com.katsuna.commons.utils.IUserProfileProvider;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,11 +39,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
 import static com.katsuna.calendar.event.ManageEventActivity.EXTRA_EVENT_TYPE;
 import static com.katsuna.commons.utils.Constants.KATSUNA_PRIVACY_URL;
 
-public class DaysActivity extends KatsunaActivity implements DaysContract.View,
+public class MainCalendarActivity extends KatsunaActivity implements DaysContract.View,
         IUserProfileProvider {
 
 
@@ -66,7 +63,6 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     //DEFINING A STRING ADAPTER WHICH WILL HANDLE THE DATA OF THE LISTVIEW
     ArrayAdapter<String> adapter;
 
-    EventsAdapter mEventsAdapter;
 
 
     private static final String TAG = "DaysActivity";
@@ -91,34 +87,15 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
         }
 
+
+
         @Override
         public void onDayTypeUpdate(@NonNull Day day, @NonNull DayType dayType) {
             mPresenter.updateDayStatus(day, dayType);
         }
-    };
-
-    private final EventItemListener mEventItemListener = new EventItemListener() {
 
 
-        @Override
-        public void onEventFocus(@NonNull Event alarm, boolean focus) {
 
-        }
-
-        @Override
-        public void onEventEdit(@NonNull Event alarm) {
-
-        }
-
-        @Override
-        public void onEventStatusUpdate(@NonNull Event alarm, @NonNull EventStatus alarmStatus) {
-
-        }
-
-        @Override
-        public void onEventDelete(@NonNull Event alarm) {
-
-        }
     };
 
     @Override
@@ -131,8 +108,6 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
         // Create the presenter
         new DaysPresenter(Injection.provideEventsDataSource(getApplicationContext()), this,
-                Injection.provideEventScheduler(getApplicationContext()));
-        new EventsPresenter((Injection.provideEventsDataSource(getApplicationContext()), this,
                 Injection.provideEventScheduler(getApplicationContext()));
     }
 
@@ -154,8 +129,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
             }
         });
 
-        mEventsAdapter = new EventsAdapter(new ArrayList<Event>(0), mEventItemListener, this);
-
+//        mDaysAdapter = new DaysAdapter(new ArrayList<Day>(0), mItemListener, this);
         mDaysList = findViewById(R.id.days_list);
 
         initToolbar();
@@ -294,11 +268,11 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
                         switch (menuItem.getItemId()) {
                             case R.id.drawer_settings:
-                                startActivity(new Intent(DaysActivity.this,
+                                startActivity(new Intent(MainCalendarActivity.this,
                                         SettingsActivity.class));
                                 break;
                             case R.id.drawer_info:
-                                startActivity(new Intent(DaysActivity.this, InfoActivity.class));
+                                startActivity(new Intent(MainCalendarActivity.this, InfoActivity.class));
                                 break;
                             case R.id.drawer_privacy:
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW,
@@ -321,6 +295,11 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     @Override
     public void showDays(List<Day> days) {
 
+    }
+
+    @Override
+    public void showEvents(List<Event> events) {
+        mDaysAdapter.replaceData(events);
     }
 
     @Override

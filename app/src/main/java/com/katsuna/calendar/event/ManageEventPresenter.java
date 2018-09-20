@@ -173,9 +173,10 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
     @Override
     public void showStep(ManageEventStep step) {
         mStep = step;
+        System.out.println("on show step:"+step);
+
         switch (step) {
             case TYPE:
-
                 mManageEventView.showDescriptionControl(true);
                 mManageEventView.showEventTimeControl(false);
                 mManageEventView.showPreviousStepFab(false);

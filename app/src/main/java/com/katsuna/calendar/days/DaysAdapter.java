@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.katsuna.calendar.R;
 import com.katsuna.calendar.data.Day;
+import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.formatters.DayFormatter;
 import com.katsuna.commons.entities.OpticalParams;
 import com.katsuna.commons.entities.SizeProfileKeyV2;
@@ -146,5 +147,13 @@ class DaysAdapter extends BaseAdapter {
 
 
         return rowView;
+    }
+
+    public void replaceData(List<Event> events) {
+        /***** TODO ADD EVENTS****/
+        for (Day day : mDays ){
+            System.out.println("I m in day: "+day.getDay());
+        }
+        notifyDataSetChanged();
     }
 }
