@@ -42,7 +42,7 @@ import java.util.Locale;
 import static com.katsuna.calendar.event.ManageEventActivity.EXTRA_EVENT_TYPE;
 import static com.katsuna.commons.utils.Constants.KATSUNA_PRIVACY_URL;
 
-public class DaysActivity extends KatsunaActivity implements DaysContract.View,
+public class MainCalendarActivity extends KatsunaActivity implements DaysContract.View,
         IUserProfileProvider {
 
 
@@ -295,6 +295,11 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     @Override
     public void showDays(List<Day> days) {
 
+    }
+
+    @Override
+    public void showEvents(List<Event> events) {
+        mDaysAdapter.replaceData(events);
     }
 
     @Override
