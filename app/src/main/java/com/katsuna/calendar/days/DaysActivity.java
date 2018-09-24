@@ -42,7 +42,7 @@ import java.util.Locale;
 import static com.katsuna.calendar.event.ManageEventActivity.EXTRA_EVENT_TYPE;
 import static com.katsuna.commons.utils.Constants.KATSUNA_PRIVACY_URL;
 
-public class MainCalendarActivity extends KatsunaActivity implements DaysContract.View,
+public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         IUserProfileProvider {
 
 
@@ -268,11 +268,11 @@ public class MainCalendarActivity extends KatsunaActivity implements DaysContrac
 
                         switch (menuItem.getItemId()) {
                             case R.id.drawer_settings:
-                                startActivity(new Intent(MainCalendarActivity.this,
+                                startActivity(new Intent(DaysActivity.this,
                                         SettingsActivity.class));
                                 break;
                             case R.id.drawer_info:
-                                startActivity(new Intent(MainCalendarActivity.this, InfoActivity.class));
+                                startActivity(new Intent(DaysActivity.this, InfoActivity.class));
                                 break;
                             case R.id.drawer_privacy:
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW,

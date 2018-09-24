@@ -34,6 +34,8 @@ class DaysAdapter extends BaseAdapter {
     private final DayItemListener mItemListener;
     private final IUserProfileProvider mUserProfileProvider;
     private List<Day> mDays;
+    private int mMonth;
+    private int mYear;
     private Day mDayFocused;
 
 
@@ -41,6 +43,7 @@ class DaysAdapter extends BaseAdapter {
         setList(days);
         mItemListener = itemListener;
         mUserProfileProvider = userProfileProvider;
+        mMonth = month;
     }
 
     private void setList(List<Day> days) {
@@ -151,8 +154,19 @@ class DaysAdapter extends BaseAdapter {
 
     public void replaceData(List<Event> events) {
         /***** TODO ADD EVENTS****/
-        for (Day day : mDays ){
-            System.out.println("I m in day: "+day.getDay());
+        System.out.println("IM in replace Data");
+        for (Event event: events){
+            if(event.getYear() == mYear && event.getMonth() == mMonth) {
+                if (mDays.get(event.getDayOfMonth()).getEvents() == null) {
+                    List<Event> dayEvents = new ArrayList<>();
+                    dayEvents.add(event);
+                    mDays.get(event.getDayOfMonth()).setEvents(dayEvents);
+                    //mDays.get
+                }
+                else {
+                    mDays.get(event.getDayOfMonth()).getEvents().add(event);
+                }
+            }
         }
         notifyDataSetChanged();
     }
