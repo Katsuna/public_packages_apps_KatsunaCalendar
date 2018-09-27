@@ -25,6 +25,8 @@ import com.katsuna.commons.utils.SizeAdjuster;
 import com.katsuna.commons.utils.SizeCalcV2;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -37,9 +39,15 @@ class DaysAdapter extends BaseAdapter {
     private int mMonth;
     private int mYear;
     private Day mDayFocused;
+    private Calendar calendar;
+
 
 
     public DaysAdapter(ArrayList<Day> days, DayItemListener itemListener, IUserProfileProvider userProfileProvider, int month, int year) {
+        calendar = Calendar.getInstance();
+
+        calendar.setTime(calendar.getTime());
+
         setList(days);
         mItemListener = itemListener;
         mUserProfileProvider = userProfileProvider;
@@ -78,7 +86,6 @@ class DaysAdapter extends BaseAdapter {
             inflater = LayoutInflater.from(viewGroup.getContext());
             rowView = inflater.inflate(R.layout.day, viewGroup, false);
         }
-
         final Day day = getItem(i);
 
         final Context context = viewGroup.getContext();
@@ -98,12 +105,22 @@ class DaysAdapter extends BaseAdapter {
         UserProfile userProfile = mUserProfileProvider.getProfile();
 
         CardView dayCard = rowView.findViewById(R.id.day_container_card);
-////        alarmCard.setCardBackgroundColor(ContextCompat.getColor(context,
-////                alarmFormatter.getCardHandleColor(userProfile)));
-//
-//        View alarmCardInner = rowView.findViewById(R.id.date_container);
-////        alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
-////                alarmFormatter.getCardHandleColor(userProfile)));
+        if(day.getEvents() != null && !day.getEvents().isEmpty()){
+            dayCard.setCardBackgroundColor(ContextCompat.getColor(context,
+                alarmFormatter.getCardHandleColor(userProfile)));
+            View alarmCardInner = rowView.findViewById(R.id.date_container);
+        alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
+                alarmFormatter.getCardHandleColor(userProfile)));
+
+        }
+        if(calendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(day.getDay()) && calendar.get(Calendar.MONTH) == mMonth & calendar.get(Calendar.YEAR) == mYear ){
+            dayCard.setCardBackgroundColor(ContextCompat.getColor(context,
+                    alarmFormatter.getCardHandleColor(userProfile)));
+            View alarmCardInner = rowView.findViewById(R.id.date_container);
+            alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
+                    alarmFormatter.getCardHandleColor(userProfile)));
+        }
+
         dayCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
