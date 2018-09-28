@@ -109,7 +109,7 @@ class DaysAdapter extends BaseAdapter {
             dayCard.setCardBackgroundColor(ContextCompat.getColor(context,
                 alarmFormatter.getCardHandleColor(userProfile)));
             View alarmCardInner = rowView.findViewById(R.id.date_container);
-        alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
+            alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
                 alarmFormatter.getCardHandleColor(userProfile)));
 
         }
@@ -174,15 +174,19 @@ class DaysAdapter extends BaseAdapter {
         System.out.println("IM in replace Data");
         for (Event event: events){
             if(event.getYear() == mYear && event.getMonth() == mMonth) {
-                if (mDays.get(event.getDayOfMonth()).getEvents() == null) {
-                    List<Event> dayEvents = new ArrayList<>();
-                    dayEvents.add(event);
-                    mDays.get(event.getDayOfMonth()).setEvents(dayEvents);
-                    //mDays.get
+                for(Day day: mDays){
+                    if(Integer.parseInt(day.getDay()) == event.getDayOfMonth()){
+                        if (mDays.get(event.getDayOfMonth()).getEvents() == null) {
+                            List<Event> dayEvents = new ArrayList<>();
+                            dayEvents.add(event);
+                            mDays.get(event.getDayOfMonth()).setEvents(dayEvents);
+                        }
+                        else {
+                            mDays.get(event.getDayOfMonth()).getEvents().add(event);
+                        }
+                    }
                 }
-                else {
-                    mDays.get(event.getDayOfMonth()).getEvents().add(event);
-                }
+
             }
         }
         notifyDataSetChanged();
