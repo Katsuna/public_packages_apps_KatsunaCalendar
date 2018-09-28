@@ -32,7 +32,7 @@ public class DaysPresenter implements DaysContract.Presenter {
         mEventsDataSource = checkNotNull(eventsDataSource, "dataSource cannot be null");
         mDaysView = checkNotNull(eventsView, "eventsView cannot be null!");
         mEventsScheduler = checkNotNull(eventsScheduler, "eventsScheduler cannot be null!");
-
+        loadDays();
         mDaysView.setPresenter(this);
     }
     @Override

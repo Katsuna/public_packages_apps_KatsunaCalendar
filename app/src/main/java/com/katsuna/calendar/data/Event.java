@@ -132,17 +132,25 @@ public final class Event {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return Objects.equal(mEventId, event.mEventId) &&
-                Objects.equal(mEventType, event.mEventType) &&
-                Objects.equal(mDescription, event.mDescription) &&
-                Objects.equal(mDayOfMonth, event.mDayOfMonth) &&
-                Objects.equal(mHour, event.mHour) &&
-                Objects.equal(mMinute, event.mMinute) &&
-                Objects.equal(mMonth, event.mMonth) &&
-                Objects.equal(mYear, event.mYear) &&
-                Objects.equal(mEventStatus, event.mEventStatus);
+        if (o == null || getClass() != o.getClass()) {
+            if( o.getClass() == Day.class) {
+                Day day = (Day) o;
+                return (Integer.parseInt(day.getDay())== mDayOfMonth && Integer.parseInt(day.getMonth()) == mMonth && Integer.parseInt(day.getYear()) == mYear);
+            }
+            return false;
+        }
+        else {
+            Event event = (Event) o;
+            return Objects.equal(mEventId, event.mEventId) &&
+                    Objects.equal(mEventType, event.mEventType) &&
+                    Objects.equal(mDescription, event.mDescription) &&
+                    Objects.equal(mDayOfMonth, event.mDayOfMonth) &&
+                    Objects.equal(mHour, event.mHour) &&
+                    Objects.equal(mMinute, event.mMinute) &&
+                    Objects.equal(mMonth, event.mMonth) &&
+                    Objects.equal(mYear, event.mYear) &&
+                    Objects.equal(mEventStatus, event.mEventStatus);
+        }
     }
 
     @Override
