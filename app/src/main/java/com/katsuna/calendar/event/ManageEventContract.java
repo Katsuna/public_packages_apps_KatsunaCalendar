@@ -16,7 +16,7 @@ class ManageEventContract {
     interface View extends BaseView<Presenter> {
         void showEmptyEventError();
 
-        void showCalendarOnReturn();
+        void showCalendarOnReturn(Event event);
 
         void showEventList();
 

@@ -4,6 +4,8 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -13,7 +15,7 @@ import com.google.gson.Gson;
 import java.util.Calendar;
 
 @Entity(tableName = "events")
-public final class Event {
+public final class Event implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "eventId")
@@ -79,6 +81,54 @@ public final class Event {
         this.mMinute = mMinute;
         this.mEventStatus = eventStatus;
     }
+
+    protected Event(Parcel in) {
+        mEventId = in.readLong();
+        mDescription = in.readString();
+        int tmpMEventType = in.readInt();
+
+        this.mEventType = EventType.values()[tmpMEventType];
+
+        if (in.readByte() == 0) {
+            mMonth = null;
+        } else {
+            mMonth = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            mDayOfMonth = null;
+        } else {
+            mDayOfMonth = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            mYear = null;
+        } else {
+            mYear = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            mHour = null;
+        } else {
+            mHour = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            mMinute = null;
+        } else {
+            mMinute = in.readInt();
+        }
+        int tmpMEventStatus = in.readInt();
+        this.mEventStatus = EventStatus.values()[tmpMEventStatus];
+    }
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 
     public long getEventId() {
         return mEventId;
@@ -169,4 +219,48 @@ public final class Event {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(mEventId);
+        dest.writeString(mDescription);
+        dest.writeInt(this.mEventType.ordinal());
+
+        if (mMonth == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(mMonth);
+        }
+        if (mDayOfMonth == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(mDayOfMonth);
+        }
+        if (mYear == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(mYear);
+        }
+        if (mHour == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(mHour);
+        }
+        if (mMinute == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(mMinute);
+        }
+        dest.writeInt(this.mEventStatus.ordinal());
+
+    }
 }

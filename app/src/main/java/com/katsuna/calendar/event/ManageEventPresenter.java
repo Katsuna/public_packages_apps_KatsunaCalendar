@@ -110,7 +110,7 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
             mEventsDataSource.saveEvent(event);
             mEventsScheduler.reschedule(event);
 //            mManageEventView.showEventsList();
-            mManageEventView.showCalendarOnReturn();
+            mManageEventView.showCalendarOnReturn(event);
         } else {
             mManageEventView.showValidationResults(results);
         }

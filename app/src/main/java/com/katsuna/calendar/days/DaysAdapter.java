@@ -92,7 +92,7 @@ class DaysAdapter extends BaseAdapter {
         DayFormatter alarmFormatter = new DayFormatter(context, day);
 
 
-
+        System.out.println("IM IN GET VIEW ADAPTER"+day.getDay() + "m:" +mMonth+ "y:"+mYear);
         TextView title = rowView.findViewById(R.id.day_name);
         title.setText(day.getDayName());
 
