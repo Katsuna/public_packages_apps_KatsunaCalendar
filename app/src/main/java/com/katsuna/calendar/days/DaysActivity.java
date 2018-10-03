@@ -29,8 +29,10 @@ import com.katsuna.calendar.info.InfoActivity;
 import com.katsuna.calendar.settings.SettingsActivity;
 import com.katsuna.calendar.utils.Injection;
 import com.katsuna.commons.controls.KatsunaNavigationView;
+import com.katsuna.commons.entities.ColorProfileKeyV2;
 import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
+import com.katsuna.commons.utils.ColorCalcV2;
 import com.katsuna.commons.utils.IUserProfileProvider;
 import com.katsuna.commons.utils.KatsunaAlertBuilder;
 
@@ -59,6 +61,8 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     private View mDayFocused;
     private boolean focusFlag = false;
     Calendar calendar;
+    private int mPrimaryColor2;
+    private int mSecondaryColor2;
 
 
 
@@ -109,6 +113,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main_calendar);
+        adjustProfiles();
 
         init();
 
@@ -143,7 +148,6 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         initDrawer();
         initCalendar();
         startWithToday();
-        System.out.println("IM IN INit daysActivity");
     }
 
     private void startWithToday() {
@@ -373,7 +377,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
     @Override
     public UserProfile getProfile() {
-        return null;
+        return mUserProfileContainer.getActiveUserProfile();
     }
 
     private void showEventSetEvent(final Event event) {
@@ -404,5 +408,13 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
         AlertDialog mDialog = builder.create();
         mDialog.show();
+    }
+    private void adjustProfiles() {
+        UserProfile userProfile = mUserProfileContainer.getActiveUserProfile();
+
+        mPrimaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.PRIMARY_COLOR_2,
+                userProfile.colorProfile);
+        mSecondaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.SECONDARY_COLOR_2,
+                userProfile.colorProfile);
     }
 }
