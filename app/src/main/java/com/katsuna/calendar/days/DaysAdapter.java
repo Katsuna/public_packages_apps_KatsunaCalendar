@@ -186,7 +186,6 @@ class DaysAdapter extends BaseAdapter {
                         }
                     }
                 }
-
             }
         }
         notifyDataSetChanged();
