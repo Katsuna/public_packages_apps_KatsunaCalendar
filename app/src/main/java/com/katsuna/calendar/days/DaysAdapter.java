@@ -40,6 +40,7 @@ class DaysAdapter extends BaseAdapter {
     private int mYear;
     private Day mDayFocused;
     private Calendar calendar;
+    private UserProfile userProfile;
 
 
 
@@ -52,6 +53,8 @@ class DaysAdapter extends BaseAdapter {
         mItemListener = itemListener;
         mUserProfileProvider = userProfileProvider;
         mMonth = month;
+        mYear = year;
+        userProfile = mUserProfileProvider.getProfile();
     }
 
     private void setList(List<Day> days) {
@@ -92,7 +95,7 @@ class DaysAdapter extends BaseAdapter {
         DayFormatter alarmFormatter = new DayFormatter(context, day);
 
 
-
+//        System.out.println("IM IN GET VIEW ADAPTER"+day.getDay() + "m:" +mMonth+ "y:"+mYear);
         TextView title = rowView.findViewById(R.id.day_name);
         title.setText(day.getDayName());
 
@@ -102,7 +105,6 @@ class DaysAdapter extends BaseAdapter {
         TextView month = rowView.findViewById(R.id.month_short);
         month.setText(day.getMonthShort());
 
-        UserProfile userProfile = mUserProfileProvider.getProfile();
 
         CardView dayCard = rowView.findViewById(R.id.day_container_card);
         if(day.getEvents() != null && !day.getEvents().isEmpty()){
@@ -113,6 +115,7 @@ class DaysAdapter extends BaseAdapter {
                 alarmFormatter.getCardHandleColor(userProfile)));
 
         }
+        System.out.println("the user profile is"+ userProfile);
         if(calendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(day.getDay()) && calendar.get(Calendar.MONTH) == mMonth & calendar.get(Calendar.YEAR) == mYear ){
             dayCard.setCardBackgroundColor(ContextCompat.getColor(context,
                     alarmFormatter.getCardHandleColor(userProfile)));

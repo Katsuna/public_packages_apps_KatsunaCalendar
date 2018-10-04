@@ -41,7 +41,7 @@ public class EventFormatter {
     public String getTitle() {
         String output;
         if (mEvent.getEventType() == EventType.ALARM) {
-            output = showTime();
+            output = showDate();
         } else {
             output = mEvent.getDescription();
         }
@@ -53,17 +53,34 @@ public class EventFormatter {
         if (mEvent.getEventType() == EventType.ALARM) {
             output = getString(R.string.event);
         } else {
-            output = showTime();
+            output = showDate();
         }
         return output;
+    }
+
+    public String getEventMessage() {
+        String output = R.string.event_is_set_at + showDate();
+        output += "\n";
+//        String days = getDaysFrequency();
+//        if (!days.isEmpty()) {
+//            output += days;
+//            output += "\n";
+//        }
+        output += R.string.remaining_days + getDaysUntilRing();
+        return output;
+    }
+
+    private String getDaysUntilRing() {
+
+        return "";
     }
 
     private String getString(int resId) {
         return mContext.getString(resId);
     }
 
-    private String showTime() {
-        return String.format(Locale.getDefault(), "%02d:%02d", mEvent.getHour(), mEvent.getMinute());
+    private String showDate() {
+        return  mEvent.getDayOfMonth() + " " +mEvent.getMonth() +" "+mEvent.getYear();
     }
 
     public int getCardHandleColor(UserProfile profile) {

@@ -457,8 +457,12 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     }
 
     @Override
-    public void showCalendarOnReturn() {
+    public void showCalendarOnReturn(Event event) {
+        Intent i = new Intent();
+        i.putExtra("event", event);
+        setResult(RESULT_OK, i);
         finish();
+
     }
 
     @Override

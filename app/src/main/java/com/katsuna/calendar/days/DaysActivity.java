@@ -1,5 +1,6 @@
 package com.katsuna.calendar.days;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,13 +24,17 @@ import com.katsuna.calendar.data.Event;
 
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
+import com.katsuna.calendar.formatters.EventFormatter;
 import com.katsuna.calendar.info.InfoActivity;
 import com.katsuna.calendar.settings.SettingsActivity;
 import com.katsuna.calendar.utils.Injection;
 import com.katsuna.commons.controls.KatsunaNavigationView;
+import com.katsuna.commons.entities.ColorProfileKeyV2;
 import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
+import com.katsuna.commons.utils.ColorCalcV2;
 import com.katsuna.commons.utils.IUserProfileProvider;
+import com.katsuna.commons.utils.KatsunaAlertBuilder;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -54,6 +60,10 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     private DrawerLayout mDrawerLayout;
     private View mDayFocused;
     private boolean focusFlag = false;
+    Calendar calendar;
+    private int mPrimaryColor2;
+    private int mSecondaryColor2;
+
 
 
     private int currentMonth, currentYear;
@@ -103,6 +113,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main_calendar);
+        adjustProfiles();
 
         init();
 
@@ -112,6 +123,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     }
 
     private void init() {
+        calendar = Calendar.getInstance();
         AndroidThreeTen.init(this);
         mPopupButton2 = findViewById(R.id.create_event_button);
         mPopupButton2.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +147,12 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         initToolbar();
         initDrawer();
         initCalendar();
+        startWithToday();
+    }
 
+    private void startWithToday() {
+
+        mDaysList.setSelection(calendar.get(Calendar.DAY_OF_MONTH));
     }
 
     public void previousMonth(View view)
@@ -210,7 +227,6 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     }
 
     private void initMonth(int month, int year) throws ParseException {
-        Calendar calendar = Calendar.getInstance();
         calendar.set(year, month ,1);
 
         String monthName = new SimpleDateFormat("MMM").format(calendar.getTime());
@@ -335,6 +351,16 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_NEW_EVENT || requestCode == REQUEST_CODE_EDIT_EVENT) {
+            if (resultCode == RESULT_OK) {
+                Event event = data.getParcelableExtra("event");
+                Log.e(TAG, "Event set with id: " + event);
+                showEventSetEvent(event);
+            }
+        }
+    }
+    @Override
     public void reloadDay(Day day) {
 
     }
@@ -351,6 +377,44 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
     @Override
     public UserProfile getProfile() {
-        return null;
+        return mUserProfileContainer.getActiveUserProfile();
+    }
+
+    private void showEventSetEvent(final Event event) {
+        KatsunaAlertBuilder builder = new KatsunaAlertBuilder(this);
+        String title = getString(R.string.event_set);
+        builder.setTitle(title);
+
+        // calc and set message
+        EventFormatter eventFormatter = new EventFormatter(this, event);
+        builder.setMessage(eventFormatter.getEventMessage());
+        builder.setView(R.layout.common_katsuna_alert);
+        builder.setUserProfile(mUserProfileContainer.getActiveUserProfile());
+        builder.setOkListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        String back = getString(R.string.back);
+        builder.setCancelButtonText(back);
+        builder.setCancelListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEventDetailsUi(event.getEventId());
+            }
+        });
+
+        AlertDialog mDialog = builder.create();
+        mDialog.show();
+    }
+    private void adjustProfiles() {
+        UserProfile userProfile = mUserProfileContainer.getActiveUserProfile();
+
+        mPrimaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.PRIMARY_COLOR_2,
+                userProfile.colorProfile);
+        mSecondaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.SECONDARY_COLOR_2,
+                userProfile.colorProfile);
     }
 }
