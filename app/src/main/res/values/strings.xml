@@ -61,4 +61,7 @@
     <string name="back">Back</string>
     <string name="event_is_set_at">Event is set at</string>
     <string name="remaining_days">Remaining day until event:</string>
+    <string name="alarm_options">Alarm Options</string>
+    <string name="vibrate_off">Vibrate off</string>
+    <string name="vibrate_on">vibrate on</string>
 </resources>

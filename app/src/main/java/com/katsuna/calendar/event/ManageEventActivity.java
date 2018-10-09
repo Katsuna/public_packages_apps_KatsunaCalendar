@@ -70,7 +70,9 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     private View mEventOptionsHandler;
     private View mEventOptionsContainer;
     private View mEventOptionsControl;
-    
+    private TextView mEventOptionsTitle;
+
+
     private int mPrimaryColor2;
     private int mSecondaryColor2;
     private TextView mEventTimeTitle;
@@ -140,9 +142,12 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         mEventTypeTitle = findViewById(R.id.event_type_text);
         mEventTimeTitle = findViewById(R.id.event_time_text);
         mEventDaysTitle = findViewById(R.id.event_days_text);
-//        mEventOptionsHandler = findViewById(R.id.event_options_handler);
-//        mEventOptionsContainer = findViewById(R.id.event_options_container);
-//        mEventOptionsControl = findViewById(R.id.event_options_group);
+        mEventOptionsTitle = findViewById(R.id.event_options_text);
+
+
+        mEventOptionsHandler = findViewById(R.id.event_options_handler);
+        mEventOptionsContainer = findViewById(R.id.event_options_container);
+        mEventOptionsControl = findViewById(R.id.event_options_group);
 
         mHour = findViewById(R.id.hour);
         mHour.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -625,24 +630,24 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     @Override
     public void showEventOptionsControl(boolean flag) {
-//        if (flag) {
-//            mEventOptionsContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
-//
-//            int elevation = getResources().getDimensionPixelSize(
-//                    R.dimen.common_selection_elevation);
-//
-//            mEventOptionsHandler.setElevation(elevation);
-//
-//        } else {
-//            mEventOptionsContainer.setBackgroundColor(ContextCompat.getColor(this,
-//                    R.color.common_grey50));
-//
-//            mEventOptionsHandler.setElevation(0);
-//        }
-//
-//        adjustSteps();
-//
-//        mEventOptionsControl.setVisibility(flag ? View.VISIBLE : View.GONE);
+        if (flag) {
+            mEventOptionsContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.common_white));
+
+            int elevation = getResources().getDimensionPixelSize(
+                    R.dimen.common_selection_elevation);
+
+            mEventOptionsHandler.setElevation(elevation);
+
+        } else {
+            mEventOptionsContainer.setBackgroundColor(ContextCompat.getColor(this,
+                    R.color.common_grey50));
+
+            mEventOptionsHandler.setElevation(0);
+        }
+
+        adjustSteps();
+
+        mEventOptionsControl.setVisibility(flag ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -663,16 +668,19 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 mPresenter.validateEventTypeInfo(getEventType(), mDescription.getText().toString());
                 break;
             case TIME:
-                System.out.println("hour sopused to be:"+mHour.getText().toString());
-                System.out.println("hour sopused to be:"+mMinute.getText().toString());
 
                 mPresenter.validateEventTime(mHour.getText().toString(),
                         mMinute.getText().toString());
                 break;
             case DAYS:
+                mPresenter.showStep(ManageEventStep.OPTIONS);
+
+                break;
+            case OPTIONS:
                 mPresenter.saveEvent(getEventType(), mDescription.getText().toString(), mHour.getText().toString(), mMinute.getText().toString(),
                         mEventDay.getDay().toString(),mEventDay.getMonth().toString(),mEventDay.getYear().toString()
-                       );
+                );
+
                 break;
         }
     }
