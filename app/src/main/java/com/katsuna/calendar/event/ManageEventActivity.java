@@ -71,7 +71,8 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     private View mEventOptionsContainer;
     private View mEventOptionsControl;
     private TextView mEventOptionsTitle;
-
+    private ToggleButton mVibrateOption;
+    private boolean mVibrate;
 
     private int mPrimaryColor2;
     private int mSecondaryColor2;
@@ -347,6 +348,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         adjustTypeStep();
         adjustTimeStep();
         adjustDaysStep();
+        adjustOptionsStep();
         adjustFloatingButtons();
     }
 
@@ -592,7 +594,12 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 nextStepFabParams.setAnchorId(R.id.event_days_container);
                 nextStepFabParams.anchorGravity = Gravity.BOTTOM | Gravity.END;
                 break;
-        }
+            case OPTIONS:
+                previousStepFabParams.anchorGravity = Gravity.TOP | Gravity.END;
+                previousStepFabParams.setAnchorId(R.id.event_options_container);
+                nextStepFabParams.setAnchorId(R.id.event_options_container);
+                nextStepFabParams.anchorGravity = Gravity.BOTTOM | Gravity.END;
+                break;        }
     }
 
     @Override
@@ -691,6 +698,37 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     }
 
+    private void adjustOptionsStep() {
+        int toggleColor = 0;
+        switch (getOptionsStepStatus()) {
+            case NOT_SET:
+                mEventOptionsHandler.setBackgroundColor(mSecondaryColor2);
+                mEventOptionsTitle.setTextColor(mBlack34Color);
+                ColorAdjusterV2.setTextViewDrawableColor(mEventOptionsTitle, mBlack34Color);
+                toggleColor = mBlack34Color;
+                break;
+            case ACTIVE:
+                mEventOptionsHandler.setBackgroundColor(mPrimaryColor2);
+                mEventOptionsTitle.setTextColor(mPrimaryColor2);
+                ColorAdjusterV2.setTextViewDrawableColor(mEventOptionsTitle, mPrimaryColor2);
+                toggleColor = mPrimaryColor2;
+                break;
+            case SET:
+                mEventOptionsHandler.setBackgroundColor(mBlack58Color);
+                mEventOptionsTitle.setTextColor(mBlack58Color);
+                ColorAdjusterV2.setTextViewDrawableColor(mEventOptionsTitle, mBlack58Color);
+                toggleColor = mBlack58Color;
+                break;
+        }
+
+        ColorAdjusterV2.setTextViewDrawableColor(mVibrateOption, toggleColor);
+        if (mVibrateOption.isChecked()) {
+            mVibrateOption.setTextColor(mPrimaryColor2);
+        } else {
+            mVibrateOption.setTextColor(mBlack58Color);
+        }
+    }
+
     private EventType getEventType() {
         EventType eventType = null;
         switch (mEventTypeRadioGroup.getCheckedRadioButtonId()) {
@@ -707,5 +745,21 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     private enum StepStatus {
         ACTIVE, SET, NOT_SET
+    }
+
+    private StepStatus getOptionsStepStatus() {
+        ManageEventStep manageAlarmStep = mPresenter.getCurrentStep();
+        switch (manageAlarmStep) {
+            case TYPE:
+                return StepStatus.NOT_SET;
+            case TIME:
+                return StepStatus.NOT_SET;
+            case DAYS:
+                return StepStatus.NOT_SET;
+            case OPTIONS:
+                return StepStatus.ACTIVE;
+            default:
+                throw new RuntimeException("manageEventStep not found");
+        }
     }
 }
