@@ -24,6 +24,7 @@ import com.katsuna.calendar.data.Event;
 
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
+import com.katsuna.calendar.formatters.DayFormatter;
 import com.katsuna.calendar.formatters.EventFormatter;
 import com.katsuna.calendar.info.InfoActivity;
 import com.katsuna.calendar.settings.SettingsActivity;
@@ -305,6 +306,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     @Override
     protected void onResume() {
         super.onResume();
+
         mPresenter.start();
     }
 
@@ -380,6 +382,11 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         return mUserProfileContainer.getActiveUserProfile();
     }
 
+
+
+
+
+
     private void showEventSetEvent(final Event event) {
         KatsunaAlertBuilder builder = new KatsunaAlertBuilder(this);
         String title = getString(R.string.event_set);
@@ -409,6 +416,10 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         AlertDialog mDialog = builder.create();
         mDialog.show();
     }
+
+
+
+
     private void adjustProfiles() {
         UserProfile userProfile = mUserProfileContainer.getActiveUserProfile();
 
