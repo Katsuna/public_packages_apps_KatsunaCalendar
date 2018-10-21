@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.katsuna.calendar.R;
 import com.katsuna.calendar.data.Day;
+import com.katsuna.calendar.data.DayType;
 import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.formatters.DayFormatter;
 import com.katsuna.commons.entities.OpticalParams;
@@ -44,7 +45,7 @@ class DaysAdapter extends BaseAdapter {
 
 
 
-    public DaysAdapter(ArrayList<Day> days, DayItemListener itemListener, IUserProfileProvider userProfileProvider, int month, int year) {
+    DaysAdapter(ArrayList<Day> days, DayItemListener itemListener, IUserProfileProvider userProfileProvider, int month, int year) {
         calendar = Calendar.getInstance();
 
         calendar.setTime(calendar.getTime());
@@ -54,7 +55,6 @@ class DaysAdapter extends BaseAdapter {
         mUserProfileProvider = userProfileProvider;
         mMonth = month;
         mYear = year;
-        userProfile = mUserProfileProvider.getProfile();
     }
 
     private void setList(List<Day> days) {
@@ -83,6 +83,8 @@ class DaysAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        userProfile = mUserProfileProvider.getProfile();
+
         View rowView = view;
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         if (rowView == null) {
@@ -92,10 +94,9 @@ class DaysAdapter extends BaseAdapter {
         final Day day = getItem(i);
 
         final Context context = viewGroup.getContext();
-        DayFormatter alarmFormatter = new DayFormatter(context, day);
+        DayFormatter dayFormatter = new DayFormatter(context, day);
 
 
-//        System.out.println("IM IN GET VIEW ADAPTER"+day.getDay() + "m:" +mMonth+ "y:"+mYear);
         TextView title = rowView.findViewById(R.id.day_name);
         title.setText(day.getDayName());
 
@@ -107,22 +108,21 @@ class DaysAdapter extends BaseAdapter {
 
 
         CardView dayCard = rowView.findViewById(R.id.day_container_card);
-        if(day.getEvents() != null && !day.getEvents().isEmpty()){
-            dayCard.setCardBackgroundColor(ContextCompat.getColor(context,
-                alarmFormatter.getCardHandleColor(userProfile)));
-            View alarmCardInner = rowView.findViewById(R.id.date_container);
-            alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
-                alarmFormatter.getCardHandleColor(userProfile)));
 
+        System.out.println("the user profile is" + userProfile);
+        if (calendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(day.getDay()) && calendar.get(Calendar.MONTH) == mMonth & calendar.get(Calendar.YEAR) == mYear) {
+            day.setDayType(DayType.CURRENT);
+        } else if (day.getEvents() != null && !day.getEvents().isEmpty()) {
+            day.setDayType(DayType.WITH_EVENT);
+        } else {
+            day.setDayType(DayType.SIMPLE);
         }
-        System.out.println("the user profile is"+ userProfile);
-        if(calendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(day.getDay()) && calendar.get(Calendar.MONTH) == mMonth & calendar.get(Calendar.YEAR) == mYear ){
-            dayCard.setCardBackgroundColor(ContextCompat.getColor(context,
-                    alarmFormatter.getCardHandleColor(userProfile)));
-            View alarmCardInner = rowView.findViewById(R.id.date_container);
-            alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
-                    alarmFormatter.getCardHandleColor(userProfile)));
-        }
+        dayCard.setCardBackgroundColor(ContextCompat.getColor(context,
+                dayFormatter.getCardHandleColor(userProfile)));
+        View alarmCardInner = rowView.findViewById(R.id.date_container_inner);
+        alarmCardInner.setBackgroundColor(ContextCompat.getColor(context,
+                dayFormatter.getCardInnerColor(userProfile)));
+
 
         dayCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,31 +131,93 @@ class DaysAdapter extends BaseAdapter {
             }
         });
 
-        View actionsContainer = rowView.findViewById(R.id.event_buttons_container);
+        View actionsContainer = rowView.findViewById(R.id.day_buttons_container);
         if (day.equals(mDayFocused)) {
-            Button addNewBtn = rowView.findViewById(R.id.add_new_button);
-            addNewBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mItemListener.onDayAddEvent(day);
-                }
-            });
             actionsContainer.setVisibility(View.VISIBLE);
         } else {
             actionsContainer.setVisibility(View.GONE);
         }
 
         ViewGroup buttonsWrapper = rowView.findViewById(R.id.action_buttons_wrapper);
-//        if (userProfile.isRightHanded) {
+            if (day.getDayType().equals(DayType.SIMPLE)) {
+                if (userProfile.isRightHanded) {
+                        View buttonsView = inflater.inflate(R.layout.add_button_rh, buttonsWrapper,
+                                false);
+                        buttonsWrapper.removeAllViews();
+                        buttonsWrapper.addView(buttonsView);
+
+                } else {
+                    View buttonsView = inflater.inflate(R.layout.add_button_lh, buttonsWrapper,
+                            false);
+                    buttonsWrapper.removeAllViews();
+                    buttonsWrapper.addView(buttonsView);
+                }
+
+                Button addNewBtn = rowView.findViewById(R.id.add_new_button);
+                addNewBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mItemListener.onDayAddEvent(day);
+                    }
+                });
+                buttonsWrapper.setVisibility(View.VISIBLE);
+
+            }
+
+
+        if (day.getDayType().equals(DayType.WITH_EVENT)) {
+
+            if (userProfile.isRightHanded) {
+                View buttonsView = inflater.inflate(R.layout.action_buttons_rh, buttonsWrapper,
+                        false);
+                buttonsWrapper.removeAllViews();
+                buttonsWrapper.addView(buttonsView);
+
+            } else {
+                View buttonsView = inflater.inflate(R.layout.action_buttons_lh, buttonsWrapper,
+                        false);
+                buttonsWrapper.removeAllViews();
+                buttonsWrapper.addView(buttonsView);
+            }
+
+            Button editButton = rowView.findViewById(R.id.button_edit);
+            editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItemListener.onDayAddEvent(day);
+                }
+            });
+
+            final Button turnOffButton = rowView.findViewById(R.id.button_turn_off);
+//            if (alarm.getAlarmStatus() == AlarmStatus.ACTIVE) {
 //
-//        } else {
 //
-//        }
+//                turnOffButton.setText(R.string.turn_off);
+//            } else {
+//                turnOffButton.setText(R.string.turn_on);
+//            }
 
+        }
+//        turnOffButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (alarm.getAlarmStatus() == AlarmStatus.ACTIVE) {
+//                    mItemListener.onAlarmStatusUpdate(alarm, AlarmStatus.INACTIVE);
+//                } else {
+//                    mItemListener.onAlarmStatusUpdate(alarm, AlarmStatus.ACTIVE);
+//                }
+//            }
+//        });
 
-
-
-        // adjust buttons
+//        TextView deleteText = rowView.findViewById(R.id.txt_delete);
+//        deleteText.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mItemListener.onDayEventDelete(event);
+//            }
+//        });
+//
+//        // adjust buttons
 //        OpticalParams opticalParams = SizeCalcV2.getOpticalParams(SizeProfileKeyV2.BUTTON,
 //                userProfile.opticalSizeProfile);
 //        SizeAdjuster.adjustText(context, editButton, opticalParams);

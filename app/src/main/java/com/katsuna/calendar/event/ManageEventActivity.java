@@ -116,6 +116,16 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         {
             mEventDayTitle.setVisibility(View.GONE);
         }
+
+        mVibrateOption = findViewById(R.id.event_vibrate_option);
+        mVibrateOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mVibrate = !mVibrate;
+                adjustVibrateOption(mVibrate);
+            }
+        });
+
         mEventTypeContainer = findViewById(R.id.event_type_container);
         mEventTypeHandler = findViewById(R.id.event_type_handler);
         mEventTypeRadioGroup = findViewById(R.id.event_type_radio_group);
@@ -299,6 +309,10 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         super.onResume();
         mPresenter.start();
         adjustProfiles();
+    }
+
+    private void adjustVibrateOption(boolean enabled) {
+        mVibrateOption.setChecked(enabled);
     }
 
     private void adjustProfiles() {
@@ -720,7 +734,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 toggleColor = mBlack58Color;
                 break;
         }
-
+        System.out.println("VIBRTA:"+mVibrateOption+"of color:"+toggleColor);
         ColorAdjusterV2.setTextViewDrawableColor(mVibrateOption, toggleColor);
         if (mVibrateOption.isChecked()) {
             mVibrateOption.setTextColor(mPrimaryColor2);

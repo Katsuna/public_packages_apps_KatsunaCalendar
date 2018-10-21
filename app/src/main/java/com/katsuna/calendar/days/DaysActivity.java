@@ -114,7 +114,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main_calendar);
-        adjustProfiles();
+//        adjustProfiles();
 
         init();
 
@@ -152,8 +152,8 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     }
 
     private void startWithToday() {
-
-        mDaysList.setSelection(calendar.get(Calendar.DAY_OF_MONTH));
+        calendar = Calendar.getInstance();
+        mDaysList.setSelection(calendar.get(Calendar.DAY_OF_MONTH)-1);
     }
 
     public void previousMonth(View view)
@@ -382,11 +382,6 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         return mUserProfileContainer.getActiveUserProfile();
     }
 
-
-
-
-
-
     private void showEventSetEvent(final Event event) {
         KatsunaAlertBuilder builder = new KatsunaAlertBuilder(this);
         String title = getString(R.string.event_set);
@@ -420,12 +415,12 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
 
 
-    private void adjustProfiles() {
-        UserProfile userProfile = mUserProfileContainer.getActiveUserProfile();
-
-        mPrimaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.PRIMARY_COLOR_2,
-                userProfile.colorProfile);
-        mSecondaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.SECONDARY_COLOR_2,
-                userProfile.colorProfile);
-    }
+//    private void adjustProfiles() {
+//        UserProfile userProfile = mUserProfileContainer.getActiveUserProfile();
+//
+//        mPrimaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.PRIMARY_COLOR_2,
+//                userProfile.colorProfile);
+//        mSecondaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.SECONDARY_COLOR_2,
+//                userProfile.colorProfile);
+//    }
 }

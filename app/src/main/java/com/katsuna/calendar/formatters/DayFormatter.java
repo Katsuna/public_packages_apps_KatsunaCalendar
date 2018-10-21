@@ -74,5 +74,16 @@ public class DayFormatter {
         return ColorCalcV2.getColorResId(profileKey, profile.colorProfile);
     }
 
+    public int getCardInnerColor(UserProfile profile) {
+        ColorProfileKeyV2 profileKey;
+        if (mDay.getDayType() == DayType.CURRENT) {
+            profileKey = ColorProfileKeyV2.SECONDARY_COLOR_1;
+        } else if (mDay.getDayType() == DayType.WITH_EVENT) {
+            profileKey = ColorProfileKeyV2.SECONDARY_COLOR_2;
+        } else {
+            profileKey = ColorProfileKeyV2.SECONDARY_GREY_2;
+        }
+        return ColorCalcV2.getColorResId(profileKey, profile.colorProfile);
+    }
 
 }
