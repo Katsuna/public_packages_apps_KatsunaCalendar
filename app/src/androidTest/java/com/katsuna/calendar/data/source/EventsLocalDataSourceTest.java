@@ -61,7 +61,7 @@ public class EventsLocalDataSourceTest {
     @Test
     public void saveEvent_retrievesEvent() {
         // Given a new event
-       final Event newEvent = new Event( EventType.REMINDER, 5,11,2018, 12,20,"description2", EventStatus.ACTIVE);
+       final Event newEvent = new Event( EventType.REMINDER, 5,11,2018, 12,20,"description2", EventStatus.ACTIVE,null, false);
 
         // When saved into the persistent repository
         mLocalDataSource.saveEvent(newEvent);
@@ -83,9 +83,9 @@ public class EventsLocalDataSourceTest {
     @Test
     public void getEvents_retrieveSavedEvents() {
         // Given 2 new events in the persistent repository
-        final Event newEvent1 =new Event( EventType.REMINDER, 10,11,2018, 12,20,"description2", EventStatus.ACTIVE);
+        final Event newEvent1 =new Event( EventType.REMINDER, 10,11,2018, 12,20,"description2", EventStatus.ACTIVE, null, false);
         mLocalDataSource.saveEvent(newEvent1);
-        final Event newEvent2 = new Event( EventType.REMINDER, 10,11,2018, 1,20,"description2", EventStatus.ACTIVE);
+        final Event newEvent2 = new Event( EventType.REMINDER, 10,11,2018, 1,20,"description2", EventStatus.ACTIVE, null, false);
         mLocalDataSource.saveEvent(newEvent2);
 
         // Then the events can be retrieved from the persistent repository

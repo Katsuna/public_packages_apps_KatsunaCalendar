@@ -54,23 +54,31 @@ public final class Event implements Parcelable {
     @ColumnInfo(name = "status")
     private EventStatus mEventStatus = EventStatus.ACTIVE;
 
+    @Nullable
+    @ColumnInfo(name = "ringtone")
+    private final String mRingtone;
+
+    @ColumnInfo(name = "vibrate")
+    private final boolean mVibrate;
+
     @Ignore
     public Event(@NonNull EventType mEventType, @NonNull Integer mMonth, @NonNull Integer mDayOfMonth,@NonNull String mDescription) {
         this(0,mEventType, mMonth,mDayOfMonth, Calendar.getInstance().get(Calendar.YEAR),
-                0,1,mDescription, EventStatus.ACTIVE);
+                0,1,mDescription, EventStatus.ACTIVE, null, false);
 
     }
 
     @Ignore
-    public Event(@NonNull EventType eventType,  @NonNull Integer month,  @NonNull Integer dayOfMonth,@NonNull Integer year, @NonNull Integer hour,
+    public Event(@NonNull EventType eventType, @NonNull Integer month, @NonNull Integer dayOfMonth, @NonNull Integer year, @NonNull Integer hour,
                  @NonNull Integer minute, @Nullable String description,
-                 @NonNull EventStatus eventStatus) {
-        this(0, eventType,month,dayOfMonth, year, hour, minute, description, eventStatus);
+                 @NonNull EventStatus eventStatus,  String mRingtone, boolean mVibrate) {
+        this(0, eventType,month,dayOfMonth, year, hour, minute, description, eventStatus, mRingtone, mVibrate);
     }
 
     public Event(long mEventId, @NonNull EventType mEventType,
                  @NonNull Integer mMonth, @NonNull Integer mDayOfMonth, @NonNull Integer mYear,
-                 @NonNull Integer mHour,@NonNull  Integer mMinute,@NonNull String mDescription, @NonNull EventStatus eventStatus) {
+                 @NonNull Integer mHour, @NonNull Integer mMinute, @NonNull String mDescription,
+                 @NonNull EventStatus eventStatus, @Nullable String mRingtone, boolean mVibrate) {
         this.mEventId = mEventId;
         this.mDescription = mDescription;
         this.mEventType = mEventType;
@@ -80,6 +88,8 @@ public final class Event implements Parcelable {
         this.mHour = mHour;
         this.mMinute = mMinute;
         this.mEventStatus = eventStatus;
+        this.mRingtone = mRingtone;
+        this.mVibrate = mVibrate;
     }
 
     protected Event(Parcel in) {
@@ -116,6 +126,8 @@ public final class Event implements Parcelable {
         }
         int tmpMEventStatus = in.readInt();
         this.mEventStatus = EventStatus.values()[tmpMEventStatus];
+        this.mRingtone = in.readString();
+        this.mVibrate = in.readByte() != 0;
     }
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {
@@ -137,7 +149,6 @@ public final class Event implements Parcelable {
     public void setEventId(long mEventId) {
         this.mEventId = mEventId;
     }
-
 
     @Nullable
     public String getDescription() {
@@ -179,6 +190,15 @@ public final class Event implements Parcelable {
         return mEventStatus;
     }
 
+    @Nullable
+    public String getRingtone() {
+        return mRingtone;
+    }
+
+    public boolean isVibrate() {
+        return mVibrate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -199,7 +219,9 @@ public final class Event implements Parcelable {
                     Objects.equal(mMinute, event.mMinute) &&
                     Objects.equal(mMonth, event.mMonth) &&
                     Objects.equal(mYear, event.mYear) &&
-                    Objects.equal(mEventStatus, event.mEventStatus);
+                    Objects.equal(mEventStatus, event.mEventStatus) &&
+                    Objects.equal(mRingtone, event.mRingtone) &&
+                    Objects.equal(mVibrate, event.mVibrate);
         }
     }
 
@@ -261,6 +283,8 @@ public final class Event implements Parcelable {
             dest.writeInt(mMinute);
         }
         dest.writeInt(this.mEventStatus.ordinal());
+        dest.writeString(this.mRingtone);
+        dest.writeByte(this.mVibrate ? (byte) 1 : (byte) 0);
 
     }
 }

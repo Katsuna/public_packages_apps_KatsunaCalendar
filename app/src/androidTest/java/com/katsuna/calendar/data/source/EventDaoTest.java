@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class EventDaoTest {
 
-    private static final Event EVENT = new Event( EventType.REMINDER, 10,11,2018, 12,20,"description2", EventStatus.ACTIVE);
+    private static final Event EVENT = new Event( EventType.REMINDER, 10,11,2018, 12,20,"description2", EventStatus.ACTIVE, null, false );
 
     private CalendarDatabase mDatabase;
 
@@ -56,7 +56,7 @@ public class EventDaoTest {
         EVENT.setEventId(eventId);
 
         // When an event with the same id is inserted
-        Event newEvent = new Event(eventId, EventType.REMINDER, 10,11,2018, 12,20,"description2", EventStatus.ACTIVE);
+        Event newEvent = new Event(eventId, EventType.REMINDER, 10,11,2018, 12,20,"description2", EventStatus.ACTIVE, null,false);
         mDatabase.eventsDao().insertEvent(newEvent);
 
         // When getting the event by id from the database
@@ -74,7 +74,7 @@ public class EventDaoTest {
 
 
         // When the event is updated
-        Event updatedEvent = new Event(eventId, EventType.REMINDER, 10,11,2018, 12,20,"description2", EventStatus.ACTIVE);
+        Event updatedEvent = new Event(eventId, EventType.REMINDER, 10,11,2018, 12,20,"description2", EventStatus.ACTIVE, null, false);
         mDatabase.eventsDao().updateEvent(updatedEvent);
 
         // When getting the event by id from the database

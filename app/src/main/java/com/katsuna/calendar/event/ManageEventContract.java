@@ -55,7 +55,7 @@ class ManageEventContract {
 
     interface Presenter extends BasePresenter {
 
-        void saveEvent(@NonNull EventType eventType, String description, String hour, String minute,String day, String month, String year );
+        void saveEvent(@NonNull EventType eventType, String description, String hour, String minute,String day, String month, String year , String ringtone, boolean vibrate);
 
         void populateEvent();
 

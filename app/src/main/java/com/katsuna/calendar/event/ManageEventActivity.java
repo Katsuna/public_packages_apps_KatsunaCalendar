@@ -1,8 +1,12 @@
 package com.katsuna.calendar.event;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
@@ -42,10 +46,13 @@ import org.threeten.bp.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 
+import static android.media.RingtoneManager.TYPE_ALARM;
+
 public class ManageEventActivity extends KatsunaActivity implements ManageEventContract.View {
 
     public static final String EXTRA_EVENT_ID = "EVENT_ID";
     public static final String EXTRA_EVENT_TYPE = "EVENT_TYPE";
+    public static final int RINGTONE_REQUEST_CODE = 1;
 
     private ManageEventContract.Presenter mPresenter;
     private FloatingActionButton mPreviousStepFab;
@@ -88,6 +95,9 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     private ImageView mSubtractMinuteButton;
     private Day mEventDay;
     private TextView mEventDayTitle;
+    private TextView mRingtoneOption;
+    private Uri mRingtoneUri;
+
 
 
     @Override
@@ -311,6 +321,39 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         adjustProfiles();
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RINGTONE_REQUEST_CODE) {
+                mRingtoneUri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+                setRingtoneTitle(mRingtoneUri);
+            }
+        }
+    }
+
+    private void setRingtone(Event event) {
+        mRingtoneUri = Uri.parse(event.getRingtone());
+        setRingtoneTitle(mRingtoneUri);
+    }
+
+    private void setRingtoneTitle(Uri uri) {
+        Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+        String title = getString(R.string.ringtone, ringtone.getTitle(this));
+        mRingtoneOption.setText(title);
+    }
+
+    private void pickRingtone() {
+        //List<KatsunaRingtone> ringtones = RingtoneUtils.getAllRingtones(this);
+
+        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, TYPE_ALARM);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, mRingtoneUri);
+        startActivityForResult(intent, RINGTONE_REQUEST_CODE);
+    }
+
     private void adjustVibrateOption(boolean enabled) {
         mVibrateOption.setChecked(enabled);
     }
@@ -448,6 +491,8 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 return StepStatus.ACTIVE;
             case DAYS:
                 return StepStatus.SET;
+            case OPTIONS:
+                return StepStatus.SET;
             default:
                 throw new RuntimeException("manageEventStep not found");
         }
@@ -462,8 +507,26 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 return StepStatus.NOT_SET;
             case DAYS:
                 return StepStatus.ACTIVE;
+            case OPTIONS:
+                return StepStatus.SET;
             default:
                 throw new RuntimeException("manageEventStep not found");
+        }
+    }
+
+    private StepStatus getOptionsStepStatus() {
+        ManageEventStep manageEventStep = mPresenter.getCurrentStep();
+        switch (manageEventStep) {
+            case TYPE:
+                return StepStatus.NOT_SET;
+            case TIME:
+                return StepStatus.NOT_SET;
+            case DAYS:
+                return StepStatus.NOT_SET;
+            case OPTIONS:
+                return StepStatus.ACTIVE;
+            default:
+                throw new RuntimeException("manageAlarmStep not found");
         }
     }
 
@@ -689,17 +752,17 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 mPresenter.validateEventTypeInfo(getEventType(), mDescription.getText().toString());
                 break;
             case TIME:
-
                 mPresenter.validateEventTime(mHour.getText().toString(),
                         mMinute.getText().toString());
                 break;
             case DAYS:
                 mPresenter.showStep(ManageEventStep.OPTIONS);
-
                 break;
             case OPTIONS:
-                mPresenter.saveEvent(getEventType(), mDescription.getText().toString(), mHour.getText().toString(), mMinute.getText().toString(),
-                        mEventDay.getDay().toString(),mEventDay.getMonth().toString(),mEventDay.getYear().toString()
+                mPresenter.saveEvent(getEventType(), mDescription.getText().toString(),
+                        mHour.getText().toString(), mMinute.getText().toString(),
+                        mEventDay.getDay().toString(),mEventDay.getMonth().toString(),
+                        mEventDay.getYear().toString(), mRingtoneUri.toString(), mVibrate
                 );
 
                 break;
@@ -708,7 +771,6 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     private void onPreviousStep() {
         mPresenter.previousStep();
-        System.out.println("IM ON previous step");
 
     }
 
@@ -734,7 +796,6 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 toggleColor = mBlack58Color;
                 break;
         }
-        System.out.println("VIBRTA:"+mVibrateOption+"of color:"+toggleColor);
         ColorAdjusterV2.setTextViewDrawableColor(mVibrateOption, toggleColor);
         if (mVibrateOption.isChecked()) {
             mVibrateOption.setTextColor(mPrimaryColor2);
@@ -761,19 +822,5 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         ACTIVE, SET, NOT_SET
     }
 
-    private StepStatus getOptionsStepStatus() {
-        ManageEventStep manageAlarmStep = mPresenter.getCurrentStep();
-        switch (manageAlarmStep) {
-            case TYPE:
-                return StepStatus.NOT_SET;
-            case TIME:
-                return StepStatus.NOT_SET;
-            case DAYS:
-                return StepStatus.NOT_SET;
-            case OPTIONS:
-                return StepStatus.ACTIVE;
-            default:
-                throw new RuntimeException("manageEventStep not found");
-        }
-    }
+
 }
