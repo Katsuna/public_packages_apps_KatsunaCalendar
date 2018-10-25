@@ -582,6 +582,10 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         LocalTime eventTime = LocalTime.of(event.getHour(), event.getMinute());
         mHour.setText(eventTime.format(DateTimeFormatter.ofPattern("HH")));
         mMinute.setText(eventTime.format(DateTimeFormatter.ofPattern("mm")));
+        mYear.setText(eventTime.format(DateTimeFormatter.ofPattern("yyyy")));
+        setRingtone(event);
+        mVibrate = event.isVibrate();
+        adjustVibrateOption(mVibrate);
     }
 
     @Override
