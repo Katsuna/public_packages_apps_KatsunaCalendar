@@ -50,6 +50,10 @@ class ManageEventContract {
 
         void showEventOptionsControl(boolean flag);
 
+        void setDefaultRingtone();
+
+        void setDefaultVibrate();
+
         void hideKeyboard();
     }
 

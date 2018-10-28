@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.DayType;
 import com.katsuna.calendar.data.Event;
+import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.data.source.EventsDataSource;
 import com.katsuna.calendar.services.IEventsScheduler;
 import com.katsuna.calendar.utils.EspressoIdlingResource;
@@ -79,6 +80,14 @@ public class DaysPresenter implements DaysContract.Presenter {
     @Override
     public void updateDayStatus(@NonNull Day day, @NonNull DayType dayType) {
 
+    }
+
+    @Override
+    public void updateEventStatus(@NonNull Event event, @NonNull EventStatus eventStatus) {
+        event.setEventStatus(eventStatus);
+        mEventsDataSource.saveEvent(event);
+        mEventsScheduler.reschedule(event);
+//        mEventsView.reloadEvent(event);
     }
 
     @Override

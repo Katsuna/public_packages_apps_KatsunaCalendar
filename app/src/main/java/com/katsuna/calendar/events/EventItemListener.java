@@ -12,7 +12,7 @@ public interface EventItemListener {
 
     void onEventEdit(@NonNull Event alarm);
 
-    void onEventStatusUpdate(@NonNull Event alarm, @NonNull EventStatus alarmStatus);
+    void onEventStatusUpdate(@NonNull Event event, @NonNull EventStatus eventStatus);
 
     void onEventDelete(@NonNull Event alarm);
 }

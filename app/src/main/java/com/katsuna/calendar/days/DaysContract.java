@@ -7,6 +7,8 @@ import com.katsuna.calendar.BaseView;
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.DayType;
 import com.katsuna.calendar.data.Event;
+import com.katsuna.calendar.data.EventStatus;
+import com.katsuna.calendar.data.EventType;
 
 import java.util.List;
 
@@ -41,6 +43,8 @@ public interface DaysContract {
         void updateDayStatus(@NonNull Day day, @NonNull DayType dayType);
 
         void focusOnDay(@NonNull Day day, boolean focus);
+
+        void updateEventStatus(@NonNull Event event, @NonNull EventStatus eventStatus);
     }
 
 }

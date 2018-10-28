@@ -127,6 +127,15 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
             mEventDayTitle.setVisibility(View.GONE);
         }
 
+        mRingtoneOption = findViewById(R.id.event_ringtone_option);
+        mRingtoneOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickRingtone();
+            }
+        });
+
+
         mVibrateOption = findViewById(R.id.event_vibrate_option);
         mVibrateOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -737,6 +746,20 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
         mEventOptionsControl.setVisibility(flag ? View.VISIBLE : View.GONE);
     }
+
+    @Override
+    public void setDefaultRingtone() {
+        mRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(this, TYPE_ALARM);
+        setRingtoneTitle(mRingtoneUri);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    public void setDefaultVibrate() {
+        mVibrate = true;
+        adjustVibrateOption(mVibrate);
+    }
+
 
     @Override
     public void hideKeyboard() {

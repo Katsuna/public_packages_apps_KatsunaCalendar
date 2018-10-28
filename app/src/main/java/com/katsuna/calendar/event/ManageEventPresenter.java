@@ -67,6 +67,8 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
             adjustType();
 
             initTime();
+            mManageEventView.setDefaultRingtone();
+            mManageEventView.setDefaultVibrate();
         }
     }
     private void adjustType() {
@@ -132,19 +134,22 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
 
     @Override
     public void previousStep() {
-        ManageEventStep nextStep = null;
+        ManageEventStep previousStep = null;
         switch (mStep) {
             case TIME:
-                nextStep = ManageEventStep.TYPE;
+                previousStep = ManageEventStep.TYPE;
                 break;
             case DAYS:
-                nextStep = ManageEventStep.TIME;
+                previousStep = ManageEventStep.TIME;
+                break;
+            case OPTIONS:
+                previousStep = ManageEventStep.DAYS;
                 break;
         }
 
-        if (nextStep != null) {
-            mStep = nextStep;
-            showStep(nextStep);
+        if (previousStep != null) {
+            mStep = previousStep;
+            showStep(previousStep);
         }
     }
 
@@ -181,6 +186,8 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
                 mManageEventView.showEventTimeControl(false);
                 mManageEventView.showPreviousStepFab(false);
                 mManageEventView.showEventTimeControl(false);
+                mManageEventView.showEventOptionsControl(false);
+
                 mManageEventView.showNextStepFab(true);
                 break;
             case TIME:
@@ -188,6 +195,8 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
                 mManageEventView.showEventTimeControl(true);
                 mManageEventView.showEventTimeControl(false);
                 mManageEventView.showEventTimeControl(false);
+                mManageEventView.showEventOptionsControl(false);
+
                 if (mEventType == EventType.ALARM) {
                     mManageEventView.showPreviousStepFab(false);
                     mManageEventView.showNextStepFab(true);
@@ -204,13 +213,13 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
                 mManageEventView.showEventOptionsControl(false);
                 mManageEventView.hideKeyboard();
                 break;
-//            case OPTIONS:
-//                mManageEventView.showPreviousStepFab(true);
-//                mManageEventView.showDescriptionControl(false);
-//                mManageEventView.showAlarmTimeControl(false);
+            case OPTIONS:
+                mManageEventView.showPreviousStepFab(true);
+                mManageEventView.showDescriptionControl(false);
+                mManageEventView.showEventTimeControl(false);
 //                mManageEventView.showAlarmDaysControl(false);
-//                mManageEventView.showAlarmOptionsControl(true);
-//                break;
+                mManageEventView.showEventOptionsControl(true);
+                break;
         }
         mManageEventView.adjustFabPositions(step);
     }

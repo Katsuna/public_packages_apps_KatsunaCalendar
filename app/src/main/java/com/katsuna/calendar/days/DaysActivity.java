@@ -22,6 +22,7 @@ import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.DayType;
 import com.katsuna.calendar.data.Event;
 
+import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
 import com.katsuna.calendar.formatters.DayFormatter;
@@ -79,7 +80,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     private static final String TAG = "DaysActivity";
     private DaysContract.Presenter mPresenter;
     /**
-     * Listener for clicks on alarms in the ListView.
+     * Listener for clicks on days in the ListView.
      */
     private final DayItemListener mItemListener = new DayItemListener() {
         @Override
@@ -98,16 +99,17 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
         }
 
-
-
         @Override
         public void onDayTypeUpdate(@NonNull Day day, @NonNull DayType dayType) {
             mPresenter.updateDayStatus(day, dayType);
         }
 
-
-
+        @Override
+        public void onEventStatusUpdate(@NonNull Event event, @NonNull EventStatus eventStatus) {
+            mPresenter.updateEventStatus(event, eventStatus);
+        }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
