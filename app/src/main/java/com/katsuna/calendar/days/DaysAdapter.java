@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.Math.toIntExact;
 
 class DaysAdapter extends BaseAdapter {
 
@@ -172,7 +173,6 @@ class DaysAdapter extends BaseAdapter {
                     }
                 });
                 buttonsWrapper.setVisibility(View.VISIBLE);
-
             }
 
 
@@ -189,6 +189,7 @@ class DaysAdapter extends BaseAdapter {
 
                     View eventDetails = inflater.inflate(R.layout.event_info_rh, buttonsWrapper,
                             false);
+                    eventDetails.setId(toIntExact(event.getEventId()));
                     ImageView typeImage =  eventDetails.findViewById(R.id.alarm_type_image);
                     Drawable icon = context.getDrawable(eventFormatter.getEventTypeIconResId());
                     typeImage.setImageDrawable(icon);
@@ -196,13 +197,6 @@ class DaysAdapter extends BaseAdapter {
                     TextView eventDescription = eventDetails.findViewById(R.id.event_description);
                     eventDescription.setText(event.getDescription()+", " +event.getHour()+":"+event.getMinute());
 
-
-                    if( count == 0) {
-                        buttonsWrapper.addView(eventDetails);
-                    }
-                    else {
-                        buttonsWrapper.addView(eventDetails, paramsEnd);
-                    }
 //                    ToggleButton toggleButton = eventDetails.findViewById(R.id.event_description);
                     final Button turnOffButton = eventDetails.findViewById(R.id.event_status_button);
                     if (event.getEventStatus() == EventStatus.ACTIVE) {
@@ -220,7 +214,14 @@ class DaysAdapter extends BaseAdapter {
                             }
                         }
                     });
-
+                    if( count == 0) {
+                        buttonsWrapper.addView(eventDetails);
+                    }
+                    else {
+                        System.out.println("IM In paramsend:"+paramsEnd.getRule(0));
+                        buttonsWrapper.addView(eventDetails, paramsEnd);
+                    }
+                    System.out.println("id:"+eventDetails.getId());
                     paramsEnd.addRule(RelativeLayout.BELOW, eventDetails.getId());
                 }
                 View buttonsView = inflater.inflate(R.layout.action_buttons_rh, buttonsWrapper,
