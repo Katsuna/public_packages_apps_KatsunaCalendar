@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -28,10 +29,12 @@ import com.katsuna.calendar.formatters.EventFormatter;
 import com.katsuna.commons.entities.OpticalParams;
 import com.katsuna.commons.entities.SizeProfileKeyV2;
 import com.katsuna.commons.entities.UserProfile;
+import com.katsuna.commons.utils.ColorAdjuster;
 import com.katsuna.commons.utils.ColorAdjusterV2;
 import com.katsuna.commons.utils.IUserProfileProvider;
 import com.katsuna.commons.utils.SizeAdjuster;
 import com.katsuna.commons.utils.SizeCalcV2;
+import com.katsuna.commons.utils.ToggleButtonAdjuster;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,6 +42,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.Math.min;
 import static java.lang.Math.toIntExact;
 
 class DaysAdapter extends BaseAdapter {
@@ -121,9 +125,16 @@ class DaysAdapter extends BaseAdapter {
 
         CardView dayCard = rowView.findViewById(R.id.day_container_card);
 
-        System.out.println("the user profile is" + userProfile);
+        if(day.getEvents() != null) {
+            System.out.println("the day" + day.getDay() + "has events:" + day.getEvents().size());
+        }
         if (calendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(day.getDay()) && calendar.get(Calendar.MONTH) == mMonth & calendar.get(Calendar.YEAR) == mYear) {
-            day.setDayType(DayType.CURRENT);
+            if (day.getEvents() != null && !day.getEvents().isEmpty()){
+                day.setDayType(DayType.CURRENT_WITH_EVENT);
+            }
+            else {
+                day.setDayType(DayType.CURRENT);
+            }
         } else if (day.getEvents() != null && !day.getEvents().isEmpty()) {
             day.setDayType(DayType.WITH_EVENT);
         } else {
@@ -176,82 +187,97 @@ class DaysAdapter extends BaseAdapter {
             }
 
 
-        if (day.getDayType().equals(DayType.WITH_EVENT)) {
+        if (day.getDayType().equals(DayType.WITH_EVENT) || day.getDayType().equals(DayType.CURRENT_WITH_EVENT )) {
             TextView eventInfo = rowView.findViewById(R.id.day_events_info);
             eventInfo.setText(R.string.avail_events);
+            int event_info_layout=0;
+            int action_layout = 0;
+
             if (userProfile.isRightHanded) {
-                buttonsWrapper.removeAllViews();
-
-                RelativeLayout.LayoutParams paramsEnd = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                int count =0;
-                for(final Event event: day.getEvents()) {
-                    EventFormatter eventFormatter = new EventFormatter(context, event);
-
-                    View eventDetails = inflater.inflate(R.layout.event_info_rh, buttonsWrapper,
-                            false);
-                    eventDetails.setId(toIntExact(event.getEventId()));
-                    ImageView typeImage =  eventDetails.findViewById(R.id.alarm_type_image);
-                    Drawable icon = context.getDrawable(eventFormatter.getEventTypeIconResId());
-                    typeImage.setImageDrawable(icon);
-
-                    TextView eventDescription = eventDetails.findViewById(R.id.event_description);
-                    eventDescription.setText(event.getDescription()+", " +event.getHour()+":"+event.getMinute());
-
-//                    ToggleButton toggleButton = eventDetails.findViewById(R.id.event_description);
-                    final Button turnOffButton = eventDetails.findViewById(R.id.event_status_button);
-                    if (event.getEventStatus() == EventStatus.ACTIVE) {
-                        turnOffButton.setText(R.string.turn_off);
-                    } else {
-                        turnOffButton.setText(R.string.turn_on);
-                    }
-                    turnOffButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (event.getEventStatus() == EventStatus.ACTIVE) {
-                                mItemListener.onEventStatusUpdate(event, EventStatus.INACTIVE);
-                            } else {
-                                mItemListener.onEventStatusUpdate(event, EventStatus.ACTIVE);
-                            }
-                        }
-                    });
-                    if( count == 0) {
-                        buttonsWrapper.addView(eventDetails);
-                    }
-                    else {
-                        System.out.println("IM In paramsend:"+paramsEnd.getRule(0));
-                        buttonsWrapper.addView(eventDetails, paramsEnd);
-                    }
-                    System.out.println("id:"+eventDetails.getId());
-                    paramsEnd.addRule(RelativeLayout.BELOW, eventDetails.getId());
-                }
-                View buttonsView = inflater.inflate(R.layout.action_buttons_rh, buttonsWrapper,
-                        false);
-                buttonsWrapper.addView(buttonsView,paramsEnd);
-
-            } else {
-                View buttonsView = inflater.inflate(R.layout.action_buttons_lh, buttonsWrapper,
-                        false);
-                buttonsWrapper.removeAllViews();
-                buttonsWrapper.addView(buttonsView);
+                event_info_layout = R.layout.event_info_rh;
+                action_layout = R.layout.action_buttons_rh;
             }
+            else {
+                event_info_layout = R.layout.event_info_lh;
+                action_layout = R.layout.action_buttons_lh;            }
+            buttonsWrapper.removeAllViews();
+
+            RelativeLayout.LayoutParams paramsEnd = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            int count =0;
+            for(final Event event: day.getEvents()) {
+                EventFormatter eventFormatter = new EventFormatter(context, event);
+
+                View eventDetails = inflater.inflate(event_info_layout, buttonsWrapper,
+                        false);
+                eventDetails.setId(toIntExact(event.getEventId()));
+                ImageView typeImage =  eventDetails.findViewById(R.id.alarm_type_image);
+                Drawable icon = context.getDrawable(eventFormatter.getEventTypeIconResId());
+                typeImage.setImageDrawable(icon);
+
+                TextView eventDescription = eventDetails.findViewById(R.id.event_title_description);
+                String minutes = String.valueOf(event.getMinute());
+                String hour = String.valueOf(event.getHour());
+                if (event.getMinute() < 10) {
+                    minutes = "0"+minutes;
+                }
+                if (event.getHour() < 10) {
+                    hour = "0" + hour;
+                }
+
+                eventDescription.setText(eventFormatter.getTitle()+", " +hour+":"+minutes);
 
 
-//            Button editButton = rowView.findViewById(R.id.button_edit);
-//            editButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mItemListener.onDayAddEvent(day);
-//                }
-//            });
 
-            final Button turnOffButton = rowView.findViewById(R.id.button_turn_off);
-//            if (alarm.getAlarmStatus() == AlarmStatus.ACTIVE) {
-//
-//
-//                turnOffButton.setText(R.string.turn_off);
-//            } else {
-//                turnOffButton.setText(R.string.turn_on);
-//            }
+                final ToggleButton turnOffButton = eventDetails.findViewById(R.id.event_status_button);
+                if (event.getEventStatus() == EventStatus.ACTIVE) {
+                    turnOffButton.setText(R.string.on);
+                } else {
+                    turnOffButton.setText(R.string.off);
+                }
+
+                turnOffButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (event.getEventStatus() == EventStatus.ACTIVE) {
+                            mItemListener.onEventStatusUpdate(event, EventStatus.INACTIVE);
+                        } else {
+                            mItemListener.onEventStatusUpdate(event, EventStatus.ACTIVE);
+                        }
+                    }
+                });
+
+
+                if( count == 0) {
+                    buttonsWrapper.addView(eventDetails);
+                }
+                else {
+                    System.out.println("IM In paramsend:"+paramsEnd.getRule(0));
+                    buttonsWrapper.addView(eventDetails, paramsEnd);
+                }
+                System.out.println("id:"+eventDetails.getId());
+                paramsEnd.addRule(RelativeLayout.BELOW, eventDetails.getId());
+
+
+                OpticalParams opticalParams = SizeCalcV2.getOpticalParams(SizeProfileKeyV2.BUTTON,
+                        userProfile.opticalSizeProfile);
+                SizeAdjuster.adjustText(context, turnOffButton, opticalParams);
+
+                ToggleButtonAdjuster.adjustToggleButton(context, turnOffButton,turnOffButton.getBackground(), userProfile);
+
+            }
+            View buttonsView = inflater.inflate(action_layout, buttonsWrapper,
+                    false);
+            buttonsWrapper.addView(buttonsView,paramsEnd);
+
+            TextView moreButton = buttonsView.findViewById(R.id.txt_more);
+            moreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItemListener.onDayEventEdit(day);
+                }
+            });
+
+
 
         }
 //        turnOffButton.setOnClickListener(new View.OnClickListener() {
@@ -273,18 +299,7 @@ class DaysAdapter extends BaseAdapter {
 //            }
 //        });
 //
-//        // adjust buttons
-//        OpticalParams opticalParams = SizeCalcV2.getOpticalParams(SizeProfileKeyV2.BUTTON,
-//                userProfile.opticalSizeProfile);
-//        SizeAdjuster.adjustText(context, editButton, opticalParams);
-//        SizeAdjuster.adjustText(context, turnOffButton, opticalParams);
-//
-//        // more text
-//        opticalParams = SizeCalcV2.getOpticalParams(SizeProfileKeyV2.BUTTON,
-//                userProfile.opticalSizeProfile);
-//        SizeAdjuster.adjustText(context, deleteText, opticalParams);
-//
-//        ColorAdjusterV2.adjustButtons(context, userProfile, editButton, turnOffButton, deleteText);
+
 
 
         return rowView;
@@ -311,4 +326,5 @@ class DaysAdapter extends BaseAdapter {
         }
         notifyDataSetChanged();
     }
+
 }

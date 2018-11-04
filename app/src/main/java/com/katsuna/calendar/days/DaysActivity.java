@@ -231,9 +231,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
     private void initMonth(int month, int year) throws ParseException {
         calendar.set(year, month ,1);
-
         String monthName = new SimpleDateFormat("MMM").format(calendar.getTime());
-
 
         while (month==calendar.get(Calendar.MONTH)) {
             System.out.print(calendar.getTime());
@@ -279,30 +277,30 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     private void setupDrawerLayout() {
         KatsunaNavigationView mKatsunaNavigationView = findViewById(R.id.katsuna_main_navigation_view);
         mKatsunaNavigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                        mDrawerLayout.closeDrawers();
+                mDrawerLayout.closeDrawers();
 
-                        switch (menuItem.getItemId()) {
-                            case R.id.drawer_settings:
-                                startActivity(new Intent(DaysActivity.this,
-                                        SettingsActivity.class));
-                                break;
-                            case R.id.drawer_info:
-                                startActivity(new Intent(DaysActivity.this, InfoActivity.class));
-                                break;
-                            case R.id.drawer_privacy:
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse(KATSUNA_PRIVACY_URL));
-                                startActivity(browserIntent);
-                                break;
-                        }
+                switch (menuItem.getItemId()) {
+                    case R.id.drawer_settings:
+                        startActivity(new Intent(DaysActivity.this,
+                                SettingsActivity.class));
+                        break;
+                    case R.id.drawer_info:
+                        startActivity(new Intent(DaysActivity.this, InfoActivity.class));
+                        break;
+                    case R.id.drawer_privacy:
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse(KATSUNA_PRIVACY_URL));
+                        startActivity(browserIntent);
+                        break;
+                }
 
-                        return true;
-                    }
-                });
+                return true;
+            }
+        });
     }
 
     @Override
@@ -327,6 +325,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         Intent i = new Intent(this, ManageEventActivity.class);
         i.putExtra(EXTRA_EVENT_TYPE, EventType.ALARM);
         i.putExtra("Day",  day);
+
         startActivityForResult(i, REQUEST_CODE_NEW_EVENT);
     }
 
@@ -361,6 +360,9 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
                 Event event = data.getParcelableExtra("event");
                 Log.e(TAG, "Event set with id: " + event);
                 showEventSetEvent(event);
+                mPresenter.loadDays();
+//                mDaysList.setAdapter(mDaysAdapter);
+//                mDaysAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -392,6 +394,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         // calc and set message
         EventFormatter eventFormatter = new EventFormatter(this, event);
         builder.setMessage(eventFormatter.getEventMessage());
+        System.out.println("the message is :"+eventFormatter.getEventMessage());
         builder.setView(R.layout.common_katsuna_alert);
         builder.setUserProfile(mUserProfileContainer.getActiveUserProfile());
         builder.setOkListener(new View.OnClickListener() {

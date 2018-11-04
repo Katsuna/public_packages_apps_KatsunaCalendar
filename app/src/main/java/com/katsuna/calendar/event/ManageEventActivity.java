@@ -254,6 +254,9 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                     } else if (input < 0) {
                         output = "00";
                     }
+//                    if(input < 10){
+//                        output = "0"+input;
+//                    }
                 } catch (NumberFormatException ex) {
                     output = "00";
                 }

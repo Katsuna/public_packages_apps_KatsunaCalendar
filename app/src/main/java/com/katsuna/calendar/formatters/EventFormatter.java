@@ -30,7 +30,7 @@ public class EventFormatter {
 
     public int getEventTypeIconResId() {
         int output;
-        if (mEvent.getEventType() == EventType.REMINDER) {
+        if (mEvent.getEventType() == EventType.ALARM) {
             output = R.drawable.ic_notifications_24dp;
         } else {
             output = R.drawable.ic_access_time_24dp;
@@ -59,14 +59,9 @@ public class EventFormatter {
     }
 
     public String getEventMessage() {
-        String output = R.string.event_is_set_at + showDate();
+        String output = mContext.getResources().getString(R.string.event_is_set_at) + showDate();
         output += "\n";
-//        String days = getDaysFrequency();
-//        if (!days.isEmpty()) {
-//            output += days;
-//            output += "\n";
-//        }
-        output += R.string.remaining_days + getDaysUntilRing();
+        output += mContext.getResources().getString(R.string.remaining_days) + getDaysUntilRing();
         return output;
     }
 
@@ -80,6 +75,7 @@ public class EventFormatter {
     }
 
     private String showDate() {
+
         return  mEvent.getDayOfMonth() + " " +mEvent.getMonth() +" "+mEvent.getYear();
     }
 
