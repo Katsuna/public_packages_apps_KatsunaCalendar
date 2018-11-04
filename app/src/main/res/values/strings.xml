@@ -68,4 +68,6 @@
     <string name="vibrate_on">vibrate on</string>
     <string name="ringtone">Ringtone: %1$s</string>
     <string name="temp_description">Event Description</string>
+    <string name="off">OFF</string>
+    <string name="on">ON</string>
 </resources>

@@ -81,4 +81,6 @@ dependencies {
     // UiAutomator Testing
     androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:$rootProject.uiautomatorVersion"
     androidTestImplementation "org.hamcrest:hamcrest-integration:$rootProject.hamcrestVersion"
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+
 }
