@@ -9,6 +9,7 @@ import com.katsuna.calendar.data.source.CalendarDatabase;
 import com.katsuna.calendar.data.source.DatabaseInjection;
 import com.katsuna.calendar.data.source.EventsDataSource;
 import com.katsuna.calendar.data.source.EventsLocalDataSource;
+import com.katsuna.calendar.services.NextEventCalculator;
 import com.katsuna.calendar.validators.EventValidator;
 import com.katsuna.calendar.validators.IEventValidator;
 
@@ -24,6 +25,6 @@ public class Injection {
     }
 
     public static IEventsScheduler provideEventScheduler(@NonNull Context context) {
-        return new EventsScheduler(context, provideEventsDataSource(context));
+        return new EventsScheduler(context, provideEventsDataSource(context), new NextEventCalculator());
     }
 }

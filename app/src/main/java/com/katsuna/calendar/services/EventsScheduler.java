@@ -30,10 +30,13 @@ public class EventsScheduler implements IEventsScheduler {
 
     private final Context mContext;
     private final EventsDataSource mEventsDatasource;
+    private final INextEventCalculator mNextEventCalculator;
 
-    public EventsScheduler(@NonNull Context context, @NonNull EventsDataSource eventsDataSource) {
+    public EventsScheduler(@NonNull Context context, @NonNull EventsDataSource eventsDataSource, @NonNull INextEventCalculator nextEventCalculator) {
         mContext = context;
         mEventsDatasource = eventsDataSource;
+        mNextEventCalculator = nextEventCalculator;
+
     }
 
     @Override
@@ -76,17 +79,17 @@ public class EventsScheduler implements IEventsScheduler {
         if (event.getEventStatus() != EventStatus.ACTIVE) return;
 
         AlarmManager am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-//        LocalDateTime now = LocalDateTime.now();
-//        LocalDateTime triggerDateTime = mNextEventCalculator.getTriggerDateTime(now, event);
-//
-//        AlarmManager.AlarmClockInfo eventClockInfo = new AlarmManager.AlarmClockInfo(
-//                DateUtils.toEpochMillis(triggerDateTime),
-//                getPendindEditIntent(event));
-//
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime triggerDateTime = mNextEventCalculator.getTriggerDateTime(now, event);
+
+        AlarmManager.AlarmClockInfo eventClockInfo = new AlarmManager.AlarmClockInfo(
+                DateUtils.toEpochMillis(triggerDateTime),
+                getPendindEditIntent(event));
+
 //        Objects.requireNonNull(am).setEventClock(eventClockInfo, getPendingTriggerIntent(event,
 //                FLAG_UPDATE_CURRENT));
 
-//        LogUtils.i(TAG, String.format("Event %s scheduled at (%s)", event, triggerDateTime));
+        LogUtils.i(TAG, String.format("Event %s scheduled at (%s)", event, triggerDateTime));
     }
 
 
