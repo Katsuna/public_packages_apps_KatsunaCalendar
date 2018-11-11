@@ -1,7 +1,6 @@
 package com.katsuna.calendar.days;
 
 import android.support.annotation.NonNull;
-import android.widget.LinearLayout;
 
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.DayType;
@@ -9,7 +8,7 @@ import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.data.source.EventsDataSource;
 import com.katsuna.calendar.services.IEventsScheduler;
-import com.katsuna.calendar.utils.EspressoIdlingResource;
+import com.katsuna.calendar.util.EspressoIdlingResource;
 
 import java.util.List;
 

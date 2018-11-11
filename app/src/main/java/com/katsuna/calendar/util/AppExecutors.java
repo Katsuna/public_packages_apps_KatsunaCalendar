@@ -1,4 +1,4 @@
-package com.katsuna.calendar.utils;
+package com.katsuna.calendar.util;
 
 import android.os.Handler;
 import android.os.Looper;

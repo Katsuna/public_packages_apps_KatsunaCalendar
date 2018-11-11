@@ -307,10 +307,10 @@ class DaysAdapter extends BaseAdapter {
 
     public void replaceData(List<Event> events) {
         /***** TODO ADD EVENTS****/
-        System.out.println("IM in replace Data");
         for (Event event: events){
             if(event.getYear() == mYear && event.getMonth() == mMonth) {
                 for(Day day: mDays){
+                    System.out.println("IM in replace Data"+Integer.parseInt(day.getDay()));
                     if(Integer.parseInt(day.getDay()) == event.getDayOfMonth()){
                         if (mDays.get(event.getDayOfMonth()).getEvents() == null) {
                             List<Event> dayEvents = new ArrayList<>();

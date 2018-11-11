@@ -6,8 +6,8 @@ import android.content.Intent;
 
 import com.katsuna.calendar.Utils;
 import com.katsuna.calendar.services.IEventsScheduler;
-import com.katsuna.calendar.utils.Injection;
-import com.katsuna.calendar.utils.LogUtils;
+import com.katsuna.calendar.util.Injection;
+import com.katsuna.calendar.util.LogUtils;
 
 
 public class EventInitReceiver extends BroadcastReceiver {

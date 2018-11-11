@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 
 import com.katsuna.calendar.R;
-import com.katsuna.calendar.utils.LogUtils;
+import com.katsuna.calendar.util.LogUtils;
 import com.katsuna.commons.ui.KatsunaInfoActivity;
 
 public class InfoActivity extends KatsunaInfoActivity {

@@ -8,7 +8,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.data.EventType;
-import com.katsuna.calendar.utils.SingleExecutors;
+import com.katsuna.calendar.util.SingleExecutors;
 
 import org.junit.After;
 import org.junit.Before;

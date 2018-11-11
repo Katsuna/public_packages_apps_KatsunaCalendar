@@ -1,6 +1,6 @@
 package com.katsuna.calendar.data;
 
-import com.katsuna.calendar.utils.LogUtils;
+import com.katsuna.calendar.util.LogUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -9,7 +9,9 @@ import java.util.List;
 public interface EventsDataSource {
     void getEvents(@NonNull LoadEventsCallback callback);
 
-    void getEvent(long alarmId, @NonNull GetEventCallback callback);
+    void getEvent(long eventId, @NonNull GetEventCallback callback);
+
+    Event getEvent(long eventId);
 
     void saveEvent(@NonNull Event event);
 

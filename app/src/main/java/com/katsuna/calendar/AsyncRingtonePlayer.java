@@ -15,7 +15,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.telephony.TelephonyManager;
 
-import com.katsuna.calendar.utils.LogUtils;
+import com.katsuna.calendar.util.LogUtils;
 
 import java.lang.reflect.Method;
 import java.util.Objects;

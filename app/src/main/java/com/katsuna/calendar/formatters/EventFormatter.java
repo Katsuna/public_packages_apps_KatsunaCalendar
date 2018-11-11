@@ -51,7 +51,7 @@ public class EventFormatter {
     public String getDescription() {
         String output;
         if (mEvent.getEventType() == EventType.ALARM) {
-            output = getString(R.string.event);
+            output = getString(R.string.alarm);
         } else {
             output = showDate();
         }
@@ -59,7 +59,13 @@ public class EventFormatter {
     }
 
     public String getEventMessage() {
-        String output = mContext.getResources().getString(R.string.event_is_set_at) + showDate();
+        String output;
+        if (mEvent.getEventType() == EventType.REMINDER) {
+            output = mContext.getResources().getString(R.string.reminder_is_set_at) + " " + showDate();
+        }
+        else{
+            output = mContext.getResources().getString(R.string.alarm_is_set_at) + " " + showDate();
+        }
         output += "\n";
         output += mContext.getResources().getString(R.string.remaining_days) + getDaysUntilRing();
         return output;

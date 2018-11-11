@@ -4,7 +4,7 @@ import android.content.Context;
 import android.media.AudioAttributes;
 import android.os.Vibrator;
 
-import com.katsuna.calendar.utils.LogUtils;
+import com.katsuna.calendar.util.LogUtils;
 
 /**
  * Manages playing alarm ringtones and vibrating the device.

@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_marginTop="51dp"-->
-        <!--android:src="@drawable/ic_eve_black_40dp" />-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="51dp"
+        android:src="@drawable/ic_alarm_black_40dp" />
 
     <TextView
         android:id="@+id/alarm_description"
@@ -20,7 +20,7 @@
         android:layout_marginTop="26dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:text="@string/event"
+        android:text="@string/alarm"
         android:textSize="26sp" />
 
     <TextClock

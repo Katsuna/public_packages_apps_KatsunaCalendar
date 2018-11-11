@@ -7,7 +7,7 @@ import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.services.IEventsScheduler;
 import com.katsuna.calendar.data.source.EventsDataSource;
-import com.katsuna.calendar.utils.EspressoIdlingResource;
+import com.katsuna.calendar.util.EspressoIdlingResource;
 
 import java.util.List;
 

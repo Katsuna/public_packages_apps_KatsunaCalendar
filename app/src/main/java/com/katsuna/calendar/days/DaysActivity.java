@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,20 +24,16 @@ import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
-import com.katsuna.calendar.formatters.DayFormatter;
 import com.katsuna.calendar.formatters.EventFormatter;
 import com.katsuna.calendar.info.InfoActivity;
 import com.katsuna.calendar.settings.SettingsActivity;
-import com.katsuna.calendar.utils.Injection;
+import com.katsuna.calendar.util.Injection;
 import com.katsuna.commons.controls.KatsunaNavigationView;
-import com.katsuna.commons.entities.ColorProfileKeyV2;
 import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
-import com.katsuna.commons.utils.ColorCalcV2;
 import com.katsuna.commons.utils.IUserProfileProvider;
 import com.katsuna.commons.utils.KatsunaAlertBuilder;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -147,6 +142,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 //        mDaysAdapter = new DaysAdapter(new ArrayList<Day>(0), mItemListener, this);
         mDaysList = findViewById(R.id.days_list);
 
+
         initToolbar();
         initDrawer();
         initCalendar();
@@ -177,13 +173,13 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
         try {
             initMonth((currentMonth),currentYear);
+            mPresenter.loadDays();
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
-    public void nextMonth(View view)
-    {
+    public void nextMonth(View view) {
         if(currentMonth == 11){
             currentMonth = 0;
             currentYear = currentYear +1;
@@ -201,6 +197,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
         try {
             initMonth((currentMonth),currentYear);
+            mPresenter.loadDays();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -258,7 +255,10 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         }
 
         mDaysAdapter = new DaysAdapter(days, mItemListener, this,month, year);
+        mDaysAdapter.notifyDataSetChanged();
         mDaysList.setAdapter(mDaysAdapter);
+
+//        mDaysAdapter.
 
     }
 
@@ -394,7 +394,6 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         // calc and set message
         EventFormatter eventFormatter = new EventFormatter(this, event);
         builder.setMessage(eventFormatter.getEventMessage());
-        System.out.println("the message is :"+eventFormatter.getEventMessage());
         builder.setView(R.layout.common_katsuna_alert);
         builder.setUserProfile(mUserProfileContainer.getActiveUserProfile());
         builder.setOkListener(new View.OnClickListener() {

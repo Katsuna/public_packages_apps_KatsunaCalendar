@@ -70,4 +70,6 @@
     <string name="temp_description">Event Description</string>
     <string name="off">OFF</string>
     <string name="on">ON</string>
+    <string name="reminder_is_set_at">Reminder is set at</string>
+    <string name="alarm_is_set_at">Alarm is set at</string>
 </resources>

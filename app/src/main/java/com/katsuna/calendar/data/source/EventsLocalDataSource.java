@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.katsuna.calendar.data.Event;
-import com.katsuna.calendar.utils.AppExecutors;
+import com.katsuna.calendar.util.AppExecutors;
 
 import java.util.List;
 
@@ -91,6 +91,11 @@ public class EventsLocalDataSource implements EventsDataSource {
         };
 
         mAppExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public Event getEvent(long eventId) {
+        return mEventsDao.getEventById(eventId);
     }
 
     @Override

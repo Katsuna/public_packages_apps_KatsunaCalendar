@@ -17,8 +17,8 @@ import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.data.source.EventsDataSource;
 import com.katsuna.calendar.services.EventsScheduler;
 import com.katsuna.calendar.services.IEventsScheduler;
-import com.katsuna.calendar.utils.Injection;
-import com.katsuna.calendar.utils.LogUtils;
+import com.katsuna.calendar.util.Injection;
+import com.katsuna.calendar.util.LogUtils;
 
 import com.katsuna.commons.entities.ColorProfile;
 import com.katsuna.commons.entities.ColorProfileKeyV2;

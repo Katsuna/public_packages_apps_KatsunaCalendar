@@ -13,6 +13,8 @@ public interface IEventsScheduler {
 
     void cancel(Event event);
 
+    void snooze(Event event, long delay);
+
     interface CallBack {
         void schedulingFinished();
 

@@ -11,7 +11,10 @@ import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.data.source.EventsDataSource;
 import com.katsuna.calendar.event.ManageEventActivity;
-import com.katsuna.calendar.utils.LogUtils;
+import com.katsuna.calendar.util.DateUtils;
+import com.katsuna.calendar.util.LogUtils;
+
+import org.threeten.bp.LocalDateTime;
 
 import java.util.List;
 import java.util.Objects;
@@ -96,6 +99,24 @@ public class EventsScheduler implements IEventsScheduler {
         Objects.requireNonNull(eventManager).cancel(pi);
 
         pi.cancel();
+    }
+
+    @Override
+    public void snooze(Event event, long delay) {
+        LogUtils.d("%s snooze: %s", TAG, event);
+
+        if (event.getEventStatus() != EventStatus.ACTIVE) return;
+
+        AlarmManager am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+        LocalDateTime rescheduledTime = LocalDateTime.now().plusSeconds(delay);
+
+        AlarmManager.AlarmClockInfo eventClockInfo = new AlarmManager.AlarmClockInfo(
+                DateUtils.toEpochMillis(rescheduledTime),
+                getPendindEditIntent(event));
+        Objects.requireNonNull(am).setAlarmClock(eventClockInfo, getPendingTriggerIntent(event,
+                FLAG_UPDATE_CURRENT));
+
+        LogUtils.i("%s Alarm %s snoozed and  scheduled at (%s)", TAG, event, rescheduledTime);
     }
 
     private PendingIntent getPendingTriggerIntent(Event event, int flag) {
