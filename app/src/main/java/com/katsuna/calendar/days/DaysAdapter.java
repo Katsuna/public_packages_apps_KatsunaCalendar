@@ -1,6 +1,7 @@
 package com.katsuna.calendar.days;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -26,6 +27,7 @@ import com.katsuna.calendar.events.EventItemListener;
 import com.katsuna.calendar.events.EventsContract;
 import com.katsuna.calendar.formatters.DayFormatter;
 import com.katsuna.calendar.formatters.EventFormatter;
+import com.katsuna.commons.controls.KatsunaToggleButton;
 import com.katsuna.commons.entities.OpticalParams;
 import com.katsuna.commons.entities.SizeProfileKeyV2;
 import com.katsuna.commons.entities.UserProfile;
@@ -228,11 +230,13 @@ class DaysAdapter extends BaseAdapter {
 
 
 
-                final ToggleButton turnOffButton = eventDetails.findViewById(R.id.event_status_button);
+                KatsunaToggleButton turnOffButton = eventDetails.findViewById(R.id.event_status_button);
                 if (event.getEventStatus() == EventStatus.ACTIVE) {
+                    turnOffButton.setChecked(true);
                     turnOffButton.setText(R.string.on);
                 } else {
                     turnOffButton.setText(R.string.off);
+                    turnOffButton.setChecked(false);
                 }
 
                 turnOffButton.setOnClickListener(new View.OnClickListener() {
@@ -262,8 +266,10 @@ class DaysAdapter extends BaseAdapter {
                         userProfile.opticalSizeProfile);
                 SizeAdjuster.adjustText(context, turnOffButton, opticalParams);
 
-                ToggleButtonAdjuster.adjustToggleButton(context, turnOffButton,turnOffButton.getBackground(), userProfile);
+                ToggleButtonAdjuster.adjustToggleButton(context, turnOffButton, turnOffButton.getBackground(), userProfile);
 
+//                ColorAdjuster.applyColor(context, turnOffButton, userProfile.colorProfile);
+//                ColorAdjusterV2.adjustColor(context, userProfile, turnOffButton);
             }
             View buttonsView = inflater.inflate(action_layout, buttonsWrapper,
                     false);
@@ -280,16 +286,6 @@ class DaysAdapter extends BaseAdapter {
 
 
         }
-//        turnOffButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (alarm.getAlarmStatus() == AlarmStatus.ACTIVE) {
-//                    mItemListener.onAlarmStatusUpdate(alarm, AlarmStatus.INACTIVE);
-//                } else {
-//                    mItemListener.onAlarmStatusUpdate(alarm, AlarmStatus.ACTIVE);
-//                }
-//            }
-//        });
 
 //        TextView deleteText = rowView.findViewById(R.id.txt_delete);
 //        deleteText.setOnClickListener(new View.OnClickListener() {
