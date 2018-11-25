@@ -25,6 +25,7 @@ import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
 import com.katsuna.calendar.formatters.EventFormatter;
+import com.katsuna.calendar.grid_calendar.GridCalendarActivity;
 import com.katsuna.calendar.info.InfoActivity;
 import com.katsuna.calendar.settings.SettingsActivity;
 import com.katsuna.calendar.util.Injection;
@@ -329,6 +330,13 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         startActivityForResult(i, REQUEST_CODE_NEW_EVENT);
     }
 
+    @Override
+    public void showGridCalendar() {
+        Intent i = new Intent(this, GridCalendarActivity.class);
+
+
+        startActivityForResult(i, REQUEST_CODE_NEW_EVENT);
+    }
 
     @Override
     public void showEventDetailsUi(long eventId) {

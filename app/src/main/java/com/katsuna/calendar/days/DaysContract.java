@@ -28,11 +28,15 @@ public interface DaysContract {
         void focusOnDay(Day day, boolean focus);
 
         void reloadDay(Day day);
+
+        void showGridCalendar();
     }
 
     interface Presenter extends BasePresenter {
 
         void loadDays();
+
+        void addOnGridCalendarNewEvent();
 
         void addNewEvent();
 

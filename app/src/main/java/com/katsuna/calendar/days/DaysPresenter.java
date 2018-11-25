@@ -61,6 +61,11 @@ public class DaysPresenter implements DaysContract.Presenter {
     }
 
     @Override
+    public void addOnGridCalendarNewEvent() {
+        mDaysView.showGridCalendar();
+    }
+
+    @Override
     public void addNewEvent() {
         mDaysView.showAddEvent(null);
 

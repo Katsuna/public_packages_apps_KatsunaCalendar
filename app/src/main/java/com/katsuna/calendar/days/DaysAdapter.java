@@ -27,6 +27,7 @@ import com.katsuna.calendar.events.EventItemListener;
 import com.katsuna.calendar.events.EventsContract;
 import com.katsuna.calendar.formatters.DayFormatter;
 import com.katsuna.calendar.formatters.EventFormatter;
+import com.katsuna.calendar.util.DrawToggleUtils;
 import com.katsuna.commons.controls.KatsunaToggleButton;
 import com.katsuna.commons.entities.OpticalParams;
 import com.katsuna.commons.entities.SizeProfileKeyV2;
@@ -67,7 +68,6 @@ class DaysAdapter extends BaseAdapter {
         calendar = Calendar.getInstance();
 
         calendar.setTime(calendar.getTime());
-
         setList(days);
         mItemListener = itemListener;
         mUserProfileProvider = userProfileProvider;
@@ -230,7 +230,7 @@ class DaysAdapter extends BaseAdapter {
 
 
 
-                KatsunaToggleButton turnOffButton = eventDetails.findViewById(R.id.event_status_button);
+                ToggleButton turnOffButton = eventDetails.findViewById(R.id.event_status_button);
                 if (event.getEventStatus() == EventStatus.ACTIVE) {
                     turnOffButton.setChecked(true);
                     turnOffButton.setText(R.string.on);
@@ -266,9 +266,11 @@ class DaysAdapter extends BaseAdapter {
                         userProfile.opticalSizeProfile);
                 SizeAdjuster.adjustText(context, turnOffButton, opticalParams);
 
-                ToggleButtonAdjuster.adjustToggleButton(context, turnOffButton, turnOffButton.getBackground(), userProfile);
+                Drawable toggleBg = DrawToggleUtils.createMinifiedToggleBg(context, userProfile);
 
-//                ColorAdjuster.applyColor(context, turnOffButton, userProfile.colorProfile);
+//                ToggleButtonAdjuster.adjustToggleButton(context, turnOffButton, turnOffButton.getBackground(), userProfile);
+                DrawToggleUtils.adjustMinifiedToggleButton(context, turnOffButton, toggleBg,userProfile);
+                //                ColorAdjuster.applyColor(context, turnOffButton, userProfile.colorProfile);
 //                ColorAdjusterV2.adjustColor(context, userProfile, turnOffButton);
             }
             View buttonsView = inflater.inflate(action_layout, buttonsWrapper,
