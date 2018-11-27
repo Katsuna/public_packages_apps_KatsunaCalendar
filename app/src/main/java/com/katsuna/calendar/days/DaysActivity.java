@@ -52,7 +52,9 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
     private static final int REQUEST_CODE_NEW_EVENT = 1;
     private static final int REQUEST_CODE_EDIT_EVENT = 2;
-//    private TextView mNoEventsText;
+    private static final int REQUEST_GRID_CALENDAR = 3;
+
+    //    private TextView mNoEventsText;
     private ListView mDaysList;
     private DaysAdapter mDaysAdapter;
     private DrawerLayout mDrawerLayout;
@@ -333,9 +335,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     @Override
     public void showGridCalendar() {
         Intent i = new Intent(this, GridCalendarActivity.class);
-
-
-        startActivityForResult(i, REQUEST_CODE_NEW_EVENT);
+        startActivityForResult(i, REQUEST_GRID_CALENDAR);
     }
 
     @Override

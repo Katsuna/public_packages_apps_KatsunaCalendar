@@ -36,6 +36,7 @@
             android:label="@string/common_app_info"
             android:parentActivityName=".events.EventsActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".grid_calendar.GridCalendarActivity" />
 
         <receiver
             android:name=".receivers.EventInitReceiver"
