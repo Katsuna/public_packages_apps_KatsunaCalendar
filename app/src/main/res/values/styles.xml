@@ -8,4 +8,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--<style name="Theme.Custom" parent="android:Theme">-->
+        <!--<item name="android:calendarViewStyle">@style/Widget.CalendarView.Custom</item>-->
+    <!--</style>-->
+
+    <!--<style name="Widget.CalendarView.Custom" parent="Widget.CalendarView.Custom">-->
+        <!--<item name="android:focusedMonthDateColor">@color/colorPrimary</item>-->
+        <!--<item name="android:weekNumberColor">@drawable/katsuna_color_profile_1</item>-->
+        <!--<item name="android:weekDayTextAppearance">@style/KatsunaTitleIntermediate</item>-->
+        <!--<item name="android:dateTextAppearance">@style/KatsunaTitleIntermediate</item>-->
+    <!--</style>-->
+
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <!--<item name="colorAccent">@color/c</item>-->
+    </style>
+
+    <style name="CalenderViewDateCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <!--<item name="android:textColor">@color/c</item>-->
+        <item name="android:textSize">@dimen/common_19sp</item>
+
+    </style>
+
+    <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textSize">@dimen/common_16sp</item>
+    </style>
 </resources>

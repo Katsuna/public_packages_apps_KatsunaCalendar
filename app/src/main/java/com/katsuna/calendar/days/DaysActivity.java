@@ -63,7 +63,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     Calendar calendar;
     private int mPrimaryColor2;
     private int mSecondaryColor2;
-
+    private Day previousDay = null;
 
 
     private int currentMonth, currentYear;
@@ -138,7 +138,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         mFab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.addNewEvent();
+                mPresenter.addOnGridCalendarNewEvent();
             }
         });
 
@@ -244,7 +244,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         for(int i =1; i<=lastDate; i++){
             Day day = new Day();
             day.setDay(String.valueOf(i));
-            day.setMonth(String.valueOf(month));
+            day.setMonth(String.valueOf(month+1));
             day.setYear(String.valueOf(year));
             day.setDayType(DayType.SIMPLE);
             day.setMonthShort(monthName);
@@ -351,14 +351,17 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     @Override
     public void focusOnDay(Day day, boolean focus) {
         mDaysAdapter.focusOnDay(day, focus);
+
         if( focusFlag == false) {
             mFab2.setVisibility(View.GONE);
             focusFlag = true;
         }
-        else {
+        else if( focusFlag == true && day.equals(previousDay)){
             mFab2.setVisibility(View.VISIBLE);
             focusFlag = false;
         }
+        previousDay = day;
+
     }
 
     @Override

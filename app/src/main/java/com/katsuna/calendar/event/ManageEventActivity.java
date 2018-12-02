@@ -30,6 +30,7 @@ import com.katsuna.calendar.R;
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventType;
+import com.katsuna.calendar.days.DaysActivity;
 import com.katsuna.calendar.util.Injection;
 import com.katsuna.calendar.validators.ValidationResult;
 import com.katsuna.commons.entities.ColorProfileKeyV2;
@@ -119,7 +120,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     private void init() {
         mEventDayTitle = findViewById(R.id.current_event_day);
         if(mEventDay != null) {
-            mEventDayTitle.setText(mEventDay.getDayName() + ", " + mEventDay.getMonth());
+            mEventDayTitle.setText(mEventDay.getDayName() + " "+mEventDay.getDay() + ", " + mEventDay.getMonth());
         }
         else
         {
@@ -553,10 +554,12 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     @Override
     public void showCalendarOnReturn(Event event) {
-        Intent i = new Intent();
-        i.putExtra("event", event);
-        setResult(RESULT_OK, i);
-        finish();
+
+        Intent intent = new Intent(this, DaysActivity.class);
+        intent.putExtra("event", event);
+        setResult(RESULT_OK, intent);
+        startActivity(intent);
+//        finish();
 
     }
 
@@ -691,7 +694,8 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 previousStepFabParams.setAnchorId(R.id.event_options_container);
                 nextStepFabParams.setAnchorId(R.id.event_options_container);
                 nextStepFabParams.anchorGravity = Gravity.BOTTOM | Gravity.END;
-                break;        }
+                break;
+        }
     }
 
     @Override
