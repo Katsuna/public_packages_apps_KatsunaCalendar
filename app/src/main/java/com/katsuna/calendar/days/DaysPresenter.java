@@ -78,7 +78,7 @@ public class DaysPresenter implements DaysContract.Presenter {
 
     @Override
     public void openDayDetails(@NonNull Day day) {
-
+//TODO details
     }
 
     @Override
