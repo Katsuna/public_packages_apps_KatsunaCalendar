@@ -10,7 +10,7 @@ import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.source.converters.EventStatusConverter;
 import com.katsuna.calendar.data.source.converters.EventTypeConverter;
 
-@Database(entities = {Event.class}, version = 4)
+@Database(entities = {Event.class}, version = 5)
 @TypeConverters({EventTypeConverter.class, EventStatusConverter.class})
 public abstract class CalendarDatabase extends RoomDatabase {
     private static final Object sLock = new Object();

@@ -23,6 +23,7 @@ import com.katsuna.calendar.data.Event;
 
 import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.data.EventType;
+import com.katsuna.calendar.details.DayDetailsActivity;
 import com.katsuna.calendar.event.ManageEventActivity;
 import com.katsuna.calendar.formatters.EventFormatter;
 import com.katsuna.calendar.grid_calendar.GridCalendarActivity;
@@ -53,6 +54,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     private static final int REQUEST_CODE_NEW_EVENT = 1;
     private static final int REQUEST_CODE_EDIT_EVENT = 2;
     private static final int REQUEST_GRID_CALENDAR = 3;
+    private static final int REQUEST_DAY_DETAILS = 4;
 
     //    private TextView mNoEventsText;
     private ListView mDaysList;
@@ -115,7 +117,6 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
         setContentView(R.layout.activity_main_calendar);
 //        adjustProfiles();
-
         init();
 
         // Create the presenter
@@ -216,7 +217,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
 
         try {
             initMonth((calendar.get(Calendar.MONTH) ),calendar.get(Calendar.YEAR));
-            currentMonth = calendar.get(Calendar.MONTH) ;
+            currentMonth = calendar.get(Calendar.MONTH)+1 ;
             currentYear = calendar.get(Calendar.YEAR);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -237,6 +238,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
             System.out.print(calendar.getTime());
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
+        month++;
         ArrayList<Day> days = new ArrayList<>();
 
         int lastDate = calendar.getActualMaximum(Calendar.DATE);
@@ -244,11 +246,11 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         for(int i =1; i<=lastDate; i++){
             Day day = new Day();
             day.setDay(String.valueOf(i));
-            day.setMonth(String.valueOf(month+1));
+            day.setMonth(String.valueOf(month));
             day.setYear(String.valueOf(year));
             day.setDayType(DayType.SIMPLE);
             day.setMonthShort(monthName);
-            String dateString = String.format("%d-%d-%d", year, month +1, i);
+            String dateString = String.format("%d-%d-%d", year, month, i);
             Date date = new SimpleDateFormat("yyyy-M-d").parse(dateString);
 
             String dayOfWeek = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);
@@ -339,6 +341,14 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     }
 
     @Override
+    public void showDayDetails(Day day) {
+        Intent i = new Intent(this, DayDetailsActivity.class);
+
+        i.putExtra("Day",  day);
+        startActivityForResult(i, REQUEST_DAY_DETAILS);
+    }
+
+    @Override
     public void showEventDetailsUi(long eventId) {
 
     }
@@ -371,7 +381,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
                 Event event = data.getParcelableExtra("event");
                 Log.e(TAG, "Event set with id: " + event);
                 showEventSetEvent(event);
-                mPresenter.loadDays();
+//                mPresenter.loadDays();
 //                mDaysList.setAdapter(mDaysAdapter);
 //                mDaysAdapter.notifyDataSetChanged();
             }
@@ -427,15 +437,4 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         mDialog.show();
     }
 
-
-
-
-//    private void adjustProfiles() {
-//        UserProfile userProfile = mUserProfileContainer.getActiveUserProfile();
-//
-//        mPrimaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.PRIMARY_COLOR_2,
-//                userProfile.colorProfile);
-//        mSecondaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.SECONDARY_COLOR_2,
-//                userProfile.colorProfile);
-//    }
 }

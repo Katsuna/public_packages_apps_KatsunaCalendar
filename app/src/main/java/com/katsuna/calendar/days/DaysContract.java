@@ -30,6 +30,8 @@ public interface DaysContract {
         void reloadDay(Day day);
 
         void showGridCalendar();
+
+        void showDayDetails(Day day);
     }
 
     interface Presenter extends BasePresenter {

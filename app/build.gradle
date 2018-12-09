@@ -37,7 +37,7 @@ android {
         }
 
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.katsunaConfig
 
@@ -45,6 +45,7 @@ android {
                 disable 'MissingTranslation'
             }
         }
+
     }
 }
 

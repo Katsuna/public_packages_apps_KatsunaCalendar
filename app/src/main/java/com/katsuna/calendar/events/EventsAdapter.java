@@ -97,8 +97,8 @@ public class EventsAdapter extends BaseAdapter {
         Drawable icon = context.getDrawable(eventFormatter.getEventTypeIconResId());
         eventTypeIcon.setImageDrawable(icon);
 
-        TextView title = rowView.findViewById(R.id.event_title);
-        title.setText(eventFormatter.getTitle());
+//        TextView title = rowView.findViewById(R.id.event_title);
+//        title.setText(eventFormatter.getTitle());
 
         TextView description = rowView.findViewById(R.id.event_description);
         description.setText(eventFormatter.getDescription());
@@ -120,23 +120,23 @@ public class EventsAdapter extends BaseAdapter {
                 mItemListener.onEventFocus(event, !event.equals(mEventFocused));
             }
         });
+//
+//        View actionsContainer = rowView.findViewById(R.id.e);
+//        if (event.equals(mEventFocused)) {
+//            actionsContainer.setVisibility(View.VISIBLE);
+//        } else {
+//            actionsContainer.setVisibility(View.GONE);
+//        }
 
-        View actionsContainer = rowView.findViewById(R.id.event_buttons_container);
-        if (event.equals(mEventFocused)) {
-            actionsContainer.setVisibility(View.VISIBLE);
-        } else {
-            actionsContainer.setVisibility(View.GONE);
-        }
+//        Button editButton = rowView.findViewById(R.id.button_edit);
+//        editButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mItemListener.onEventEdit(event);
+//            }
+//        });
 
-        Button editButton = rowView.findViewById(R.id.button_edit);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItemListener.onEventEdit(event);
-            }
-        });
-
-        final Button turnOffButton = rowView.findViewById(R.id.button_turn_off);
+        final Button turnOffButton = rowView.findViewById(R.id.event_status_button);
         if (event.getEventStatus() == EventStatus.ACTIVE) {
             turnOffButton.setText(R.string.turn_off);
         } else {
@@ -153,26 +153,26 @@ public class EventsAdapter extends BaseAdapter {
             }
         });
 
-        TextView deleteText = rowView.findViewById(R.id.txt_delete);
-        deleteText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItemListener.onEventDelete(event);
-            }
-        });
+//        TextView deleteText = rowView.findViewById(R.id.txt_delete);
+//        deleteText.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mItemListener.onEventDelete(event);
+//            }
+//        });
 
         // adjust buttons
         OpticalParams opticalParams = SizeCalcV2.getOpticalParams(SizeProfileKeyV2.BUTTON,
                 userProfile.opticalSizeProfile);
-        SizeAdjuster.adjustText(context, editButton, opticalParams);
+//        SizeAdjuster.adjustText(context, editButton, opticalParams);
         SizeAdjuster.adjustText(context, turnOffButton, opticalParams);
 
         // more text
         opticalParams = SizeCalcV2.getOpticalParams(SizeProfileKeyV2.BUTTON,
                 userProfile.opticalSizeProfile);
-        SizeAdjuster.adjustText(context, deleteText, opticalParams);
+//        SizeAdjuster.adjustText(context, deleteText, opticalParams);
 
-        ColorAdjusterV2.adjustButtons(context, userProfile, editButton, turnOffButton, deleteText);
+//        ColorAdjusterV2.adjustButtons(context, userProfile, editButton, turnOffButton, deleteText);
 
 
         return rowView;

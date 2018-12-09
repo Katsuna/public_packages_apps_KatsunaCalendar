@@ -32,7 +32,7 @@ public class DaysPresenter implements DaysContract.Presenter {
         mEventsDataSource = checkNotNull(eventsDataSource, "dataSource cannot be null");
         mDaysView = checkNotNull(eventsView, "eventsView cannot be null!");
         mEventsScheduler = checkNotNull(eventsScheduler, "eventsScheduler cannot be null!");
-        loadDays();
+//        loadDays();
         mDaysView.setPresenter(this);
     }
     @Override
@@ -49,7 +49,7 @@ public class DaysPresenter implements DaysContract.Presenter {
                 if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
                     EspressoIdlingResource.decrement(); // Set app as idle.
                 }
-
+                System.out.println("EVENTS ARE :"+events.size());
                 mDaysView.showEvents(events);
             }
 
@@ -78,7 +78,7 @@ public class DaysPresenter implements DaysContract.Presenter {
 
     @Override
     public void openDayDetails(@NonNull Day day) {
-//TODO details
+        mDaysView.showDayDetails(day);
     }
 
     @Override
@@ -101,6 +101,6 @@ public class DaysPresenter implements DaysContract.Presenter {
 
     @Override
     public void start() {
-
+        loadDays();
     }
 }

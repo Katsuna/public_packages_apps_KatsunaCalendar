@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <Button
-        android:id="@+id/add_new_button"
+        android:id="@+id/add_new_button_ex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -41,7 +41,6 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/button_edit"
         android:background="@color/common_white"
         android:ellipsize="end"
         android:lines="2"
@@ -58,7 +57,6 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_toStartOf="@id/button_turn_off"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:gravity="start|center"

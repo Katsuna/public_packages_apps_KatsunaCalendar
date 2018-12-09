@@ -2,6 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.katsuna.calendar">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="com.katsuna.services.datastore.permission.preferences" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -38,6 +45,10 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".grid_calendar.GridCalendarActivity"
+            android:parentActivityName=".days.DaysActivity"/>
+
+        <activity android:name=".details.DayDetailsActivity"
+            android:label="@string/day_details"
             android:parentActivityName=".days.DaysActivity"/>
 
         <receiver

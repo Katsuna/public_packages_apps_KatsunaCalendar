@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import com.google.common.base.Objects;
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 @Entity(tableName = "events")

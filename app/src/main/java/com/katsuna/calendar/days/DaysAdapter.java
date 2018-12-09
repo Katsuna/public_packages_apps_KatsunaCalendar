@@ -201,7 +201,8 @@ class DaysAdapter extends BaseAdapter {
             }
             else {
                 event_info_layout = R.layout.event_info_lh;
-                action_layout = R.layout.action_buttons_lh;            }
+                action_layout = R.layout.action_buttons_lh;
+            }
             buttonsWrapper.removeAllViews();
 
             RelativeLayout.LayoutParams paramsEnd = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -285,7 +286,13 @@ class DaysAdapter extends BaseAdapter {
                 }
             });
 
-
+            Button addNewBtn = rowView.findViewById(R.id.add_new_button_ex);
+            addNewBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItemListener.onDayAddEvent(day);
+                }
+            });
 
         }
 
@@ -307,7 +314,7 @@ class DaysAdapter extends BaseAdapter {
         for (Event event: events){
             if(event.getYear() == mYear && event.getMonth() == mMonth) {
                 for(Day day: mDays){
-//                    System.out.println("IM in replace Data"+Integer.parseInt(day.getDay()));
+//                    System.out.println("IM in replace Data"+Integer.parseInt(day.getDay())+ "Event day:"+ (event.getDayOfMonth()-1));
                     if(Integer.parseInt(day.getDay()) == event.getDayOfMonth()){
                         if (mDays.get(event.getDayOfMonth()-1).getEvents() == null) {
                             List<Event> dayEvents = new ArrayList<>();
@@ -315,7 +322,9 @@ class DaysAdapter extends BaseAdapter {
                             mDays.get(event.getDayOfMonth()-1).setEvents(dayEvents);
                         }
                         else {
-                            mDays.get(event.getDayOfMonth()-1).getEvents().add(event);
+                            if (!mDays.get(event.getDayOfMonth()-1).getEvents().contains(event)) {
+                                mDays.get(event.getDayOfMonth() - 1).getEvents().add(event);
+                            }
                         }
                     }
                 }
