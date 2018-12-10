@@ -73,4 +73,5 @@
     <string name="reminder_is_set_at">Reminder is set at</string>
     <string name="alarm_is_set_at">Alarm is set at</string>
     <string name="day_details">Day Details</string>
+    <string name="time_ex">07:54</string>
 </resources>

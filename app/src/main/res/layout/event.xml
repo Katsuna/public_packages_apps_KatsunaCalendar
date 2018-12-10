@@ -52,18 +52,30 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/day_name"
+                        android:id="@+id/event_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:drawablePadding="8dp"
                         android:fontFamily="Roboto"
-                        android:text="@string/monday"
+                        android:textStyle="bold"
+                        android:text="@string/time_ex"
                         android:textColor="@color/common_black58"
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/day_events_info"
+                        android:id="@+id/event_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:drawablePadding="8dp"
+                        android:fontFamily="Roboto"
+                        android:text="@string/no_events"
+                        android:textColor="@color/common_black58"
+                        android:textSize="@dimen/common_16sp" />
+
+                    <TextView
+                        android:id="@+id/event_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
