@@ -12,7 +12,6 @@ import com.katsuna.calendar.R;
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventType;
-import com.katsuna.calendar.days.DayItemListener;
 import com.katsuna.calendar.events.EventItemListener;
 import com.katsuna.calendar.formatters.DayFormatter;
 import com.katsuna.calendar.formatters.EventFormatter;
