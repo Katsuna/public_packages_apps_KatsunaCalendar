@@ -104,13 +104,13 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_event);
-        Bundle bundle = getIntent().getExtras();
-        mEventDay = bundle.getParcelable("com.katsuna.calendar.data.Day");
-//        mEventDay = (Day) getIntent().getSerializableExtra("Day");
+        Intent i = getIntent();
+        mEventDay =  (Day) i.getParcelableExtra("Day");
+
         init();
 
         long eventId = getIntent().getLongExtra(EXTRA_EVENT_ID, 0);
-        EventType eventType = (EventType) getIntent().getSerializableExtra(EXTRA_EVENT_TYPE);
+        EventType eventType = (EventType) i.getSerializableExtra(EXTRA_EVENT_TYPE);
 
         // Create the presenter
         new ManageEventPresenter(eventId, eventType,

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/event_action_details"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="8dp"
+        android:background="@color/common_blueA400"
+        android:lines="2"
+        android:maxWidth="140dp"
+        android:minWidth="@dimen/common_button_min_width"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:text="@string/add_event"
+        android:textAllCaps="true"
+        android:textColor="@color/common_white" />
+
+    <!--<Button-->
+    <!--android:id="@+id/button_turn_off"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:layout_toStartOf="@id/button_edit"-->
+    <!--android:background="@color/common_white"-->
+    <!--android:ellipsize="end"-->
+    <!--android:lines="2"-->
+    <!--android:maxWidth="140dp"-->
+    <!--android:minWidth="@dimen/common_button_min_width"-->
+    <!--android:paddingEnd="8dp"-->
+    <!--android:paddingStart="8dp"-->
+    <!--android:text="@string/turn_off"-->
+    <!--android:textAllCaps="true"-->
+    <!--android:textColor="@color/common_blueA400"-->
+    <!--android:textSize="14sp" />-->
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/common_white"
+        android:ellipsize="end"
+        android:lines="2"
+        android:maxWidth="140dp"
+        android:minWidth="@dimen/common_button_min_width"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"/>
+
+    <TextView
+        android:id="@+id/txt_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="start|center"
+        android:minHeight="25dp"
+        android:singleLine="true"
+        android:text="@string/delete"
+        android:textAllCaps="true"
+        android:textColor="@color/common_blueA400"
+        android:textSize="14sp" />
+
+</RelativeLayout>

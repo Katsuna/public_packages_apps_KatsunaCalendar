@@ -9,17 +9,18 @@ import com.katsuna.calendar.data.Event;
 
 public interface DayDetailsContract {
     interface View extends BaseView<DayDetailsContract.Presenter> {
+
         void focusOnEvent(Event event, boolean focus);
 
         void showAddEvent(Day day);
 
-
     }
 
     interface Presenter extends BasePresenter {
+
         void loadEvents();
 
-        void addNewEvent();
+        void addNewEvent(Day day);
 
         void focusOnEvent(@NonNull Event event, boolean focus);
 

@@ -62,8 +62,6 @@ class DaysAdapter extends BaseAdapter {
     private EventsContract.Presenter mPresenter;
 
 
-
-
     DaysAdapter(ArrayList<Day> days, DayItemListener itemListener, IUserProfileProvider userProfileProvider, int month, int year) {
         calendar = Calendar.getInstance();
 
@@ -164,29 +162,29 @@ class DaysAdapter extends BaseAdapter {
         }
 
         ViewGroup buttonsWrapper = rowView.findViewById(R.id.action_buttons_wrapper);
-            if (day.getDayType().equals(DayType.SIMPLE)) {
-                if (userProfile.isRightHanded) {
-                        View buttonsView = inflater.inflate(R.layout.add_button_rh, buttonsWrapper,
-                                false);
-                        buttonsWrapper.removeAllViews();
-                        buttonsWrapper.addView(buttonsView);
-
-                } else {
-                    View buttonsView = inflater.inflate(R.layout.add_button_lh, buttonsWrapper,
+        if (day.getDayType().equals(DayType.SIMPLE)) {
+            if (userProfile.isRightHanded) {
+                    View buttonsView = inflater.inflate(R.layout.add_button_rh, buttonsWrapper,
                             false);
                     buttonsWrapper.removeAllViews();
                     buttonsWrapper.addView(buttonsView);
-                }
 
-                Button addNewBtn = rowView.findViewById(R.id.add_new_button);
-                addNewBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mItemListener.onDayAddEvent(day);
-                    }
-                });
-                buttonsWrapper.setVisibility(View.VISIBLE);
+            } else {
+                View buttonsView = inflater.inflate(R.layout.add_button_lh, buttonsWrapper,
+                        false);
+                buttonsWrapper.removeAllViews();
+                buttonsWrapper.addView(buttonsView);
             }
+
+            Button addNewBtn = rowView.findViewById(R.id.add_new_button);
+            addNewBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItemListener.onDayAddEvent(day);
+                }
+            });
+            buttonsWrapper.setVisibility(View.VISIBLE);
+        }
 
 
         if (day.getDayType().equals(DayType.WITH_EVENT) || day.getDayType().equals(DayType.CURRENT_WITH_EVENT )) {
