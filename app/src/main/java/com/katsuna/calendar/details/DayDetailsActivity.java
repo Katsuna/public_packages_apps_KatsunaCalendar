@@ -15,6 +15,7 @@ import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
 import com.katsuna.calendar.events.EventItemListener;
+import com.katsuna.calendar.util.Injection;
 import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
 import com.katsuna.commons.utils.IUserProfileProvider;
@@ -45,7 +46,8 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
         }
 
         @Override
-        public void onEventEdit(@NonNull Event alarm) {
+        public void onEventEdit(@NonNull Event event) {
+            mPresenter.openEventDetails(event);
 
         }
 
@@ -55,8 +57,8 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
         }
 
         @Override
-        public void onEventDelete(@NonNull Event alarm) {
-
+        public void onEventDelete(@NonNull Event event) {
+            mPresenter.deleteEvent(event);
         }
     };
 
@@ -73,7 +75,7 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
         init();
 
         // Create the presenter
-        new DayDetailsPresenter(this);
+        new DayDetailsPresenter(this, Injection.provideEventsDataSource(getApplicationContext()), Injection.provideEventScheduler(getApplicationContext()));
     }
 
     public void init () {
@@ -133,6 +135,13 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
         i.putExtra("Day",  day);
 
         startActivityForResult(i, REQUEST_CODE_NEW_EVENT);
+    }
+
+    @Override
+    public void showEventDetailsUi(long eventId) {
+        Intent intent = new Intent(this, ManageEventActivity.class);
+        intent.putExtra(ManageEventActivity.EXTRA_EVENT_ID, eventId);
+        startActivity(intent);
     }
 
     public String getMonth(int month) {

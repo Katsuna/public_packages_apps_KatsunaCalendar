@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.katsuna.calendar.R;
@@ -140,17 +141,21 @@ public class DayDetailsAdapter extends BaseAdapter {
             actionsContainer.setVisibility(View.GONE);
         }
         ViewGroup buttonsWrapper = rowView.findViewById(R.id.action_buttons_wrapper);
+        RelativeLayout.LayoutParams paramsEnd = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        paramsEnd.addRule(RelativeLayout.BELOW, actionsContainer.getId());
+
         if (userProfile.isRightHanded) {
             View buttonsView = inflater.inflate(R.layout.event_action_buttons_rh, buttonsWrapper,
                     false);
             buttonsWrapper.removeAllViews();
-            buttonsWrapper.addView(buttonsView);
+            buttonsWrapper.addView(buttonsView,paramsEnd);
 
         } else {
             View buttonsView = inflater.inflate(R.layout.event_action_buttons_lh, buttonsWrapper,
                     false);
             buttonsWrapper.removeAllViews();
-            buttonsWrapper.addView(buttonsView);
+            buttonsWrapper.addView(buttonsView,paramsEnd);
         }
 
         Button editBtn = rowView.findViewById(R.id.edit_button);

@@ -254,7 +254,6 @@ class DaysAdapter extends BaseAdapter {
                     buttonsWrapper.addView(eventDetails);
                 }
                 else {
-                    System.out.println("IM In paramsend:"+paramsEnd.getRule(0));
                     buttonsWrapper.addView(eventDetails, paramsEnd);
                 }
                 System.out.println("id:"+eventDetails.getId());

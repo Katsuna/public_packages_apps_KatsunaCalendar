@@ -14,6 +14,7 @@ public interface DayDetailsContract {
 
         void showAddEvent(Day day);
 
+        void showEventDetailsUi(long eventId);
     }
 
     interface Presenter extends BasePresenter {
@@ -23,6 +24,10 @@ public interface DayDetailsContract {
         void addNewEvent(Day day);
 
         void focusOnEvent(@NonNull Event event, boolean focus);
+
+        void openEventDetails(Event event);
+
+        void deleteEvent(Event event);
 
     }
 }

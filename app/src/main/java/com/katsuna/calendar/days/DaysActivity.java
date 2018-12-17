@@ -158,8 +158,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         mDaysList.setSelection(calendar.get(Calendar.DAY_OF_MONTH)-1);
     }
 
-    public void previousMonth(View view)
-    {
+    public void previousMonth(View view) {
         if(currentMonth == 0){
             currentMonth = 11;
             currentYear = currentYear -1;
