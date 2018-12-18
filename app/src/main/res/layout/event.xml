@@ -16,11 +16,12 @@
         card_view:cardCornerRadius="8dp"
         card_view:cardElevation="2dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/event_container_inner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
+            android:orientation="vertical"
             android:background="@color/common_grey50">
 
             <LinearLayout
@@ -108,7 +109,7 @@
                     android:orientation="vertical"/>
 
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
