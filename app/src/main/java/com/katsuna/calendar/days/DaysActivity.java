@@ -187,8 +187,9 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
             currentMonth = 0;
             currentYear = currentYear +1;
         }
-        else
-            currentMonth = currentMonth +1;
+        else {
+            currentMonth = currentMonth + 1;
+        }
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(currentYear, currentMonth ,1);

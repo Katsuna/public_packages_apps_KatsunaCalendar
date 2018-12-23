@@ -135,7 +135,7 @@ public class DayDetailsAdapter extends BaseAdapter {
 
 
         View actionsContainer = rowView.findViewById(R.id.event_buttons_container);
-        if (event.equals(mEventFocused)) {
+        if (mEventFocused !=null && event.equals(mEventFocused)) {
             actionsContainer.setVisibility(View.VISIBLE);
         } else {
             actionsContainer.setVisibility(View.GONE);

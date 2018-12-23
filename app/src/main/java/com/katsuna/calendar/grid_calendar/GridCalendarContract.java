@@ -11,6 +11,7 @@ class GridCalendarContract {
 
         void showAddEvent(Day day);
 
+        void setGridCalendarTitle(int common_select_day);
     }
 
     interface Presenter extends BasePresenter {

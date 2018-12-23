@@ -2,6 +2,7 @@ package com.katsuna.calendar.grid_calendar;
 
 import android.support.annotation.NonNull;
 
+import com.katsuna.calendar.R;
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.source.EventsDataSource;
 import com.katsuna.calendar.days.DaysContract;
@@ -23,6 +24,7 @@ public class GridCalendarPresenter implements GridCalendarContract.Presenter {
         mGridCalendarView = calendarView;
         loadDays();
         mGridCalendarView.setPresenter(this);
+        mGridCalendarView.setGridCalendarTitle(R.string.common_select_day);
 
     }
 

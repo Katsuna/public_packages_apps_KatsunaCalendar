@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.TextView;
 
 import com.katsuna.calendar.R;
 import com.katsuna.calendar.data.Day;
@@ -27,6 +28,8 @@ public class GridCalendarActivity extends KatsunaActivity implements GridCalenda
     private CalendarView calendarView;
     private GridCalendarContract.Presenter mPresenter;
     private UserProfile userProfile;
+    private TextView mGridCalendarTItle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,8 @@ public class GridCalendarActivity extends KatsunaActivity implements GridCalenda
                 mPresenter.addOnDayNewEvent(day);
             }
         });
+        initToolbar(R.drawable.common_ic_close_black54_24dp);
+//        mGridCalendarTItle = findViewById(R.id.titl);
 
     }
 
@@ -67,6 +72,11 @@ public class GridCalendarActivity extends KatsunaActivity implements GridCalenda
         i.putExtra("Day",  day);
 
         startActivityForResult(i, REQUEST_CODE_NEW_EVENT);
+    }
+
+    @Override
+    public void setGridCalendarTitle(int common_select_day) {
+
     }
 
     @Override

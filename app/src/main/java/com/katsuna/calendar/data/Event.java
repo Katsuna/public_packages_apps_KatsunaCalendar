@@ -200,31 +200,31 @@ public final class Event implements Parcelable {
         return mVibrate;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) {
-//            if( o.getClass() == Event.class) {
-//                Event event = (Event) o;
-//                return (event.getDayOfMonth()== mDayOfMonth && event.getMonth() == mMonth && event.getYear() == mYear);
-//            }
-//            return false;
-//        }
-//        else {
-//            Event event = (Event) o;
-//            return Objects.equal(mEventId, event.mEventId) &&
-//                    Objects.equal(mEventType, event.mEventType) &&
-//                    Objects.equal(mDescription, event.mDescription) &&
-//                    Objects.equal(mDayOfMonth, event.mDayOfMonth) &&
-//                    Objects.equal(mHour, event.mHour) &&
-//                    Objects.equal(mMinute, event.mMinute) &&
-//                    Objects.equal(mMonth, event.mMonth) &&
-//                    Objects.equal(mYear, event.mYear) &&
-//                    Objects.equal(mEventStatus, event.mEventStatus) &&
-//                    Objects.equal(mRingtone, event.mRingtone) &&
-//                    Objects.equal(mVibrate, event.mVibrate);
-//        }
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) {
+            if( o.getClass() == Event.class) {
+                Event event = (Event) o;
+                return (event.getDayOfMonth()== mDayOfMonth && event.getMonth() == mMonth && event.getYear() == mYear);
+            }
+            return false;
+        }
+        else {
+            Event event = (Event) o;
+            return Objects.equal(mEventId, event.mEventId) &&
+                    Objects.equal(mEventType, event.mEventType) &&
+                    Objects.equal(mDescription, event.mDescription) &&
+                    Objects.equal(mDayOfMonth, event.mDayOfMonth) &&
+                    Objects.equal(mHour, event.mHour) &&
+                    Objects.equal(mMinute, event.mMinute) &&
+                    Objects.equal(mMonth, event.mMonth) &&
+                    Objects.equal(mYear, event.mYear) &&
+                    Objects.equal(mEventStatus, event.mEventStatus) &&
+                    Objects.equal(mRingtone, event.mRingtone) &&
+                    Objects.equal(mVibrate, event.mVibrate);
+        }
+    }
 
     @Override
     public int hashCode() {

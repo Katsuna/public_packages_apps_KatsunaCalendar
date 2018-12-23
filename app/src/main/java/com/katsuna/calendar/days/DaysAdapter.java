@@ -308,6 +308,7 @@ class DaysAdapter extends BaseAdapter {
     }
 
     public void replaceData(List<Event> events) {
+        System.out.println("Im in replace data again");
         for (Event event: events){
             if(event.getYear() == mYear && event.getMonth() == mMonth) {
                 for(Day day: mDays){
@@ -320,6 +321,8 @@ class DaysAdapter extends BaseAdapter {
                         }
                         else {
                             if (!mDays.get(event.getDayOfMonth()-1).getEvents().contains(event)) {
+//                                System.out.println("the event day is:" + );
+
                                 mDays.get(event.getDayOfMonth() - 1).getEvents().add(event);
                             }
                         }

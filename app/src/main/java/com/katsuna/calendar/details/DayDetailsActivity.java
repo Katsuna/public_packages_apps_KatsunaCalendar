@@ -97,6 +97,8 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
         mDayDetailsAdapter = new DayDetailsAdapter(mDay.getEvents(), mItemListener, this);
         mDayDetailsAdapter.notifyDataSetChanged();
         mEventList.setAdapter(mDayDetailsAdapter);
+        initToolbar(R.drawable.common_ic_close_black54_24dp);
+
     }
 
     @Override

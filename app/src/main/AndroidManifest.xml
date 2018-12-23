@@ -45,6 +45,7 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".grid_calendar.GridCalendarActivity"
+            android:label="@string/select_date"
             android:parentActivityName=".days.DaysActivity"/>
 
         <activity android:name=".details.DayDetailsActivity"
