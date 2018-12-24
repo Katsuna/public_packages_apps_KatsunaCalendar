@@ -87,13 +87,12 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
             mManageEventView.setEventTimeTitle(R.string.set_reminder_time);
         }
     }
+
     private void initTime() {
         LocalDateTime now = LocalDateTime.now();
         mManageEventView.setTime(now.format(DateTimeFormatter.ofPattern("HH")),
                 now.format(DateTimeFormatter.ofPattern("mm")));
     }
-
-
 
     @Override
     public void saveEvent(@NonNull EventType eventType, String description, String hour, String minute, String day, String month,  String year, String ringtone, boolean vibrate) {

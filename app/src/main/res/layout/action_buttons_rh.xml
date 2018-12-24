@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/common_button_border_blue_a700"
+        android:background="@drawable/rounded_corners_button_a400"
         android:lines="2"
         android:maxWidth="140dp"
         android:minWidth="@dimen/common_button_min_width"

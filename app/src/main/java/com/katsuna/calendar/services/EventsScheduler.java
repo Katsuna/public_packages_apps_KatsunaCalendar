@@ -86,8 +86,8 @@ public class EventsScheduler implements IEventsScheduler {
                 DateUtils.toEpochMillis(triggerDateTime),
                 getPendindEditIntent(event));
 
-//        Objects.requireNonNull(am).setEventClock(eventClockInfo, getPendingTriggerIntent(event,
-//                FLAG_UPDATE_CURRENT));
+        Objects.requireNonNull(am).setAlarmClock(eventClockInfo, getPendingTriggerIntent(event,
+                FLAG_UPDATE_CURRENT));
 
         LogUtils.i(TAG, String.format("Event %s scheduled at (%s)", event, triggerDateTime));
     }

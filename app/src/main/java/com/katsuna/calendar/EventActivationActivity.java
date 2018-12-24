@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -44,6 +45,19 @@ public class EventActivationActivity extends AppCompatActivity {
     private TextView mDescription;
 
     @Override
+    public void onAttachedToWindow() {
+        Window window = getWindow();
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                | WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        super.onAttachedToWindow();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         LogUtils.d(TAG, "onCreate");
 
@@ -63,25 +77,19 @@ public class EventActivationActivity extends AppCompatActivity {
         mEventsDataSource = Injection.provideEventsDataSource(this);
         mEventsScheduler = Injection.provideEventScheduler(this);
 
+        Event event = getEvent();
         //noinspection ConstantConditions
-        mEventsDataSource.getEvent(eventId, new EventsDataSource.GetEventCallback() {
-            @Override
-            public void onEventLoaded(Event event) {
-                mEvent = event;
-                if (mEvent.getEventType() == EventType.REMINDER) {
-                    mDescription.setText(mEvent.getDescription());
-                }
-
-                init();
-                soundTheEvent();
+        if (event == null) {
+            LogUtils.d("%s onCreate no event in intent.", TAG);
+        } else {
+            mEvent = event;
+            if (mEvent.getEventType() == EventType.REMINDER) {
+                mDescription.setText(mEvent.getDescription());
             }
 
-            @Override
-            public void onDataNotAvailable() {
-                // TODO
-            }
-        });
-
+            init();
+            soundTheEvent();
+        }
     }
 
     @Override
@@ -142,17 +150,11 @@ public class EventActivationActivity extends AppCompatActivity {
 
     private void dismissEvent() {
         stopEvent();
+        // deactivate
+        LogUtils.i(TAG, "onReceive deactivating event: " + mEvent);
+        mEvent.setEventStatus(EventStatus.INACTIVE);
+        mEventsDataSource.saveEvent(mEvent);
 
-//        if (mEvent.is()) {
-//            // reshedule
-//            LogUtils.i(TAG, "onReceive rescheduling event: " + mEvent);
-//            mEventsScheduler.reschedule(mEvent);
-//        } else {
-            // deactivate
-            LogUtils.i(TAG, "onReceive deactivating event: " + mEvent);
-            mEvent.setEventStatus(EventStatus.INACTIVE);
-            mEventsDataSource.saveEvent(mEvent);
-//        }
         handled = true;
 
         EventStateManager.getInstance().removeEvent(mEvent);
@@ -162,7 +164,7 @@ public class EventActivationActivity extends AppCompatActivity {
     private void snoozeEvent(long delay) {
         EventStateManager.getInstance().removeEvent(mEvent);
         stopEvent();
-//        mEventsScheduler.snooze(mEvent, delay);
+        mEventsScheduler.snooze(mEvent, delay);
         handled = true;
         finish();
     }
@@ -213,6 +215,15 @@ public class EventActivationActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
         getWindow().getDecorView().setSystemUiVisibility(flags);
+    }
+
+    private Event getEvent() {
+        Event event= null;
+        Intent i = getIntent();
+        if (i != null) {
+            event = i.getParcelableExtra("event");
+        }
+        return event;
     }
 
     @Override
