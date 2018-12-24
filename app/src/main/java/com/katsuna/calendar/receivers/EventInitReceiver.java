@@ -3,7 +3,6 @@ package com.katsuna.calendar.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
 import com.katsuna.calendar.Utils;
 import com.katsuna.calendar.services.IEventsScheduler;
 import com.katsuna.calendar.util.Injection;
