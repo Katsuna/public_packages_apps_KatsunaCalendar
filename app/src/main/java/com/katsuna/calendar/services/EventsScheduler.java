@@ -11,6 +11,7 @@ import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.EventStatus;
 import com.katsuna.calendar.data.source.EventsDataSource;
 import com.katsuna.calendar.event.ManageEventActivity;
+import com.katsuna.calendar.receivers.EventReceiver;
 import com.katsuna.calendar.util.DateUtils;
 import com.katsuna.calendar.util.LogUtils;
 
@@ -25,7 +26,7 @@ import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
 public class EventsScheduler implements IEventsScheduler {
 
-    private static final String TAG = "EventsScheduler";
+    private static final String TAG = EventsScheduler.class.getSimpleName();
     public static final String EVENT_ID = "event_id";
 
     private final Context mContext;
@@ -36,7 +37,6 @@ public class EventsScheduler implements IEventsScheduler {
         mContext = context;
         mEventsDatasource = eventsDataSource;
         mNextEventCalculator = nextEventCalculator;
-
     }
 
     @Override
@@ -75,7 +75,6 @@ public class EventsScheduler implements IEventsScheduler {
     @Override
     public void setEvent(Event event) {
         LogUtils.d(TAG, "setEvent called. event: " + event.toString());
-
         if (event.getEventStatus() != EventStatus.ACTIVE) return;
 
         AlarmManager am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
@@ -123,7 +122,7 @@ public class EventsScheduler implements IEventsScheduler {
     }
 
     private PendingIntent getPendingTriggerIntent(Event event, int flag) {
-        Intent i = new Intent(mContext, ManageEventActivity.class);
+        Intent i = new Intent(mContext, EventReceiver.class);
         i.putExtra(EVENT_ID, event.getEventId());
         return PendingIntent.getBroadcast(mContext, event.hashCode(), i, flag);
     }

@@ -51,6 +51,8 @@ public class DayDetailsAdapter extends BaseAdapter {
         mUserProfileProvider = userProfileProvider;
     }
 
+
+
     private void setList(List<Event> events) {
         mEvents = checkNotNull(events);
     }
@@ -185,4 +187,10 @@ public class DayDetailsAdapter extends BaseAdapter {
         mEventFocused = focus ? event : null;
         notifyDataSetChanged();
     }
+
+    public void replaceData(List<Event> events) {
+        setList(events);
+        notifyDataSetChanged();
+    }
+
 }

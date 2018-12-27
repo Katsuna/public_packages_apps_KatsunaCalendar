@@ -21,6 +21,7 @@ import com.katsuna.commons.ui.KatsunaActivity;
 import com.katsuna.commons.utils.IUserProfileProvider;
 
 import java.text.DateFormatSymbols;
+import java.util.List;
 
 import static com.katsuna.calendar.event.ManageEventActivity.EXTRA_EVENT_TYPE;
 
@@ -37,6 +38,8 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
     private DayDetailsAdapter mDayDetailsAdapter;
     private ListView mEventList;
     private DayDetailsContract.Presenter mPresenter;
+    private TextView mNoEventsText;
+
 
 
     private final EventItemListener mItemListener = new EventItemListener() {
@@ -80,6 +83,7 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
 
     public void init () {
         mEventList = findViewById(R.id.day_details_list);
+        mNoEventsText = findViewById(R.id.no_events);
 
         mDayTitle = findViewById(R.id.day_title);
 
@@ -100,6 +104,8 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
         initToolbar(R.drawable.common_ic_close_black54_24dp);
 
     }
+
+
 
     @Override
     public void setPresenter(DayDetailsContract.Presenter presenter) {
@@ -144,6 +150,27 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
         Intent intent = new Intent(this, ManageEventActivity.class);
         intent.putExtra(ManageEventActivity.EXTRA_EVENT_ID, eventId);
         startActivity(intent);
+    }
+
+    @Override
+    public void showEvents(List<Event> events) {
+        mDayDetailsAdapter.replaceData(events);
+
+        mEventList.setVisibility(View.VISIBLE);
+        mNoEventsText.setVisibility(View.GONE);
+        mPopupButton1.setVisibility(View.GONE);
+        mPopupButton2.setVisibility(View.GONE);
+        mDayDetailsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showNoEvents() {
+        mNoEventsText.setVisibility(View.VISIBLE);
+        mFab1.setVisibility(View.VISIBLE);
+        mFab2.setVisibility(View.VISIBLE);
+        mPopupButton1.setVisibility(View.VISIBLE);
+        mPopupButton2.setVisibility(View.VISIBLE);
+        mEventList.setVisibility(View.GONE);
     }
 
     public String getMonth(int month) {
