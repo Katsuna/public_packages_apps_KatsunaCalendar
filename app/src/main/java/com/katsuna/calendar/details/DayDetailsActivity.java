@@ -173,6 +173,12 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
         mEventList.setVisibility(View.GONE);
     }
 
+    @Override
+    public void moveFabsToBottomAndTint(boolean flag) {
+        tintFabs(flag);
+        adjustFabPosition(!flag);
+    }
+
     public String getMonth(int month) {
         return new DateFormatSymbols().getMonths()[month-1];
     }

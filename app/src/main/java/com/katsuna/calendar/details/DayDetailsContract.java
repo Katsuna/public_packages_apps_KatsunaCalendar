@@ -22,6 +22,8 @@ public interface DayDetailsContract {
         void showEvents(List<Event> events);
 
         void showNoEvents();
+
+        void moveFabsToBottomAndTint(boolean flag);
     }
 
     interface Presenter extends BasePresenter {

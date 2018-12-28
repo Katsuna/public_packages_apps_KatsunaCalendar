@@ -61,7 +61,6 @@ public class DayDetailsPresenter implements DayDetailsContract.Presenter{
     @Override
     public void addNewEvent(Day day) {
         mDayDetailsView.showAddEvent(day);
-
     }
 
     @Override
@@ -80,8 +79,8 @@ public class DayDetailsPresenter implements DayDetailsContract.Presenter{
     public void deleteEvent(Event event) {
         mEventsDataSource.deleteEvent(event.getEventId());
         mEventsScheduler.cancel(event);
-        //TODO this handle deletion
         loadEvents();
+        mDayDetailsView.moveFabsToBottomAndTint(false);
 
     }
 
