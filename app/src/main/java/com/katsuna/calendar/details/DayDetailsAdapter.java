@@ -38,15 +38,18 @@ public class DayDetailsAdapter extends BaseAdapter {
     private UserProfile userProfile;
     private Calendar calendar;
     private Event mEventFocused;
+    private int currentMonth, currentYear, currentDay;
 
 
 
-    DayDetailsAdapter(List<Event> events, EventItemListener eventItemListener, IUserProfileProvider userProfileProvider) {
+    DayDetailsAdapter(List<Event> events, EventItemListener eventItemListener, IUserProfileProvider userProfileProvider, Day day) {
         calendar = Calendar.getInstance();
-
+        currentDay = Integer.parseInt(day.getDay());
+        currentMonth = Integer.parseInt(day.getMonth());
+        currentYear = Integer.parseInt(day.getYear());
         calendar.setTime(calendar.getTime());
-        System.out.println("Size" +events.size());
         setList(events);
+
         mEventListener = eventItemListener;
         mUserProfileProvider = userProfileProvider;
     }
@@ -54,7 +57,12 @@ public class DayDetailsAdapter extends BaseAdapter {
 
 
     private void setList(List<Event> events) {
-        mEvents = checkNotNull(events);
+        try {
+            mEvents = checkNotNull(events);
+        }
+        catch (NullPointerException ex) {
+            mEvents = new ArrayList<>();
+        }
     }
 
     @Override
@@ -189,7 +197,13 @@ public class DayDetailsAdapter extends BaseAdapter {
     }
 
     public void replaceData(List<Event> events) {
-        setList(events);
+        List<Event> mEvents = new ArrayList<>();
+        for (Event event: events) {
+            if (event.getYear() == currentYear && event.getMonth() == currentMonth && event.getDayOfMonth() == currentDay) {
+                mEvents.add(event);
+            }
+        }
+        setList(mEvents);
         notifyDataSetChanged();
     }
 

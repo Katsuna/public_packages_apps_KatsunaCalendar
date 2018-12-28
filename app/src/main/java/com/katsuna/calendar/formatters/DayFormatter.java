@@ -64,7 +64,7 @@ public class DayFormatter {
 
     public int getCardHandleColor(UserProfile profile) {
         ColorProfileKeyV2 profileKey;
-        if (mDay.getDayType() == DayType.CURRENT) {
+        if (mDay.getDayType() == DayType.CURRENT || mDay.getDayType() == DayType.CURRENT_WITH_EVENT) {
             profileKey = ColorProfileKeyV2.PRIMARY_COLOR_1;
         } else if (mDay.getDayType() == DayType.WITH_EVENT) {
             profileKey = ColorProfileKeyV2.PRIMARY_COLOR_2;
@@ -76,7 +76,7 @@ public class DayFormatter {
 
     public int getCardInnerColor(UserProfile profile) {
         ColorProfileKeyV2 profileKey;
-        if (mDay.getDayType() == DayType.CURRENT) {
+        if (mDay.getDayType() == DayType.CURRENT || mDay.getDayType() == DayType.CURRENT_WITH_EVENT) {
             profileKey = ColorProfileKeyV2.SECONDARY_COLOR_1;
         } else if (mDay.getDayType() == DayType.WITH_EVENT) {
             profileKey = ColorProfileKeyV2.SECONDARY_COLOR_2;

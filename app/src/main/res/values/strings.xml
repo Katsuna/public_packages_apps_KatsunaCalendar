@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Calendar</string>
-    <string name="no_events">No events</string>
+    <string name="no_events">There are no events for this day</string>
     <string name="avail_events">You have events on this day</string>
 
     <string name="add_new">Add new</string>

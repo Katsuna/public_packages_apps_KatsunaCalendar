@@ -21,6 +21,10 @@ import com.katsuna.commons.ui.KatsunaActivity;
 import com.katsuna.commons.utils.IUserProfileProvider;
 
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.YearMonth;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.katsuna.calendar.event.ManageEventActivity.EXTRA_EVENT_TYPE;
@@ -39,6 +43,7 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
     private ListView mEventList;
     private DayDetailsContract.Presenter mPresenter;
     private TextView mNoEventsText;
+    private int currentMonth, currentYear, currentDay;
 
 
 
@@ -73,15 +78,19 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
         setContentView(R.layout.activity_day_details);
 //        adjustProfiles();
         Intent i = getIntent();
-        mDay =  (Day) i.getParcelableExtra("Day");
+        Day day =  (Day) i.getParcelableExtra("Day");
 
-        init();
+        init(day);
 
         // Create the presenter
         new DayDetailsPresenter(this, Injection.provideEventsDataSource(getApplicationContext()), Injection.provideEventScheduler(getApplicationContext()));
     }
 
-    public void init () {
+    public void init (Day day) {
+        mDay =  day;
+        currentDay = Integer.parseInt(day.getDay());
+        currentMonth = Integer.parseInt(day.getMonth());
+        currentYear = Integer.parseInt(day.getYear());
         mEventList = findViewById(R.id.day_details_list);
         mNoEventsText = findViewById(R.id.no_events);
 
@@ -98,9 +107,12 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
             mDayTitle.setText(mDay.getDayName() + " "+mDay.getDay() + ", " + getMonth(Integer.parseInt(mDay.getMonth())));
         }
 //        mDay.getEvents().forEach((i)->);
-        mDayDetailsAdapter = new DayDetailsAdapter(mDay.getEvents(), mItemListener, this);
+        mFabContainer = findViewById(R.id.fab_container);
+
+        mDayDetailsAdapter = new DayDetailsAdapter(mDay.getEvents(), mItemListener, this,day);
         mDayDetailsAdapter.notifyDataSetChanged();
         mEventList.setAdapter(mDayDetailsAdapter);
+
         initToolbar(R.drawable.common_ic_close_black54_24dp);
 
     }
@@ -158,18 +170,18 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
 
         mEventList.setVisibility(View.VISIBLE);
         mNoEventsText.setVisibility(View.GONE);
-        mPopupButton1.setVisibility(View.GONE);
-        mPopupButton2.setVisibility(View.GONE);
+        mFab2.setVisibility(View.GONE);
+//        mPopupButton2.setVisibility(View.GONE);
         mDayDetailsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showNoEvents() {
         mNoEventsText.setVisibility(View.VISIBLE);
-        mFab1.setVisibility(View.VISIBLE);
+//        mFab1.setVisibility(View.VISIBLE);
         mFab2.setVisibility(View.VISIBLE);
-        mPopupButton1.setVisibility(View.VISIBLE);
-        mPopupButton2.setVisibility(View.VISIBLE);
+//        mPopupButton1.setVisibility(View.VISIBLE);
+//        mPopupButton2.setVisibility(View.VISIBLE);
         mEventList.setVisibility(View.GONE);
     }
 
@@ -177,6 +189,70 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
     public void moveFabsToBottomAndTint(boolean flag) {
         tintFabs(flag);
         adjustFabPosition(!flag);
+    }
+
+    public void previousDay(View view) {
+        Day newDay = new Day();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(currentYear, currentMonth,currentDay);
+        if(currentDay == 1) {
+
+            if(currentMonth == 1){
+                currentMonth = 12;
+                currentYear = currentYear -1;
+            }
+            else
+                currentMonth = currentMonth -1;
+
+            YearMonth yearMonthObject = YearMonth.of(currentYear, currentMonth);
+            int daysInMonth = yearMonthObject.lengthOfMonth();
+            currentDay=daysInMonth;
+        }
+        else {
+            currentDay --;
+        }
+        newDay.setDay(String.valueOf(currentDay));
+        newDay.setMonth(String.valueOf(currentMonth));
+        newDay.setYear(String.valueOf(currentYear));
+        newDay.setDayName(new SimpleDateFormat("EEEE").format(calendar.getTime()));
+//        TextView monthView = findViewById(R.id.month_name);
+//        monthView.setText(new SimpleDateFormat("MMMM").format(calendar.getTime()));
+//
+//        TextView yearView = findViewById(R.id.year);
+//        yearView.setText(Integer.toString(calendar.get(Calendar.YEAR)));
+
+        init(newDay);
+        mPresenter.loadEvents();
+    }
+
+    public void nextDay(View view) {
+        Day newDay = new Day();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(currentYear, currentMonth,currentDay);
+        YearMonth yearMonthObject = YearMonth.of(currentYear, currentMonth);
+        int daysInMonth = yearMonthObject.lengthOfMonth();
+        if(currentDay == daysInMonth) {
+
+            if(currentMonth == 12){
+                currentMonth = 1;
+                currentYear = currentYear ++;
+            }
+            else
+                currentMonth = currentMonth ++;
+
+            yearMonthObject = YearMonth.of(currentYear, currentMonth);
+            daysInMonth = yearMonthObject.lengthOfMonth();
+            currentDay=daysInMonth;
+        }
+        else {
+            currentDay ++;
+        }
+        newDay.setDay(String.valueOf(currentDay));
+        newDay.setMonth(String.valueOf(currentMonth));
+        newDay.setYear(String.valueOf(currentYear));
+        newDay.setDayName(new SimpleDateFormat("EEEE").format(calendar.getTime()));
+        init(newDay);
+        mPresenter.loadEvents();
     }
 
     public String getMonth(int month) {

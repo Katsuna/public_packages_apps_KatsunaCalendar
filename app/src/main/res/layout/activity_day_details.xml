@@ -17,95 +17,120 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize">
-
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/fab_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <LinearLayout
-                    android:id="@+id/month_container"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <ImageButton
-                        android:id="@+id/month_previous"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:background="@null"
-                        android:onClick="previousDay"
-                        android:padding="@dimen/common_button_padding"
-                        android:src="@drawable/ic_vector_left" />
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        />
-                    <TextView
-                        android:id="@+id/day_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:drawablePadding="8dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="@string/monday"
-                        android:textColor="@color/common_black58"
-                        android:textSize="20sp" />
-
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        />
-
-                    <ImageButton
-                        android:id="@+id/month_next"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="@dimen/common_button_padding"
-                        android:background="@null"
-                        android:onClick="nextMonth"
-                        android:padding="@dimen/common_button_padding"
-                        android:src="@drawable/ic_vector_right" />
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/day_details_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/month_container"
-                    android:layout_marginTop="16dp"
-                    android:clipToPadding="false"
-                    android:divider="@color/common_transparent"
-                    android:dividerHeight="0dp"
-                    android:paddingBottom="80dp" />
-
-                <Button
-                    android:id="@+id/create_event_button"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@color/common_blueA700"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/add_new"
-                    android:textAllCaps="false"
-                    android:textColor="@color/common_white87"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
-
-
-            </RelativeLayout>
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/create_event_fab"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:layout_margin="16dp"
-                android:src="@drawable/ic_add_24dp" />
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:id="@+id/date_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/month_container"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/day_previous"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:background="@null"
+                            android:onClick="previousDay"
+                            android:padding="@dimen/common_button_padding"
+                            android:src="@drawable/ic_vector_left" />
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            />
+                        <TextView
+                            android:id="@+id/day_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:drawablePadding="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="@string/monday"
+                            android:textColor="@color/common_black58"
+                            android:textSize="20sp" />
+
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            />
+
+                        <ImageButton
+                            android:id="@+id/day_next"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="@dimen/common_button_padding"
+                            android:background="@null"
+                            android:onClick="nextDay"
+                            android:padding="@dimen/common_button_padding"
+                            android:src="@drawable/ic_vector_right" />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/no_events"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="80dp"
+                        android:gravity="center"
+                        android:text="@string/no_events"
+                        android:textSize="20sp"
+                        android:visibility="gone" />
+
+                    </LinearLayout>
+                    <ListView
+                        android:id="@+id/day_details_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/date_container"
+                        android:layout_marginTop="16dp"
+                        android:clipToPadding="false"
+                        android:divider="@color/common_transparent"
+                        android:dividerHeight="0dp"
+                        android:paddingBottom="80dp" />
+
+                    <Button
+                        android:id="@+id/create_event_button"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/common_blueA700"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="@string/add_new"
+                        android:textAllCaps="false"
+                        android:textColor="@color/common_white87"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+
+                </RelativeLayout>
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/create_event_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/ic_add_24dp" />
+            </LinearLayout>
         </FrameLayout>
 
     </android.support.design.widget.CoordinatorLayout>
