@@ -128,11 +128,13 @@ class DaysAdapter extends BaseAdapter {
         if(day.getEvents() != null) {
             System.out.println("the day" + day.getDay() + "has events:" + day.getEvents().size());
         }
-        if (calendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(day.getDay()) && calendar.get(Calendar.MONTH) == mMonth & calendar.get(Calendar.YEAR) == mYear) {
+
+        if (calendar.get(Calendar.DAY_OF_MONTH) == (Integer.parseInt(day.getDay())) && calendar.get(Calendar.MONTH)+1 == mMonth & calendar.get(Calendar.YEAR) == mYear) {
             if (day.getEvents() != null && !day.getEvents().isEmpty()){
                 day.setDayType(DayType.CURRENT_WITH_EVENT);
             }
             else {
+                System.out.println("Im in current");
                 day.setDayType(DayType.CURRENT);
             }
         } else if (day.getEvents() != null && !day.getEvents().isEmpty()) {
@@ -308,7 +310,6 @@ class DaysAdapter extends BaseAdapter {
     }
 
     public void replaceData(List<Event> events) {
-        System.out.println("Im in replace data again");
         for (Event event: events){
             if(event.getYear() == mYear && event.getMonth() == mMonth) {
                 for(Day day: mDays){

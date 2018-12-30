@@ -3,7 +3,6 @@ package com.katsuna.calendar.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
 import com.katsuna.calendar.Utils;
 import com.katsuna.calendar.services.IEventsScheduler;
 import com.katsuna.calendar.util.Injection;
@@ -33,11 +32,14 @@ public class EventInitReceiver extends BroadcastReceiver {
                 @Override
                 public void schedulingFinished() {
                     LogUtils.i("%s alarms scheduling completed", TAG);
+                    System.out.println("%s alarms scheduling completed");
                 }
 
                 @Override
                 public void schedulingFailed(Exception ex) {
                     LogUtils.e("%s exception while scheduling alarms:  %s", TAG, ex.toString());
+                    System.out.println("%s alarms scheduling failed");
+
                 }
             });
 

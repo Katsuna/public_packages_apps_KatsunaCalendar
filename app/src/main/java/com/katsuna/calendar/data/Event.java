@@ -204,10 +204,10 @@ public final class Event implements Parcelable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) {
-            if( o.getClass() == Event.class) {
-                Event event = (Event) o;
-                return (event.getDayOfMonth()== mDayOfMonth && event.getMonth() == mMonth && event.getYear() == mYear);
-            }
+//            if( o.getClass() == Event.class) {
+//                Event event = (Event) o;
+//                return (event.getDayOfMonth()== mDayOfMonth && event.getMonth() == mMonth && event.getYear() == mYear);
+//            }
             return false;
         }
         else {

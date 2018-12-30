@@ -43,6 +43,7 @@
         android:layout_marginEnd="@dimen/common_8dp"
         android:layout_marginBottom="@dimen/common_8dp"
         android:textAllCaps="false"
+        android:background="@drawable/rounded_corners_toggle_button"
         android:textSize="8sp" />
 
 </RelativeLayout>

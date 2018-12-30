@@ -2,6 +2,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.katsuna.calendar">
 
+    <compatible-screens>
+
+        <!-- all normal size screens -->
+        <screen
+            android:screenDensity="mdpi"
+            android:screenSize="normal" /> <!-- 160 -->
+        <screen
+            android:screenDensity="hdpi"
+            android:screenSize="normal" /> <!-- 240 -->
+        <screen
+            android:screenDensity="280"
+            android:screenSize="normal" /> <!-- Workaround -->
+        <screen
+            android:screenDensity="xhdpi"
+            android:screenSize="normal" /> <!-- 320 -->
+        <screen
+            android:screenDensity="360"
+            android:screenSize="normal" /> <!-- Workaround -->
+        <screen
+            android:screenDensity="420"
+            android:screenSize="normal" /> <!-- Workaround Google Pixel, Nexus 5x -->
+        <screen
+            android:screenDensity="xxhdpi"
+            android:screenSize="normal" /> <!-- 480 -->
+        <screen
+            android:screenDensity="560"
+            android:screenSize="normal" /> <!-- Workaround Google Pixel XL, Nexus 6, Nexus 6P -->
+        <screen
+            android:screenDensity="xxxhdpi"
+            android:screenSize="normal" /> <!-- 640 -->
+    </compatible-screens>
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
@@ -25,11 +57,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".event.ManageEventActivity"
             android:parentActivityName=".days.DaysActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".EventActivationActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:directBootAware="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:showOnLockScreen="true"
+            android:taskAffinity=""
+            android:windowSoftInputMode="stateAlwaysHidden"
+            tools:targetApi="n" />
 
 
         <activity
@@ -67,7 +112,8 @@
         </receiver>
         <receiver
             android:name=".receivers.EventReceiver"
-            android:enabled="true" />
+            android:enabled="true"
+            tools:targetApi="n"/>
 
 
     </application>

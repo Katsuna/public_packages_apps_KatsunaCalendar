@@ -6,6 +6,9 @@ import com.katsuna.calendar.BasePresenter;
 import com.katsuna.calendar.BaseView;
 import com.katsuna.calendar.data.Day;
 import com.katsuna.calendar.data.Event;
+import com.katsuna.commons.utils.ListChopper;
+
+import java.util.List;
 
 public interface DayDetailsContract {
     interface View extends BaseView<DayDetailsContract.Presenter> {
@@ -15,6 +18,12 @@ public interface DayDetailsContract {
         void showAddEvent(Day day);
 
         void showEventDetailsUi(long eventId);
+
+        void showEvents(List<Event> events);
+
+        void showNoEvents();
+
+        void moveFabsToBottomAndTint(boolean flag);
     }
 
     interface Presenter extends BasePresenter {

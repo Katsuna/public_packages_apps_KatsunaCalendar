@@ -7,6 +7,9 @@ import com.katsuna.calendar.data.Event;
 import com.katsuna.calendar.data.source.EventsDataSource;
 import com.katsuna.calendar.events.EventsContract;
 import com.katsuna.calendar.services.IEventsScheduler;
+import com.katsuna.calendar.util.EspressoIdlingResource;
+
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -31,13 +34,33 @@ public class DayDetailsPresenter implements DayDetailsContract.Presenter{
 
     @Override
     public void loadEvents() {
+        // The network request might be handled in a different thread so make sure Espresso knows
+        // that the app is busy until the response is handled.
+        EspressoIdlingResource.increment(); // App is busy until further notice
 
+        mEventsDataSource.getEvents(new EventsDataSource.LoadEventsCallback() {
+            @Override
+            public void onEventsLoaded(List<Event> events) {
+                // This callback may be called twice, once for the cache and once for loading
+                // the data from the server API, so we check before decrementing, otherwise
+                // it throws "Counter has been corrupted!" exception.
+                if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+                    EspressoIdlingResource.decrement(); // Set app as idle.
+                }
+
+                mDayDetailsView.showEvents(events);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                mDayDetailsView.showNoEvents();
+            }
+        });
     }
 
     @Override
     public void addNewEvent(Day day) {
         mDayDetailsView.showAddEvent(day);
-
     }
 
     @Override
@@ -56,6 +79,9 @@ public class DayDetailsPresenter implements DayDetailsContract.Presenter{
     public void deleteEvent(Event event) {
         mEventsDataSource.deleteEvent(event.getEventId());
         mEventsScheduler.cancel(event);
+        loadEvents();
+        mDayDetailsView.moveFabsToBottomAndTint(false);
+
     }
 
     @Override
