@@ -108,18 +108,6 @@
                         android:dividerHeight="0dp"
                         android:paddingBottom="80dp" />
 
-                    <Button
-                        android:id="@+id/create_event_button"
-                        android:layout_width="140dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@color/common_blueA700"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="@string/add_new"
-                        android:textAllCaps="false"
-                        android:textColor="@color/common_white87"
-                        android:textSize="14sp"
-                        android:visibility="gone" />
 
 
                 </RelativeLayout>
