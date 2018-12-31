@@ -68,7 +68,7 @@ public class EventActivationActivity extends AppCompatActivity {
 
         setContentView(R.layout.activation);
 
-        mSnoozeButton = findViewById(R.id.snooze_button);
+//        mSnoozeButton = findViewById(R.id.snooze_button);
         mDismissButton = findViewById(R.id.dismiss_button);
         mDescription = findViewById(R.id.event_description);
 
@@ -119,7 +119,7 @@ public class EventActivationActivity extends AppCompatActivity {
                 userProfile.colorProfile);
         float radius = getResources().getDimension(R.dimen.common_8dp);
         Shape.setRoundedBackground(mDismissButton, primaryColor2, radius);
-        Shape.setRoundedBackground(mSnoozeButton, white , radius);
+//        Shape.setRoundedBackground(mSnoozeButton, white , radius);
     }
 
     private Long getEventId() {
@@ -134,12 +134,12 @@ public class EventActivationActivity extends AppCompatActivity {
     private void init() {
         mEventsScheduler = Injection.provideEventScheduler(this);
 
-        mSnoozeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snoozeEvent(SNOOZE_DELAY);
-            }
-        });
+//        mSnoozeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                snoozeEvent(SNOOZE_DELAY);
+//            }
+//        });
         mDismissButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,14 +160,14 @@ public class EventActivationActivity extends AppCompatActivity {
         EventStateManager.getInstance().removeEvent(mEvent);
         finish();
     }
-
-    private void snoozeEvent(long delay) {
-        EventStateManager.getInstance().removeEvent(mEvent);
-        stopEvent();
-        mEventsScheduler.snooze(mEvent, delay);
-        handled = true;
-        finish();
-    }
+//
+//    private void snoozeEvent(long delay) {
+//        EventStateManager.getInstance().removeEvent(mEvent);
+//        stopEvent();
+//        mEventsScheduler.snooze(mEvent, delay);
+//        handled = true;
+//        finish();
+//    }
 
     private void soundTheEvent() {
         EventKlaxon.start(this);
@@ -190,7 +190,7 @@ public class EventActivationActivity extends AppCompatActivity {
         LogUtils.d(TAG, "onStop called: handled=" + handled);
         if (mFocusDuringOnPause) {
             if (!handled) {
-                snoozeEvent(SNOOZE_DELAY);
+//                snoozeEvent(SNOOZE_DELAY);
             }
         }
         /* else {

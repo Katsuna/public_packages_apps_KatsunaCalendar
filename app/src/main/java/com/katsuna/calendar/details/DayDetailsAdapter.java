@@ -27,6 +27,7 @@ import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -197,12 +198,16 @@ public class DayDetailsAdapter extends BaseAdapter {
     }
 
     public void replaceData(List<Event> events) {
-        List<Event> mEvents = new ArrayList<>();
-        for (Event event: events) {
-            if (event.getYear() == currentYear && event.getMonth() == currentMonth && event.getDayOfMonth() == currentDay) {
-                mEvents.add(event);
-            }
-        }
+//        List<Event> mEvents = new ArrayList<>();
+        List<Event> mEvents = events
+                .stream()
+                .filter(e -> (e.getYear() == currentYear &&  e.getMonth() == currentMonth && e.getDayOfMonth() == currentDay))
+                .collect(Collectors.toList());
+//        for (Event event: events) {
+//            if (event.getYear() == currentYear && event.getMonth() == currentMonth && event.getDayOfMonth() == currentDay) {
+//                mEvents.add(event);
+//            }
+//        }
         setList(mEvents);
         notifyDataSetChanged();
     }

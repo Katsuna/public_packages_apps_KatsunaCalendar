@@ -80,8 +80,7 @@ public class DayDetailsPresenter implements DayDetailsContract.Presenter{
         mEventsDataSource.deleteEvent(event.getEventId());
         mEventsScheduler.cancel(event);
         loadEvents();
-        mDayDetailsView.moveFabsToBottomAndTint(false);
-
+//        mDayDetailsView.moveFabsToBottomAndTint(false);
     }
 
     @Override

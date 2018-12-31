@@ -74,19 +74,16 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_day_details);
 //        adjustProfiles();
         Intent i = getIntent();
         Day day =  (Day) i.getParcelableExtra("Day");
-
         init(day);
-
         // Create the presenter
-        new DayDetailsPresenter(this, Injection.provideEventsDataSource(getApplicationContext()), Injection.provideEventScheduler(getApplicationContext()));
     }
 
     public void init (Day day) {
+
         mDay =  day;
         currentDay = Integer.parseInt(day.getDay());
         currentMonth = Integer.parseInt(day.getMonth());
@@ -103,6 +100,9 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
                 mPresenter.addNewEvent(mDay);
             }
         });
+        focusFlag = false;
+        mFab2.setVisibility(View.VISIBLE);
+
         if(mDay != null) {
             mDayTitle.setText(mDay.getDayName() + " "+mDay.getDay() + ", " + getMonth(Integer.parseInt(mDay.getMonth())));
         }
@@ -112,9 +112,8 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
         mDayDetailsAdapter = new DayDetailsAdapter(mDay.getEvents(), mItemListener, this,day);
         mDayDetailsAdapter.notifyDataSetChanged();
         mEventList.setAdapter(mDayDetailsAdapter);
-
         initToolbar(R.drawable.common_ic_close_black54_24dp);
-
+        new DayDetailsPresenter(this, Injection.provideEventsDataSource(getApplicationContext()), Injection.provideEventScheduler(getApplicationContext()));
     }
 
 
@@ -167,12 +166,9 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
     @Override
     public void showEvents(List<Event> events) {
         mDayDetailsAdapter.replaceData(events);
-
-        mEventList.setVisibility(View.VISIBLE);
-        mNoEventsText.setVisibility(View.GONE);
-        mFab2.setVisibility(View.GONE);
-//        mPopupButton2.setVisibility(View.GONE);
         mDayDetailsAdapter.notifyDataSetChanged();
+        focusFlag = false;
+        mFab2.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -238,11 +234,11 @@ public class DayDetailsActivity extends KatsunaActivity implements DayDetailsCon
                 currentYear = currentYear ++;
             }
             else
-                currentMonth = currentMonth ++;
+                currentMonth ++;
 
             yearMonthObject = YearMonth.of(currentYear, currentMonth);
             daysInMonth = yearMonthObject.lengthOfMonth();
-            currentDay=daysInMonth;
+            currentDay=1;
         }
         else {
             currentDay ++;
