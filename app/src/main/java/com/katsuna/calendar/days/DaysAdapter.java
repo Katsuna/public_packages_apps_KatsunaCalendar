@@ -164,7 +164,7 @@ class DaysAdapter extends BaseAdapter {
         }
 
         ViewGroup buttonsWrapper = rowView.findViewById(R.id.action_buttons_wrapper);
-        if (day.getDayType().equals(DayType.SIMPLE)) {
+        if (day.getDayType().equals(DayType.SIMPLE) || day.getDayType().equals(DayType.CURRENT)) {
             if (userProfile.isRightHanded) {
                     View buttonsView = inflater.inflate(R.layout.add_button_rh, buttonsWrapper,
                             false);
@@ -182,6 +182,8 @@ class DaysAdapter extends BaseAdapter {
             addNewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    System.out.println("day for addition is2:"+day.getDay());
+
                     mItemListener.onDayAddEvent(day);
                 }
             });
@@ -315,6 +317,7 @@ class DaysAdapter extends BaseAdapter {
                 for(Day day: mDays){
 //                    System.out.println("IM in replace Data"+Integer.parseInt(day.getDay())+ "Event day:"+ (event.getDayOfMonth()-1));
                     if(Integer.parseInt(day.getDay()) == event.getDayOfMonth()){
+                        System.out.println("DAY WITH EVENT:"+day.getDay());
                         if (mDays.get(event.getDayOfMonth()-1).getEvents() == null) {
                             List<Event> dayEvents = new ArrayList<>();
                             dayEvents.add(event);
@@ -322,7 +325,6 @@ class DaysAdapter extends BaseAdapter {
                         }
                         else {
                             if (!mDays.get(event.getDayOfMonth()-1).getEvents().contains(event)) {
-//                                System.out.println("the event day is:" + );
 
                                 mDays.get(event.getDayOfMonth() - 1).getEvents().add(event);
                             }

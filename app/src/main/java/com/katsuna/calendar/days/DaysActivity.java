@@ -330,7 +330,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         Intent i = new Intent(this, ManageEventActivity.class);
         i.putExtra(EXTRA_EVENT_TYPE, EventType.ALARM);
         i.putExtra("Day",  day);
-
+        System.out.println("IM adding new day:"+day.getDay());
         startActivityForResult(i, REQUEST_CODE_NEW_EVENT);
     }
 
