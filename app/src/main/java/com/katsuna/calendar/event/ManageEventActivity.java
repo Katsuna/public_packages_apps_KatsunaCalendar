@@ -497,7 +497,6 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     private StepStatus getTimeStepStatus() {
         ManageEventStep manageEventStep = mPresenter.getCurrentStep();
-        System.out.println("Im here with event step :"+ manageEventStep);
         switch (manageEventStep) {
             case TYPE:
                 return StepStatus.NOT_SET;
@@ -556,7 +555,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     @Override
     public void showCalendarOnReturn(Event event) {
-
+        System.out.println("Im in show calendarin erturn");
         Intent intent = new Intent(this, DaysActivity.class);
         intent.putExtra("event", event);
         setResult(RESULT_OK, intent);
