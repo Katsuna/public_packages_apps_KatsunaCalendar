@@ -49,7 +49,7 @@ public class DaysPresenter implements DaysContract.Presenter {
                 if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
                     EspressoIdlingResource.decrement(); // Set app as idle.
                 }
-                System.out.println("EVENTS ARE :"+events.size());
+//                System.out.println("EVENTS ARE :"+events.size());
                 mDaysView.showEvents(events);
             }
 

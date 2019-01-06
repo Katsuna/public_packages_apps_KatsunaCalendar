@@ -555,7 +555,6 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     @Override
     public void showCalendarOnReturn(Event event) {
-        System.out.println("Im in show calendarin erturn");
         Intent intent = new Intent(this, DaysActivity.class);
         intent.putExtra("event", event);
         setResult(RESULT_OK, intent);
@@ -780,7 +779,6 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     private void onNextStep() {
         ManageEventStep step = mPresenter.getCurrentStep();
-        System.out.println("IM ON next step"+step);
         switch (step) {
             case TYPE:
                 mPresenter.validateEventTypeInfo(getEventType(), mDescription.getText().toString());

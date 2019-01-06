@@ -92,7 +92,6 @@ public class DayDetailsAdapter extends BaseAdapter {
             rowView = inflater.inflate(R.layout.event, viewGroup, false);
         }
         final Event event = getItem(i);
-        System.out.println("Event"+event.getMinute());
         final Context context = viewGroup.getContext();
         EventFormatter eventFormatter = new EventFormatter(context, event);
 

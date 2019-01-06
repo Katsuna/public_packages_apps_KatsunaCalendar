@@ -40,7 +40,6 @@ public class EventReceiver extends BroadcastReceiver {
             if (event == null) {
                 LogUtils.i("%s event not found with eventId: %s", TAG, eventId);
                 LogUtils.i(TAG, "onReceive another event is active.");
-                System.out.println( "onReceive another event is active.");
 //                        eventsScheduler.snooze(event, SNOOZE_DELAY_OVERLAPPING);
             } else {
                 IEventsScheduler eventsScheduler = Injection.provideEventScheduler(context);

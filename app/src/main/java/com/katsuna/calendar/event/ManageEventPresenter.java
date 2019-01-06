@@ -96,7 +96,6 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
 
     @Override
     public void saveEvent(@NonNull EventType eventType, String description, String hour, String minute, String day, String month,  String year, String ringtone, boolean vibrate) {
-        System.out.println("the day for saving is:"+day);
         List<ValidationResult> results = mEventValidator.validateAll(eventType, description, hour,
                 minute);
         if (results.size() == 0) {
@@ -178,7 +177,6 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
     @Override
     public void showStep(ManageEventStep step) {
         mStep = step;
-        System.out.println("on show step:"+step);
 
         switch (step) {
             case TYPE:

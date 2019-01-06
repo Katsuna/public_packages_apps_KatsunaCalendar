@@ -223,10 +223,6 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
             e.printStackTrace();
         }
         //
-        System.out.println("Current Year is : " + calendar.get(Calendar.YEAR));
-        // month start from 0 to 11
-        System.out.println("Current Month is : " + (calendar.get(Calendar.MONTH) + 1));
-        System.out.println("Current Date is : " + calendar.get(Calendar.DATE));
 
     }
 
@@ -235,7 +231,6 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         String monthName = new SimpleDateFormat("MMM").format(calendar.getTime());
 
         while (month==calendar.get(Calendar.MONTH)) {
-            System.out.print(calendar.getTime());
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
         month++;
@@ -330,7 +325,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         Intent i = new Intent(this, ManageEventActivity.class);
         i.putExtra(EXTRA_EVENT_TYPE, EventType.ALARM);
         i.putExtra("Day",  day);
-        System.out.println("IM adding new day:"+day.getDay());
+//        System.out.println("IM adding new day:"+day.getDay());
         startActivityForResult(i, REQUEST_CODE_NEW_EVENT);
     }
 

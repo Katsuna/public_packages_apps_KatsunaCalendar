@@ -32,13 +32,11 @@ public class EventInitReceiver extends BroadcastReceiver {
                 @Override
                 public void schedulingFinished() {
                     LogUtils.i("%s alarms scheduling completed", TAG);
-                    System.out.println("%s alarms scheduling completed");
                 }
 
                 @Override
                 public void schedulingFailed(Exception ex) {
                     LogUtils.e("%s exception while scheduling alarms:  %s", TAG, ex.toString());
-                    System.out.println("%s alarms scheduling failed");
 
                 }
             });

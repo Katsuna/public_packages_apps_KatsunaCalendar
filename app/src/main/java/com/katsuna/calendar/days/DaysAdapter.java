@@ -125,16 +125,15 @@ class DaysAdapter extends BaseAdapter {
 
         CardView dayCard = rowView.findViewById(R.id.day_container_card);
 
-        if(day.getEvents() != null) {
-            System.out.println("the day" + day.getDay() + "has events:" + day.getEvents().size());
-        }
+//        if(day.getEvents() != null) {
+//            System.out.println("the day" + day.getDay() + "has events:" + day.getEvents().size());
+//        }
 
         if (calendar.get(Calendar.DAY_OF_MONTH) == (Integer.parseInt(day.getDay())) && calendar.get(Calendar.MONTH)+1 == mMonth & calendar.get(Calendar.YEAR) == mYear) {
             if (day.getEvents() != null && !day.getEvents().isEmpty()){
                 day.setDayType(DayType.CURRENT_WITH_EVENT);
             }
             else {
-                System.out.println("Im in current");
                 day.setDayType(DayType.CURRENT);
             }
         } else if (day.getEvents() != null && !day.getEvents().isEmpty()) {
@@ -182,7 +181,6 @@ class DaysAdapter extends BaseAdapter {
             addNewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("day for addition is2:"+day.getDay());
 
                     mItemListener.onDayAddEvent(day);
                 }
@@ -260,7 +258,6 @@ class DaysAdapter extends BaseAdapter {
                 else {
                     buttonsWrapper.addView(eventDetails, paramsEnd);
                 }
-                System.out.println("id:"+eventDetails.getId());
                 paramsEnd.addRule(RelativeLayout.BELOW, eventDetails.getId());
 
 
@@ -317,7 +314,7 @@ class DaysAdapter extends BaseAdapter {
                 for(Day day: mDays){
 //                    System.out.println("IM in replace Data"+Integer.parseInt(day.getDay())+ "Event day:"+ (event.getDayOfMonth()-1));
                     if(Integer.parseInt(day.getDay()) == event.getDayOfMonth()){
-                        System.out.println("DAY WITH EVENT:"+day.getDay());
+//                        System.out.println("DAY WITH EVENT:"+day.getDay());
                         if (mDays.get(event.getDayOfMonth()-1).getEvents() == null) {
                             List<Event> dayEvents = new ArrayList<>();
                             dayEvents.add(event);
