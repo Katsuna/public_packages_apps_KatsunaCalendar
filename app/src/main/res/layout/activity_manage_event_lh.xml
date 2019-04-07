@@ -69,21 +69,24 @@
                                 android:id="@+id/event_type_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textAlignment="textEnd"
                                 android:layout_gravity="end"
-                                android:gravity="end"
                                 android:layout_margin="10dp"
                                 android:drawableEnd="@drawable/ic_label_black_24dp"
                                 android:drawablePadding="8dp"
                                 android:fontFamily="sans-serif-medium"
+                                android:gravity="end"
                                 android:text="@string/event_type"
+                                android:textAlignment="textEnd"
                                 android:textColor="@color/common_black58"
                                 android:textSize="20sp" />
 
                             <LinearLayout
                                 android:id="@+id/event_type_radio_group_container"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:layout_gravity="end"
+
                                 android:layout_below="@id/event_type_text"
                                 android:layout_alignStart="@id/event_type_text"
                                 android:orientation="vertical">
@@ -92,7 +95,8 @@
                                     android:id="@+id/event_type_radio_group"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="32dp"
+                                    android:layout_marginEnd="32dp"
+                                    android:layout_gravity="end"
                                     android:orientation="vertical">
 
                                     <RadioButton
@@ -134,8 +138,9 @@
 
                                 <EditText
                                     android:id="@+id/event_description"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:minWidth="100dp"
                                     android:layout_marginStart="8dp"
                                     android:layout_marginTop="8dp"
                                     android:layout_marginEnd="28dp"
@@ -181,20 +186,6 @@
                             android:text="@string/event_time"
                             android:textSize="20sp" />
 
-                        <TextView
-                            android:id="@+id/time_selected"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/event_time_text"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="40dp"
-                            android:layout_marginBottom="16dp"
-                            android:fontFamily="sans-serif-medium"
-                            android:gravity="end"
-                            android:text="@string/alarm_options"
-                            android:textColor="@color/common_black54"
-                            android:textSize="18sp" />
 
                         <LinearLayout
                             android:id="@+id/event_time_control"
@@ -313,39 +304,39 @@
                 </LinearLayout>
 
                 <!-- days container -->
-                <LinearLayout
-                    android:id="@+id/event_days_handler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/wizard_margin_top">
+                <!--<LinearLayout-->
+                <!--android:id="@+id/event_days_handler"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/wizard_margin_top">-->
 
-                    <RelativeLayout
-                        android:id="@+id/event_days_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:background="@color/common_grey50"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp">
+                <!--<RelativeLayout-->
+                <!--android:id="@+id/event_days_container"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="8dp"-->
+                <!--android:background="@color/common_grey50"-->
+                <!--android:paddingTop="8dp"-->
+                <!--android:paddingBottom="8dp">-->
 
-                        <TextView
-                            android:id="@+id/event_days_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:drawableEnd="@drawable/ic_insert_invitation_black_24dp"
-                            android:drawablePadding="8dp"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="@string/event_day"
-                            android:textSize="20sp" />
+                <!--<TextView-->
+                <!--android:id="@+id/event_days_text"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_marginStart="8dp"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:layout_marginEnd="8dp"-->
+                <!--android:drawableEnd="@drawable/ic_insert_invitation_black_24dp"-->
+                <!--android:drawablePadding="8dp"-->
+                <!--android:fontFamily="sans-serif-medium"-->
+                <!--android:text="@string/event_day"-->
+                <!--android:textSize="20sp" />-->
 
 
-                    </RelativeLayout>
+                <!--</RelativeLayout>-->
 
-                </LinearLayout>
+                <!--</LinearLayout>-->
 
                 <!-- options container -->
                 <LinearLayout

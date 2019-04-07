@@ -242,9 +242,7 @@ class DaysAdapter extends BaseAdapter {
                 }
 
                 eventDescription.setText(eventFormatter.getTitle()+", " +hour+":"+minutes);
-                int primaryColor1 = ColorCalcV2.getColor(context,
-                        ColorProfileKeyV2.PRIMARY_COLOR_1, userProfile.colorProfile);
-                ColorAdjusterV2.setTextViewDrawableColor(eventDescription, primaryColor1);
+
 
 
                 ToggleButton turnOffButton = eventDetails.findViewById(R.id.event_status_button);
@@ -287,6 +285,8 @@ class DaysAdapter extends BaseAdapter {
                 DrawToggleUtils.adjustMinifiedToggleButton(context, turnOffButton, toggleBg,userProfile);
                 //                ColorAdjuster.applyColor(context, turnOffButton, userProfile.colorProfile);
 //                ColorAdjusterV2.adjustColor(context, userProfile, turnOffButton);
+//                ColorAdjusterV2.adjustMoreText(context,userProfile,eventDescription);
+
             }
             View buttonsView = inflater.inflate(action_layout, buttonsWrapper,
                     false);

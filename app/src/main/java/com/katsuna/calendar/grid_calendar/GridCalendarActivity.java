@@ -1,6 +1,7 @@
 package com.katsuna.calendar.grid_calendar;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
@@ -14,8 +15,10 @@ import com.katsuna.calendar.data.DayType;
 import com.katsuna.calendar.data.EventType;
 import com.katsuna.calendar.event.ManageEventActivity;
 import com.katsuna.calendar.util.Injection;
+import com.katsuna.commons.entities.ColorProfileKeyV2;
 import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.ui.KatsunaActivity;
+import com.katsuna.commons.utils.ColorCalcV2;
 import com.katsuna.commons.utils.IUserProfileProvider;
 
 import java.util.Date;
@@ -29,11 +32,27 @@ public class GridCalendarActivity extends KatsunaActivity implements GridCalenda
     private GridCalendarContract.Presenter mPresenter;
     private UserProfile userProfile;
     private TextView mGridCalendarTItle;
-
+    private UserProfile mUserProfile;
+    private int mPrimaryColor2;
+    private int mSecondaryColor2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        setContentView(R.layout.grid_calendar);
+//        init();
+//
+//        // Create the presenter
+//        new GridCalendarPresenter(this);
+    }
+
+    private void initActivity(UserProfile userProfile){
+        if (userProfile.isRightHanded) {
+            setContentView(R.layout.grid_calendar);
+        } else {
+            setContentView(R.layout.grid_calendar_lh);
+        }
+
         setContentView(R.layout.grid_calendar);
         init();
 
@@ -60,6 +79,8 @@ public class GridCalendarActivity extends KatsunaActivity implements GridCalenda
                 mPresenter.addOnDayNewEvent(day);
             }
         });
+//        mFab2.setBackgroundTintList(ColorStateList.valueOf(mPrimaryColor2));
+//        mFab2.setImageTintList(ColorStateList.valueOf(mWhiteColor));
         initToolbar(R.drawable.common_ic_close_black54_24dp);
 //        mGridCalendarTItle = findViewById(R.id.titl);
 
@@ -93,11 +114,34 @@ public class GridCalendarActivity extends KatsunaActivity implements GridCalenda
     @Override
     protected void onResume() {
         super.onResume();
+        UserProfile userProfile = getActiveUserProfile();
 
+        if (mUserProfile == null) {
+            mUserProfile = userProfile;
+            initActivity(userProfile);
+        } else if (!mUserProfile.equals(userProfile)){
+            // check if we need to change layouts
+            if (mUserProfile.isRightHanded != userProfile.isRightHanded) {
+                mUserProfile = userProfile;
+                initActivity(userProfile);
+            }
+        }
+        adjustProfiles(userProfile);
         mPresenter.start();
 
     }
+    private void adjustProfiles(UserProfile userProfile) {
 
+
+        mPrimaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.PRIMARY_COLOR_2,
+                userProfile.colorProfile);
+        mSecondaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.SECONDARY_COLOR_2,
+                userProfile.colorProfile);
+
+        // first time init check
+
+
+    }
     @Override
     public UserProfile getProfile() {
         return mUserProfileContainer.getActiveUserProfile();

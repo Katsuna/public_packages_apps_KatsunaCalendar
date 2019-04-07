@@ -112,18 +112,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         Intent i = getIntent();
         mEventDay =  (Day) i.getParcelableExtra("Day");
 
-        init();
 
-//        long eventId = getIntent().getLongExtra(EXTRA_EVENT_ID, 0);
-//        EventType eventType = (EventType) i.getSerializableExtra(EXTRA_EVENT_TYPE);
-//
-//        // Create the presenter
-//        long eventId = getIntent().getLongExtra(EXTRA_EVENT_ID, 0);
-//        EventType eventType = (EventType) intent.getSerializableExtra(EXTRA_EVENT_TYPE);
-        new ManageEventPresenter(eventId, eventType,
-                Injection.provideEventsDataSource(getApplicationContext()), this,
-                Injection.provideEventValidator(),
-                Injection.provideEventScheduler(getApplicationContext()));
     }
     private void initActivity(UserProfile userProfile) {
         if (userProfile.isRightHanded) {
@@ -142,6 +131,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 Injection.provideEventsDataSource(getApplicationContext()), this,
                 Injection.provideEventValidator(),
                 Injection.provideEventScheduler(getApplicationContext()));
+        mPresenter.start();
 
     }
 
@@ -200,7 +190,7 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         mEventTimeControl = findViewById(R.id.event_time_control);
         mEventTypeTitle = findViewById(R.id.event_type_text);
         mEventTimeTitle = findViewById(R.id.event_time_text);
-        mEventDaysTitle = findViewById(R.id.event_days_text);
+//        mEventDaysTitle = findViewById(R.id.event_days_text);
         mEventOptionsTitle = findViewById(R.id.event_options_text);
 
 
@@ -327,8 +317,8 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
             }
         });
 
-        mEventDaysHandler = findViewById(R.id.event_days_handler);
-        mEventDaysContainer = findViewById(R.id.event_days_container);
+//        mEventDaysHandler = findViewById(R.id.event_days_handler);
+//        mEventDaysContainer = findViewById(R.id.event_days_container);
 
 
         mPreviousStepFab = findViewById(R.id.prev_step_fab);
@@ -372,7 +362,6 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
             }
         }
         adjustProfiles(userProfile);
-        mPresenter.start();
 
     }
 
@@ -415,19 +404,13 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     private void adjustProfiles(UserProfile userProfile) {
 
-        if (userProfile.isRightHanded) {
-            setContentView(R.layout.activity_manage_event);
-        } else {
-            setContentView(R.layout.activity_manage_event_lh);
-        }
+
         mPrimaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.PRIMARY_COLOR_2,
                 userProfile.colorProfile);
         mSecondaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.SECONDARY_COLOR_2,
                 userProfile.colorProfile);
 
         // first time init check
-
-
 
         adjustTimeControls();
         adjustSteps();
@@ -493,48 +476,56 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
                 mEventTimeHandler.setBackgroundColor(mSecondaryColor2);
                 mEventTimeTitle.setTextColor(mBlack34Color);
                 ColorAdjusterV2.setTextViewDrawableColor(mEventTimeTitle, mBlack34Color);
+
+
                 break;
             case ACTIVE:
-                mEventTimeHandler.setBackgroundColor(mPrimaryColor2);
-                mEventTimeTitle.setTextColor(mPrimaryColor2);
-                ColorAdjusterV2.setTextViewDrawableColor(mEventTimeTitle, mPrimaryColor2);
+                mEventTimeHandler.setBackgroundColor(mSecondaryColor2);
+                mEventTimeTitle.setTextColor(mBlack34Color);
+                ColorAdjusterV2.setTextViewDrawableColor(mEventTimeTitle, mBlack34Color);
+
                 break;
             case SET:
                 mEventTimeHandler.setBackgroundColor(mPrimaryColor2);
                 mEventTimeTitle.setTextColor(mBlack58Color);
                 ColorAdjusterV2.setTextViewDrawableColor(mEventTimeTitle, mBlack58Color);
+//                if (getEventType() == EventType.ALARM) {
+//                    mEventDayTitle.setText(R.string.set_event_time);
+//                } else {
+//                    mEventDayTitle.setText(R.string.set_reminder_time);
+//                }
                 break;
         }
     }
 
     private void adjustDaysStep() {
-        int toggleColor = 0;
-        switch (getDaysStepStatus()) {
-            case NOT_SET:
-                mEventDaysHandler.setBackgroundColor(mSecondaryColor2);
-                mEventDaysTitle.setTextColor(mBlack34Color);
-                ColorAdjusterV2.setTextViewDrawableColor(mEventDaysTitle, mBlack34Color);
-                toggleColor = mBlack34Color;
-                break;
-            case ACTIVE:
-                mEventDaysHandler.setBackgroundColor(mPrimaryColor2);
-                mEventDaysTitle.setTextColor(mPrimaryColor2);
-                ColorAdjusterV2.setTextViewDrawableColor(mEventDaysTitle, mPrimaryColor2);
-                toggleColor = mPrimaryColor2;
-                break;
-            case SET:
-                mEventDaysHandler.setBackgroundColor(mBlack58Color);
-                mEventDaysTitle.setTextColor(mBlack58Color);
-                ColorAdjusterV2.setTextViewDrawableColor(mEventDaysTitle, mBlack58Color);
-                toggleColor = mBlack58Color;
-                break;
-        }
+//        int toggleColor = 0;
+//        switch (getDaysStepStatus()) {
+//            case NOT_SET:
+//                mEventDaysHandler.setBackgroundColor(mSecondaryColor2);
+//                mEventDaysTitle.setTextColor(mBlack34Color);
+//                ColorAdjusterV2.setTextViewDrawableColor(mEventDaysTitle, mBlack34Color);
+//                toggleColor = mBlack34Color;
+//                break;
+//            case ACTIVE:
+//                mEventDaysHandler.setBackgroundColor(mPrimaryColor2);
+//                mEventDaysTitle.setTextColor(mPrimaryColor2);
+//                ColorAdjusterV2.setTextViewDrawableColor(mEventDaysTitle, mPrimaryColor2);
+//                toggleColor = mPrimaryColor2;
+//                break;
+//            case SET:
+//                mEventDaysHandler.setBackgroundColor(mBlack58Color);
+//                mEventDaysTitle.setTextColor(mBlack58Color);
+//                ColorAdjusterV2.setTextViewDrawableColor(mEventDaysTitle, mBlack58Color);
+//                toggleColor = mBlack58Color;
+//                break;
+//        }
 
 
     }
 
     private void adjustFloatingButtons() {
-        if (mPresenter.getCurrentStep() == ManageEventStep.DAYS) {
+        if (mPresenter.getCurrentStep() == ManageEventStep.OPTIONS) {
             mNextStepFab.setBackgroundTintList(ColorStateList.valueOf(mPrimaryColor2));
             mNextStepFab.setImageTintList(ColorStateList.valueOf(mWhiteColor));
         } else {
@@ -728,16 +719,16 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         int horizontalGravity = mUserProfile.isRightHanded ? Gravity.END : Gravity.START;
         switch (step) {
             case TYPE:
-                nextStepFabParams.anchorGravity = Gravity.TOP | horizontalGravity;
+                nextStepFabParams.anchorGravity = Gravity.BOTTOM | horizontalGravity;
                 break;
             case TIME:
                 previousStepFabParams.anchorGravity = Gravity.TOP | horizontalGravity;
-                nextStepFabParams.setAnchorId(R.id.event_time_container);
+                nextStepFabParams.setAnchorId(R.id.event_type_container);
                 nextStepFabParams.anchorGravity = Gravity.BOTTOM | horizontalGravity;
                 break;
             case DAYS:
-                previousStepFabParams.anchorGravity = Gravity.BOTTOM | horizontalGravity;
-                nextStepFabParams.setAnchorId(R.id.event_days_container);
+                previousStepFabParams.anchorGravity = Gravity.TOP | horizontalGravity;
+                nextStepFabParams.setAnchorId(R.id.event_time_container);
                 nextStepFabParams.anchorGravity = Gravity.BOTTOM | horizontalGravity;
                 break;
             case OPTIONS:

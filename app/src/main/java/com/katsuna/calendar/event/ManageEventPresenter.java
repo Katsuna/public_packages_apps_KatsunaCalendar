@@ -177,7 +177,6 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
     @Override
     public void showStep(ManageEventStep step) {
         mStep = step;
-
         switch (step) {
             case TYPE:
                 mManageEventView.showDescriptionControl(true);
@@ -195,13 +194,13 @@ class ManageEventPresenter implements ManageEventContract.Presenter,
                 mManageEventView.showEventTimeControl(false);
                 mManageEventView.showEventOptionsControl(false);
 
-                if (mEventType == EventType.ALARM) {
-                    mManageEventView.showPreviousStepFab(false);
-                    mManageEventView.showNextStepFab(true);
-                } else {
+//                if (mEventType == EventType.ALARM) {
+//                    mManageEventView.showPreviousStepFab(false);
+//                    mManageEventView.showNextStepFab(true);
+//                } else {
                     mManageEventView.showPreviousStepFab(true);
                     mManageEventView.showNextStepFab(true);
-                }
+//                }
                 break;
             case DAYS:
                 mManageEventView.showPreviousStepFab(true);
