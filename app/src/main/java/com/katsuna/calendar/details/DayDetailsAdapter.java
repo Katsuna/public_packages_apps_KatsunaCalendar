@@ -21,6 +21,7 @@ import com.katsuna.calendar.events.EventItemListener;
 import com.katsuna.calendar.formatters.DayFormatter;
 import com.katsuna.calendar.formatters.EventFormatter;
 import com.katsuna.commons.entities.UserProfile;
+import com.katsuna.commons.utils.ColorAdjusterV2;
 import com.katsuna.commons.utils.IUserProfileProvider;
 
 import java.text.DateFormatSymbols;
@@ -125,6 +126,7 @@ public class DayDetailsAdapter extends BaseAdapter {
         }
 
 
+
         CardView eventCard = rowView.findViewById(R.id.event_container_card);
         eventCard.setCardBackgroundColor(ContextCompat.getColor(context,
                 eventFormatter.getCardHandleColor(userProfile)));
@@ -169,6 +171,8 @@ public class DayDetailsAdapter extends BaseAdapter {
         }
 
         Button editBtn = rowView.findViewById(R.id.edit_button);
+        ColorAdjusterV2.adjustButtons(context, userProfile, editBtn,null);
+
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,6 +182,8 @@ public class DayDetailsAdapter extends BaseAdapter {
         buttonsWrapper.setVisibility(View.VISIBLE);
 
         TextView deletBtn = rowView.findViewById(R.id.txt_delete);
+        ColorAdjusterV2.adjustMoreText(context, userProfile, deletBtn);
+
         deletBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

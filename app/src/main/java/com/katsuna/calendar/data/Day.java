@@ -117,7 +117,7 @@ public class Day implements Parcelable {
         dest.writeString(monthShort);
         dest.writeString(year);
         dest.writeTypedList(events);
-
+//
         dest.writeInt(this.dayType.ordinal());
 
 

@@ -97,29 +97,56 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     private TextView mEventDayTitle;
     private TextView mRingtoneOption;
     private Uri mRingtoneUri;
-
-
-
+    private UserProfile mUserProfile;
+    private Intent intent;
+    private long eventId;
+    private EventType eventType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        intent = getIntent();
+        mEventDay =  (Day) intent.getParcelableExtra("Day");
+        eventId = getIntent().getLongExtra(EXTRA_EVENT_ID, 0);
+        eventType = (EventType) intent.getSerializableExtra(EXTRA_EVENT_TYPE);
         setContentView(R.layout.activity_manage_event);
         Intent i = getIntent();
         mEventDay =  (Day) i.getParcelableExtra("Day");
 
         init();
 
-        long eventId = getIntent().getLongExtra(EXTRA_EVENT_ID, 0);
-        EventType eventType = (EventType) i.getSerializableExtra(EXTRA_EVENT_TYPE);
+//        long eventId = getIntent().getLongExtra(EXTRA_EVENT_ID, 0);
+//        EventType eventType = (EventType) i.getSerializableExtra(EXTRA_EVENT_TYPE);
+//
+//        // Create the presenter
+//        long eventId = getIntent().getLongExtra(EXTRA_EVENT_ID, 0);
+//        EventType eventType = (EventType) intent.getSerializableExtra(EXTRA_EVENT_TYPE);
+        new ManageEventPresenter(eventId, eventType,
+                Injection.provideEventsDataSource(getApplicationContext()), this,
+                Injection.provideEventValidator(),
+                Injection.provideEventScheduler(getApplicationContext()));
+    }
+    private void initActivity(UserProfile userProfile) {
+        if (userProfile.isRightHanded) {
+            setContentView(R.layout.activity_manage_event);
+        } else {
+            setContentView(R.layout.activity_manage_event_lh);
+        }
+
+
+        init();
+
+
 
         // Create the presenter
         new ManageEventPresenter(eventId, eventType,
                 Injection.provideEventsDataSource(getApplicationContext()), this,
                 Injection.provideEventValidator(),
                 Injection.provideEventScheduler(getApplicationContext()));
+
     }
 
     private void init() {
+
         mEventDayTitle = findViewById(R.id.current_event_day);
         if(mEventDay != null) {
             mEventDayTitle.setText(mEventDay.getDayName() + " "+mEventDay.getDay() + ", " + mEventDay.getMonth());
@@ -331,8 +358,22 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
     @Override
     protected void onResume() {
         super.onResume();
+
+        UserProfile userProfile = getActiveUserProfile();
+
+        if (mUserProfile == null) {
+            mUserProfile = userProfile;
+            initActivity(userProfile);
+        } else if (!mUserProfile.equals(userProfile)){
+            // check if we need to change layouts
+            if (mUserProfile.isRightHanded != userProfile.isRightHanded) {
+                mUserProfile = userProfile;
+                initActivity(userProfile);
+            }
+        }
+        adjustProfiles(userProfile);
         mPresenter.start();
-        adjustProfiles();
+
     }
 
 
@@ -372,13 +413,21 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
         mVibrateOption.setChecked(enabled);
     }
 
-    private void adjustProfiles() {
-        UserProfile userProfile = mUserProfileContainer.getActiveUserProfile();
+    private void adjustProfiles(UserProfile userProfile) {
 
+        if (userProfile.isRightHanded) {
+            setContentView(R.layout.activity_manage_event);
+        } else {
+            setContentView(R.layout.activity_manage_event_lh);
+        }
         mPrimaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.PRIMARY_COLOR_2,
                 userProfile.colorProfile);
         mSecondaryColor2 = ColorCalcV2.getColor(this, ColorProfileKeyV2.SECONDARY_COLOR_2,
                 userProfile.colorProfile);
+
+        // first time init check
+
+
 
         adjustTimeControls();
         adjustSteps();
@@ -670,30 +719,32 @@ public class ManageEventActivity extends KatsunaActivity implements ManageEventC
 
     @Override
     public void adjustFabPositions(ManageEventStep step) {
+
         CoordinatorLayout.LayoutParams nextStepFabParams =
                 (CoordinatorLayout.LayoutParams) mNextStepFab.getLayoutParams();
         CoordinatorLayout.LayoutParams previousStepFabParams =
                 (CoordinatorLayout.LayoutParams) mPreviousStepFab.getLayoutParams();
 
+        int horizontalGravity = mUserProfile.isRightHanded ? Gravity.END : Gravity.START;
         switch (step) {
             case TYPE:
-                nextStepFabParams.anchorGravity = Gravity.TOP | Gravity.END;
+                nextStepFabParams.anchorGravity = Gravity.TOP | horizontalGravity;
                 break;
             case TIME:
-                previousStepFabParams.anchorGravity = Gravity.TOP | Gravity.END;
+                previousStepFabParams.anchorGravity = Gravity.TOP | horizontalGravity;
                 nextStepFabParams.setAnchorId(R.id.event_time_container);
-                nextStepFabParams.anchorGravity = Gravity.BOTTOM | Gravity.END;
+                nextStepFabParams.anchorGravity = Gravity.BOTTOM | horizontalGravity;
                 break;
             case DAYS:
-                previousStepFabParams.anchorGravity = Gravity.BOTTOM | Gravity.END;
+                previousStepFabParams.anchorGravity = Gravity.BOTTOM | horizontalGravity;
                 nextStepFabParams.setAnchorId(R.id.event_days_container);
-                nextStepFabParams.anchorGravity = Gravity.BOTTOM | Gravity.END;
+                nextStepFabParams.anchorGravity = Gravity.BOTTOM | horizontalGravity;
                 break;
             case OPTIONS:
-                previousStepFabParams.anchorGravity = Gravity.TOP | Gravity.END;
+                previousStepFabParams.anchorGravity = Gravity.TOP | horizontalGravity;
                 previousStepFabParams.setAnchorId(R.id.event_options_container);
                 nextStepFabParams.setAnchorId(R.id.event_options_container);
-                nextStepFabParams.anchorGravity = Gravity.BOTTOM | Gravity.END;
+                nextStepFabParams.anchorGravity = Gravity.BOTTOM | horizontalGravity;
                 break;
         }
     }

@@ -9,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -66,6 +67,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
     private int mPrimaryColor2;
     private int mSecondaryColor2;
     private Day previousDay = null;
+    private UserProfile mUserProfile;
 
 
     private int currentMonth, currentYear;
@@ -151,6 +153,8 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         initDrawer();
         initCalendar();
         startWithToday();
+
+
     }
 
     private void startWithToday() {
@@ -301,12 +305,39 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
                 return true;
             }
         });
+        mKatsunaNavigationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.closeDrawers();
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        UserProfile userProfile = mUserProfileContainer.getActiveUserProfile();
 
+        // first time init check
+        if (mUserProfile == null) {
+            mUserProfile = userProfile;
+
+        } else if (!mUserProfile.equals(userProfile)){
+            // check if we need to change layouts
+            if (mUserProfile.isRightHanded != userProfile.isRightHanded) {
+                mUserProfile = userProfile;
+            }
+
+
+        }
+        mFabContainer = findViewById(R.id.fab_container);
+        int verticalCenterGravity = false ? Gravity.CENTER : Gravity.BOTTOM;
+
+        if (userProfile.isRightHanded) {
+            mFabContainer.setGravity(verticalCenterGravity | Gravity.END);
+        } else {
+            mFabContainer.setGravity(verticalCenterGravity | Gravity.START);
+        }
         mPresenter.start();
     }
 
@@ -431,5 +462,7 @@ public class DaysActivity extends KatsunaActivity implements DaysContract.View,
         AlertDialog mDialog = builder.create();
         mDialog.show();
     }
+
+
 
 }

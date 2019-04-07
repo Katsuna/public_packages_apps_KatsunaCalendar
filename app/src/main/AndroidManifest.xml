@@ -80,7 +80,7 @@
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/common_settings"
-            android:parentActivityName=".events.EventsActivity"
+            android:parentActivityName=".days.DaysActivity"
             android:screenOrientation="portrait" />
 
         <activity

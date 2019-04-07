@@ -6,12 +6,14 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,13 +30,19 @@ import com.katsuna.calendar.events.EventsContract;
 import com.katsuna.calendar.formatters.DayFormatter;
 import com.katsuna.calendar.formatters.EventFormatter;
 import com.katsuna.calendar.util.DrawToggleUtils;
+import com.katsuna.commons.controls.KatsunaButton;
 import com.katsuna.commons.controls.KatsunaToggleButton;
+import com.katsuna.commons.entities.ColorProfile;
+import com.katsuna.commons.entities.ColorProfileKeyV2;
+import com.katsuna.commons.entities.KatsunaConstants;
 import com.katsuna.commons.entities.OpticalParams;
 import com.katsuna.commons.entities.SizeProfileKeyV2;
 import com.katsuna.commons.entities.UserProfile;
 import com.katsuna.commons.utils.ColorAdjuster;
 import com.katsuna.commons.utils.ColorAdjusterV2;
+import com.katsuna.commons.utils.ColorCalcV2;
 import com.katsuna.commons.utils.IUserProfileProvider;
+import com.katsuna.commons.utils.KatsunaAdjuster;
 import com.katsuna.commons.utils.SizeAdjuster;
 import com.katsuna.commons.utils.SizeCalcV2;
 import com.katsuna.commons.utils.ToggleButtonAdjuster;
@@ -60,6 +68,8 @@ class DaysAdapter extends BaseAdapter {
     private Calendar calendar;
     private UserProfile userProfile;
     private EventsContract.Presenter mPresenter;
+    protected LinearLayout mFabContainer;
+
 
 
     DaysAdapter(ArrayList<Day> days, DayItemListener itemListener, IUserProfileProvider userProfileProvider, int month, int year) {
@@ -178,6 +188,8 @@ class DaysAdapter extends BaseAdapter {
             }
 
             Button addNewBtn = rowView.findViewById(R.id.add_new_button);
+            ColorAdjusterV2.adjustButtons(context, userProfile, addNewBtn,null);
+
             addNewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -203,6 +215,8 @@ class DaysAdapter extends BaseAdapter {
                 event_info_layout = R.layout.event_info_lh;
                 action_layout = R.layout.action_buttons_lh;
             }
+
+
             buttonsWrapper.removeAllViews();
 
             RelativeLayout.LayoutParams paramsEnd = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -228,7 +242,9 @@ class DaysAdapter extends BaseAdapter {
                 }
 
                 eventDescription.setText(eventFormatter.getTitle()+", " +hour+":"+minutes);
-
+                int primaryColor1 = ColorCalcV2.getColor(context,
+                        ColorProfileKeyV2.PRIMARY_COLOR_1, userProfile.colorProfile);
+                ColorAdjusterV2.setTextViewDrawableColor(eventDescription, primaryColor1);
 
 
                 ToggleButton turnOffButton = eventDetails.findViewById(R.id.event_status_button);
@@ -277,6 +293,7 @@ class DaysAdapter extends BaseAdapter {
             buttonsWrapper.addView(buttonsView,paramsEnd);
 
             TextView moreButton = buttonsView.findViewById(R.id.txt_more);
+            ColorAdjusterV2.adjustMoreText(context, userProfile, moreButton);
             moreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -285,6 +302,9 @@ class DaysAdapter extends BaseAdapter {
             });
 
             Button addNewBtn = rowView.findViewById(R.id.add_new_button_ex);
+
+            ColorAdjusterV2.adjustButtons(context, userProfile, addNewBtn,null);
+
             addNewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -322,7 +342,6 @@ class DaysAdapter extends BaseAdapter {
                         }
                         else {
                             if (!mDays.get(event.getDayOfMonth()-1).getEvents().contains(event)) {
-
                                 mDays.get(event.getDayOfMonth() - 1).getEvents().add(event);
                             }
                         }
