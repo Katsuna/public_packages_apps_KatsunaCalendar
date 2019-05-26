@@ -43,9 +43,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_circle_masked"
+        android:icon="@mipmap/ic_calendar_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_circle_masked"
+        android:roundIcon="@mipmap/ic_calendar_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity

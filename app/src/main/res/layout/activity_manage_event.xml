@@ -206,6 +206,8 @@
                                     android:id="@+id/hour"
                                     android:layout_width="80dp"
                                     android:layout_height="wrap_content"
+                                    android:selectAllOnFocus="true"
+                                    android:textColorHighlight="@color/common_transparent"
                                     android:inputType="number"
                                     android:maxLength="2"
                                     android:textAlignment="center"
@@ -253,6 +255,8 @@
                                     android:layout_height="wrap_content"
                                     android:inputType="number"
                                     android:maxLength="2"
+                                    android:selectAllOnFocus="true"
+                                    android:textColorHighlight="@color/common_transparent"
                                     android:textAlignment="center"
                                     android:textColor="@color/common_black58"
                                     android:textSize="46sp" />

@@ -93,15 +93,15 @@
 
                                 <RadioGroup
                                     android:id="@+id/event_type_radio_group"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="32dp"
                                     android:layout_gravity="end"
+                                    android:layout_marginEnd="32dp"
                                     android:orientation="vertical">
 
                                     <RadioButton
                                         android:id="@+id/event_type_radio_button"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="98dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="8dp"
                                         android:button="@null"
@@ -109,7 +109,7 @@
                                         android:fontFamily="sans-serif-medium"
                                         android:gravity="end"
                                         android:text="@string/alarm"
-                                        android:textAlignment="textEnd"
+                                        android:textAlignment="textStart"
                                         android:textColor="@color/common_black58"
                                         android:textSize="16sp" />
 
@@ -130,7 +130,7 @@
                                         android:fontFamily="sans-serif-medium"
                                         android:gravity="end"
                                         android:text="@string/reminder"
-                                        android:textAlignment="textEnd"
+                                        android:textAlignment="textStart"
                                         android:textColor="@color/common_black58"
                                         android:textSize="16sp" />
 
@@ -138,7 +138,7 @@
 
                                 <EditText
                                     android:id="@+id/event_description"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:minWidth="100dp"
                                     android:layout_marginStart="8dp"
@@ -148,6 +148,8 @@
                                     android:hint="@string/description"
                                     android:inputType="text"
                                     android:textSize="14sp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
                                     android:visibility="gone" />
 
                             </LinearLayout>
